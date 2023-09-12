@@ -1,0 +1,17 @@
+.nav-logo {
+  width: 160px;
+  height: 40px;
+}
+
+/* @media screen and (min-width: 768px) {
+  .nav-logo {
+    width: 240px;
+    height: 60px;
+  }
+} */
+
+.footer-logo {
+  width: 200px;
+  height: 50px;
+  margin: 0 auto;
+}

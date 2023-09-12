@@ -1,0 +1,76 @@
+@import-normalize;
+
+html,
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  min-height: 100vh;
+  height: 100%;
+  font-style: normal;
+  font-weight: 500;
+  --webkit-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+.grecaptcha-badge { visibility: hidden; }
+
+p {
+  font-family: "Montserrat";
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}

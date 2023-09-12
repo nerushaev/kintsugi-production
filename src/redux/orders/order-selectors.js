@@ -1,0 +1,1 @@
+export const selectAllOrders = ({orders}) => orders.orders;
