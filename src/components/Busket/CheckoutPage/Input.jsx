@@ -16,14 +16,14 @@ export const Inputt = ({
   disabled,
 }) => {
   return (
-    <FieldWrapper select={select}>
-      <Label position={position} htmlFor={name}>
+    <FieldWrapper $select={select}>
+      <Label $position={position} htmlFor={name}>
         {label}
       </Label>
       <Input
         $disabled={disabled}
         min={min}
-        disable={disable}
+        $disable={disable}
         name={name}
         onChange={onChange}
         placeholder={placeholder}

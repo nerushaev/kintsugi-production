@@ -271,17 +271,17 @@ export default function ProductsItem({ data }) {
               defaultValue={category}
               onChange={handleChange}
             >
-              <option value="wigs">Перуки</option>
-              <option value="costume">Костюми</option>
-              <option value="accessories">Аксессури</option>
-              <option value="smallStand">Маленькі стенди</option>
-              <option value="bigStand">Великі стенди</option>
-              <option value="pendant">Підвіски</option>
-              <option value="pin">Піни</option>
-              <option value="hairpins">Шпильки</option>
-              <option value="earrings">Сережки</option>
-              <option value="tapestries">Гобелени</option>
-              <option value="other">Інше</option>
+              <option name="wigs" value="wigs">Перуки</option>
+          <option name="costume" value="costume">Костюми</option>
+          <option name="accessories" value="accessories">Аксессури</option>
+          <option name="smallStand" value="smallStand">Маленькі стенди</option>
+          <option name="bigStand" value="bigStand">Великі стенди</option>
+          <option name="pendant" value="pendant">Підвіски</option>
+          <option name="pin" value="pin">Піни</option>
+          <option name="hairpins" value="hairpins">Шпильки</option>
+          <option name="earrings" value="earrings">Сережки</option>
+          <option name="tapestries" value="tapestries">Гобелени</option>
+          <option name="other" value="other">Інше</option>
             </Select>
           </InputField>
         </MainInputsWrapper>

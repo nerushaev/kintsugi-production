@@ -114,18 +114,18 @@ export default function FormAddProducts() {
       </FieldWrapper>
       <Category>Категорія</Category>
       <OptionsWrapper>
-        <Select title="Перука" name="category">
-          <option name="wigs">Перуки</option>
-          <option name="costume">Костюми</option>
-          <option name="accessories">Аксессури</option>
-          <option name="smallStand">Маленькі стенди</option>
-          <option name="bigStand">Великі стенди</option>
-          <option name="pendant">Підвіски</option>
-          <option name="pin">Піни</option>
-          <option name="hairpins">Шпильки</option>
-          <option name="earrings">Сережки</option>
-          <option name="tapestries">Гобелени</option>
-          <option name="other">Інше</option>
+        <Select title="wigs" name="category">
+          <option name="wigs" value="wigs">Перуки</option>
+          <option name="costume" value="costume">Костюми</option>
+          <option name="accessories" value="accessories">Аксессури</option>
+          <option name="smallStand" value="smallStand">Маленькі стенди</option>
+          <option name="bigStand" value="bigStand">Великі стенди</option>
+          <option name="pendant" value="pendant">Підвіски</option>
+          <option name="pin" value="pin">Піни</option>
+          <option name="hairpins" value="hairpins">Шпильки</option>
+          <option name="earrings" value="earrings">Сережки</option>
+          <option name="tapestries" value="tapestries">Гобелени</option>
+          <option name="other" value="other">Інше</option>
         </Select>
       </OptionsWrapper>
       <FieldWrapper>

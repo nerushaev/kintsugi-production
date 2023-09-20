@@ -20,6 +20,7 @@ import AdminRoute from "./components/AdminRoute/AdminRoute";
 import RestorePass from "./components/Auth/RestorePass";
 import AdminPage from "./pages/Admin/AdminPage";
 import OrdersPage from "./pages/Admin/OrdersPage";
+import BusketPage from './pages/BusketPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function App() {
 
   useEffect(() => {
       dispatch(current());
-  }, [token, dispatch, isLoggedIn]);
+  }, [dispatch]);
 
   return (
     <>
@@ -38,8 +39,8 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/products/:_id" element={<Product />} />
         <Route path="/info" element={<InfoPage />} />
-        {/* <Route path="/busket" element={<BusketPage />} /> */}
-        <Route path="/busket" element={<CheckoutPage />} />
+        <Route path="/busket" element={<BusketPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/restore" element={<RestorePasswordPage />} />
         <Route
           path="/admin"

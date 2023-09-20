@@ -37,7 +37,7 @@ export const ProductsItem = ({ data, id }) => {
       const isFromBusket = busket.find((item) => item._id === _id);
       const item = busket.find((item) => item._id === _id);
       const itemId = nanoid();
-      const sizes = size.join(", ");
+      const sizes = size ? size.join(", ") : "";
       return (
         <Item key={itemId}>
           <ItemBody>

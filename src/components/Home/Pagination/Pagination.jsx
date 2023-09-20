@@ -18,8 +18,8 @@ export default function Pagination({
           <PaginationItem
             onClick={handlePagePrev}
             key={item}
-            active={item === currentPage}
-            disable={
+            $active={item === currentPage}
+            $disable={
               item > currentPage + 2 || item < currentPage - 1 ? true : false
             }
           >

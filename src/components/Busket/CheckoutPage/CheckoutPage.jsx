@@ -30,12 +30,19 @@ import { Navigate } from "react-router";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
-import styled from 'styled-components';
+import styled from "styled-components";
+import { AuthInstance, BASE_URL } from "../../../API/api";
 
 const BusketWrapper = styled.div`
-@media (min-width: 1199px) {
-  margin-right: 50px;
-}
+  @media (min-width: 1199px) {
+    margin-right: 50px;
+  }
+`;
+
+const LiqpayWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
 
 export default function CheckoutPage() {
@@ -56,9 +63,37 @@ export default function CheckoutPage() {
     password: "",
     confirmPassword: "",
     products: busket,
+    orderId: "",
   });
+  const [data, setData] = useState("");
+  const [signature, setSignature] = useState("");
+  const [isLiqpaySuccess, setIsLiqpaySuccess] = useState(false);
 
   useEffect(() => {
+
+    const getSignature = async () => {
+      try {
+        const result = await AuthInstance.post(
+          `${BASE_URL}api/orders/createSignature`,
+          { products: orderData.products }
+        );
+        if (result.data) {
+          setData(result.data.data);
+          setSignature(result.data.signature);
+          setOrderData(prev => {
+            return {
+              ...prev,
+              orderId: result.data.orderId
+            }
+          })
+        }
+      } catch (error) {}
+    };
+
+    if(data.length < 1) {
+      getSignature();
+    }
+
 
     if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
@@ -270,12 +305,12 @@ export default function CheckoutPage() {
     <>
       <OrderWrapper>
         <BusketWrapper>
-        <ProductsList>
-          <Label>Ваше замовлення:</Label>
-          {elements}
-        </ProductsList>
+          <ProductsList>
+            <Label>Ваше замовлення:</Label>
+            {elements}
+          </ProductsList>
         </BusketWrapper>
-        <Form checkout onSubmit={handleSubmit}>
+        <Form $checkout onSubmit={handleSubmit}>
           <Inputt
             name="email"
             type="email"
@@ -327,13 +362,28 @@ export default function CheckoutPage() {
               />
             </CheckoutWrapper>
           )}
-
-          <ButtonWrapper>
-            <Button type="submit" onSubmit={handleSubmit}>
-              {willBeRegister ? "Замовити і зареєструватись" : "Замовити"}
-            </Button>
-          </ButtonWrapper>
         </Form>
+        {orderData.liqpay && (
+          <LiqpayWrapper>
+            <form
+              method="POST"
+              action="https://www.liqpay.ua/api/3/checkout"
+              acceptCharset="utf-8"
+            >
+              <input type="hidden" name="data" value={data} />
+              <input type="hidden" name="signature" value={signature} />
+              <input
+                type="image"
+                src="//static.liqpay.ua/buttons/p1ru.radius.png"
+              />
+            </form>
+          </LiqpayWrapper>
+        )}
+        <ButtonWrapper>
+          <Button disabled={orderData.liqpay && !isLiqpaySuccess} type="submit" onSubmit={handleSubmit}>
+            {willBeRegister ? "Замовити і зареєструватись" : "Замовити"}
+          </Button>
+        </ButtonWrapper>
       </OrderWrapper>
     </>
   );

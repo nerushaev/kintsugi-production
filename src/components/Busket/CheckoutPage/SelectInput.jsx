@@ -7,17 +7,17 @@ export const SelectInput = ({
   label,
   value,
   type,
-  onChange
+  onChange,
 }) => {
   
   return (
     <>
       
-        <Text accent={true}>{text}</Text>
-      <FieldWrapper select>
-        <Label noMargin>{label[0]}</Label>
+        <Text $accent={true}>{text}</Text>
+      <FieldWrapper $select >
+        <Label $noMargin>{label[0]}</Label>
       <Select
-        noMargin
+        $noMargin
         name={names[0]}
         type={type}
         onChange={onChange}
@@ -25,10 +25,10 @@ export const SelectInput = ({
         />
       </FieldWrapper>
 
-      <FieldWrapper select> 
-        <Label noMargin>{label[1]}</Label>
+      <FieldWrapper $select> 
+        <Label $noMargin>{label[1]}</Label>
       <Select
-        noMargin
+        $noMargin
         name={names[1]}
         type={type}
         onChange={onChange}

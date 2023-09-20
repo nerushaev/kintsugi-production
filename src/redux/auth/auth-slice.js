@@ -17,7 +17,7 @@ const initialState = {
   },
   token: "",
   isLogin: true,
-  loading: true,
+  loading: false,
   error: null,
 };
 
@@ -35,7 +35,7 @@ const authSlice = createSlice({
   initialState,
   extraReducers: {
     [refreshToken.pending]: (state) => {
-      state.loading = true;
+      state.loading = false;
       state.error = null;
     },
     [refreshToken.fulfilled]: (state, { payload }) => {

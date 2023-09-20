@@ -18,11 +18,11 @@ export const Form = styled.form`
   width: 100%;
   max-width: 450px;
   @media (min-width: 768px) {
-    margin-right: ${(props) => (props.checkout ? "30px" : "0")};
+    margin-right: ${(props) => (props.$checkout ? "30px" : "0")};
   }
   @media (min-width: 1199px) {
     max-width: 100%
-    margin-right: ${(props) => (props.checkout ? "50px" : "0")};
+    margin-right: ${(props) => (props.$checkout ? "50px" : "0")};
   }
 `;
 
@@ -65,7 +65,7 @@ export const ProductsItemImage = styled.img`
 
 export const FieldWrapper = styled.div`
   margin-bottom: 30px;
-  display: ${(props) => (props.select ? "flex" : "")};
+  display: ${(props) => (props.$select ? "flex" : "")};
   justify-content: space-between;
   align-items: center;
 
@@ -84,16 +84,16 @@ export const Label = styled.label`
   font-weight: 500;
   line-height: 30px;
   max-width: 80%;
-  margin-bottom: ${(props) => (props.noMargin ? "0" : "10px")};
-  margin: ${(props) => (props.position === "center" ? "0 auto" : "0")};
+  margin-bottom: ${(props) => (props.$noMargin ? "0" : "10px")};
+  margin: ${(props) => (props.$position === "center" ? "0 auto" : "0")};
 
   @media (min-width: 768px) {
     font-size: ${theme.fontSizes.large};
-    margin-bottom: ${(props) => (props.noMargin ? "0" : "15px")};
+    margin-bottom: ${(props) => (props.$noMargin ? "0" : "15px")};
   }
   @media (min-width: 1200px) {
     font-size: ${theme.fontSizes.extraLarge};
-    margin-bottom: ${(props) => (props.noMargin ? "0" : "20px")};
+    margin-bottom: ${(props) => (props.$noMargin ? "0" : "20px")};
   }
 `;
 
@@ -103,7 +103,7 @@ export const ProductName = styled.h2`
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 20px;
-  margin-bottom: ${(props) => (props.noMargin ? "0" : "10px")};
+  margin-bottom: ${(props) => (props.$noMargin ? "0" : "10px")};
 
   @media (min-width: 768px) {
     font-size: 20px;
@@ -146,7 +146,7 @@ export const Input = styled.input`
   border: 1px solid black;
   padding-left: 10px;
   background-color: ${(props) =>
-    props.disable ? "rgb(238, 130, 238, 0.2)" : ""};
+    props.$disable ? "rgb(238, 130, 238, 0.2)" : ""};
 
   font-size: 16px;
   font-family: "Montserrat";
@@ -180,7 +180,7 @@ export const Checkbox = styled.div`
   content: "";
   width: 20px;
   height: 20px;
-  border: ${(props) => (props.active ? "1px solid red" : "1px solid black")};
+  border: ${(props) => (props.$active ? "1px solid red" : "1px solid black")};
   @media (min-width: 768px) {
     width: 30px;
     height: 30px;

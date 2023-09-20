@@ -114,48 +114,48 @@ export default function FilterPanel() {
   if (priceFilter) {
     Child = (
       <PriceFilterWrapper onClick={handleAllFilter}>
-        <PriceBtn id="low" active={filters.low}>
+        <PriceBtn id="low" $active={filters.low}>
           По-зростанню
         </PriceBtn>
-        <PriceBtn id="high" active={filters.high}>
+        <PriceBtn id="high" $active={filters.high}>
           По-зменьшенню
         </PriceBtn>
       </PriceFilterWrapper>
     );
   } else if (allFilter) {
     Child = (
-      <PriceFilterWrapper allFilter onClick={handleAllFilter}>
-        <PriceBtn active={filters.wigs} id="wigs">
+      <PriceFilterWrapper $allFilter onClick={handleAllFilter}>
+        <PriceBtn $active={filters.wigs} id="wigs">
           Перука
         </PriceBtn>
-        <PriceBtn active={filters.costume} id="costume">
+        <PriceBtn $active={filters.costume} id="costume">
           Костюм
         </PriceBtn>
-        <PriceBtn active={filters.accessories} id="accessories">
+        <PriceBtn $active={filters.accessories} id="accessories">
           Аксессуар
         </PriceBtn>
-        <PriceBtn active={filters.smallStand} id="smallStand">
+        <PriceBtn $active={filters.smallStand} id="smallStand">
           Маленький стенд
         </PriceBtn>
-        <PriceBtn active={filters.bigStand} id="bigStand">
+        <PriceBtn $active={filters.bigStand} id="bigStand">
           Великий стенд
         </PriceBtn>
-        <PriceBtn active={filters.pendant} id="pendant">
+        <PriceBtn $active={filters.pendant} id="pendant">
           Кулон
         </PriceBtn>
-        <PriceBtn active={filters.pin} id="pin">
+        <PriceBtn $active={filters.pin} id="pin">
           Пін
         </PriceBtn>
-        <PriceBtn active={filters.hairpins} id="hairpins">
+        <PriceBtn $active={filters.hairpins} id="hairpins">
           Шпилька
         </PriceBtn>
-        <PriceBtn active={filters.earrings} id="earrings">
+        <PriceBtn $active={filters.earrings} id="earrings">
           Сережки
         </PriceBtn>
-        <PriceBtn active={filters.tapestries} id="tapestries">
+        <PriceBtn $active={filters.tapestries} id="tapestries">
           Гобелен
         </PriceBtn>
-        <PriceBtn active={filters.other} id="other">
+        <PriceBtn $active={filters.other} id="other">
           Інше
         </PriceBtn>
       </PriceFilterWrapper>
@@ -164,16 +164,16 @@ export default function FilterPanel() {
 
   return (
     <Section>
-      <FilterPanelWrapper onClick={filterButtonsClick} allFilter={allFilter}>
-        <FilterBtn id="price" active={priceFilter}>
+      <FilterPanelWrapper onClick={filterButtonsClick} $allFilter={allFilter}>
+        <FilterBtn id="price" $active={priceFilter}>
           Сортувати за ціною
-          <FilterIcon width="18" height="18">
+          <FilterIcon id="price" width="18" height="18">
             <use xlinkHref={`${svg}#icon-price`}></use>
           </FilterIcon>
         </FilterBtn>
-        <FilterBtn id="filter" filter="true" active={allFilter}>
+        <FilterBtn id="filter" filter="true" $active={allFilter}>
           Фільтр
-          <FilterIcon width="18" height="18">
+          <FilterIcon id="filter" width="18" height="18">
             <use xlinkHref={`${svg}#icon-filter`}></use>
           </FilterIcon>
         </FilterBtn>

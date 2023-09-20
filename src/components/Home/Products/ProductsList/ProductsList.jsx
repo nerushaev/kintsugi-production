@@ -34,6 +34,7 @@ const ProductsList = () => {
   }
 
   useEffect(() => {
+
     if (!search && !Object.values(filter).includes(true)) {
       dispatch(getProducts({ page }));
     } else if (search || filter) {
@@ -52,15 +53,11 @@ const ProductsList = () => {
     const { textContent } = e.target;
     const page = parseInt(textContent);
     setPage(page);
-    scrollPosition.current.scrollIntoView({
-      block: "start",
-      behavior: "smooth",
-    });
   };
 
   return (
     <>
-      {/* <FilterPanel /> */}
+    <FilterPanel />
       <ListWrapper>
         {product.length < 1 && (
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
@@ -69,11 +66,11 @@ const ProductsList = () => {
           <ProductsItem data={product} />
         </List>
       </ListWrapper>
-      {/* <Pagination
+      <Pagination
         handlePagePrev={handlePagination}
         totalPages={totalPages}
         currentPage={page}
-      /> */}
+      />
     </>
   );
 };
