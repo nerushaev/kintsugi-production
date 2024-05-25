@@ -86,7 +86,7 @@ export default function CheckoutModal(props) {
   return (
     <div>
       <InputWrapper>
-        <Text accent={true}>Зареєструвати вас на сайті?</Text>
+        <Text $accent={true}>Зареєструвати вас на сайті?</Text>
         <CheckboxesWrapper>
           <CheckboxWrapper>
             <Label htmlFor="yes">Так</Label>

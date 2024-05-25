@@ -23,7 +23,7 @@ const Input = styled.input`
 
 const FieldWrapper = styled.div`
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 export const Option = styled.input`
@@ -43,15 +43,20 @@ export const OptionsWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 auto;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 `;
 
 const Category = styled.p`
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+`;
+const Wrapper = styled.div`
+  padding: 10px 20px;
+  background-color: white;
 `;
 
-export default function FormAddProducts() {
+export default function FormAddProducts({closeModal}) {
+  console.log(closeModal);
   const loading = true;
   const dispatch = useDispatch();
 
@@ -82,12 +87,14 @@ export default function FormAddProducts() {
   const inputId = nanoid();
 
   return (
+    <Wrapper>
     <Form
       name="form"
       method="post"
       encType="multipart/form-data"
       onSubmit={handleSubmit}
     >
+      <span onClick={closeModal}>close</span>
       <FieldWrapper>
         <Input
           placeholder="Назва товару"
@@ -171,7 +178,7 @@ export default function FormAddProducts() {
           <label>Без розміру</label>
         </OptionWrapper>
       </OptionsWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper $noMargin>
         <Button $isLoading={loading} type="submit">
           Add product
         </Button>
@@ -180,5 +187,6 @@ export default function FormAddProducts() {
           <Button onClick={handleUpdate}>Update product</Button>
           </ButtonWrapper> */}
     </Form>
+    </Wrapper>
   );
 }

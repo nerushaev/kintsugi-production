@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../../../../styles/theme";
+import novaLogo from '../../../../../assets/nova-poshta-logo.jpg';
+import afinaLogo from '../../../../../assets/afina-image.jpg';
+import liqpayLogo from '../../../../../assets/liqpay-logo.jpg';
 
 const Title = styled.h2`
   font-size: ${theme.fontSizes.medium};
@@ -144,14 +147,14 @@ export default function MoreInfoControlls({ data }) {
       {delivery && (
         <>
         <DeliveryWrapper>
-        <Image alt="" src={require("../../../../../images/nova-poshta-logo.jpg")} />
+        <Image alt="" src={novaLogo} />
         <DeliveryInfoWrapper>
         <SubTitle>При оформленні замовлення вкажіть “Доставка новою поштою”, вкажіть ваше місто та відділення і ми відправимо замовлення протягом 24 годин</SubTitle>
         <SubTitle>Вартість доставки – за тарифами Нової Пошти.</SubTitle>
         </DeliveryInfoWrapper>
         </DeliveryWrapper>
         <DeliveryWrapper>
-        <Image alt="" src={require("../../../../../images/afina-image.jpg")} />
+        <Image alt="" src={afinaLogo} />
         <DeliveryInfoWrapper>
         <SubTitle>Самовивіз в Одесі </SubTitle>
         <SubTitle>ТЦ Афіна за адресою: Грецька площа 3/4</SubTitle>
@@ -164,7 +167,7 @@ export default function MoreInfoControlls({ data }) {
       <>
       <PaymentWrapper>
       <Title>Онлайн оплата за допомогою Liqpays</Title>
-      <Image $payment src={require("../../../../../images/liqpay-logo.jpg")}/>
+      <Image $payment src={liqpayLogo}/>
       <SubTitle>LiqPay – це платіжний сервіс, що надає можливості інтернет-еквайрингу - приймання платежів на сайтах, у мобільних додатках, підключених до Інтернету. Є одним за найпопулярніших сервісів оплати в Україні.</SubTitle>
       <SubTitle>Щоб скористатися онлайн оплатою з Liqpay, достатньо при оформленні товару вибрати тип оплати Liqpay, та обрати кращій для вас спосіб оплати.</SubTitle>
       <Title>Оплата при отриманні товару</Title>

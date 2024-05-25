@@ -12,6 +12,7 @@ import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
 import { getSearch } from "../../../../redux/search/search-selectors";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import { nanoid } from "@reduxjs/toolkit";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ const ProductsList = () => {
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
         )}
         <List ref={scrollPosition}>
-          <ProductsItem data={product} />
+          <ProductsItem key={nanoid()} data={product} />
         </List>
       </ListWrapper>
       <Pagination

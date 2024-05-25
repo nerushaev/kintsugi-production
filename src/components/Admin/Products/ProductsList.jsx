@@ -17,7 +17,8 @@ export default function ProductsList() {
   })
 
   return result.map((data) => {
-      const keyId = nanoid();
-      return <ProductsItem key={keyId} data={data} />
+      return (
+      <ProductsItem key={nanoid()} data={data} />
+      )
     })
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../redux/products/products-operation";
@@ -90,9 +90,9 @@ export default function CheckoutPage() {
       } catch (error) {}
     };
 
-    if(data.length < 1) {
-      getSignature();
-    }
+    // const signatureMemo = useMemo(() => {
+    //   getSignature()
+    // }, [getSignature]);
 
 
     if (user.name && user.email && user.phone) {
@@ -104,7 +104,7 @@ export default function CheckoutPage() {
       }));
     }
     // checkBusket();
-  }, [user, busket]);
+  }, [user, busket, data]);
 
   let elements;
   if (busket) {

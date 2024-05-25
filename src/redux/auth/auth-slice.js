@@ -16,7 +16,7 @@ const initialState = {
     delivery: {},
   },
   token: "",
-  isLogin: true,
+  isLogin: false,
   loading: false,
   error: null,
 };

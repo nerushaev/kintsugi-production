@@ -28,7 +28,9 @@ function App() {
   const { token, isLoggedIn, isRefreshing } = useAuth();
 
   useEffect(() => {
-      dispatch(current());
+      if(!isLoggedIn && token) {
+        dispatch(current());
+      }
   }, [dispatch]);
 
   return (
