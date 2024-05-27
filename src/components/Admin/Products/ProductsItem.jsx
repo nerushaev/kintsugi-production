@@ -5,7 +5,6 @@ import { removeProduct } from "../../../redux/products/products-operation";
 import useModal from "../../../hooks/modal";
 import Modal from '../../Modal/';
 import ProductsChangeModal from "./ProductsChangeModal";
-import { nanoid } from "@reduxjs/toolkit";
 
 const Image = styled.img`
   width: 60px;
@@ -16,7 +15,7 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  max-height: 200px;
+  // max-height: 200px;
   margin-bottom: 5px;
 `;
 

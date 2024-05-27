@@ -37,6 +37,7 @@ const handleRejected = (state, action) => {
 const productsSlice = createSlice({
   name: "products",
   initialState: productsInitialState,
+
   reducers: {
     addToBusket(state, action) {
       const itemInCart = state.busket.find(
@@ -66,89 +67,111 @@ const productsSlice = createSlice({
       }
     },
   },
-  extraReducers: {
-    [getProducts.pending]: handlePending,
-    [getProducts.fulfilled](state, action) {
+
+  extraReducers: (builder) => {
+    builder.addCase(getProducts.pending, handlePending);
+
+    builder.addCase(getProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = action.payload.products;
       state.currentPage = action.payload.currentPage;
       state.totalPages = action.payload.totalPages;
-    },
-    [getProducts.rejected]: handleRejected,
-    [getSimilarProducts.pending]: handlePending,
-    [getSimilarProducts.fulfilled](state, action) {
+    });
+
+    builder.addCase(getProducts.rejected, handleRejected);
+    builder.addCase(getSimilarProducts.pending, handlePending);
+
+    builder.addCase(getSimilarProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.similarProducts = action.payload.products;
-    },
-    [getSimilarProducts.rejected]: handleRejected,
-    [getProductsByName.pending]: handlePending,
-    [getProductsByName.fulfilled](state, action) {
+    });
+
+    builder.addCase(getSimilarProducts.rejected, handleRejected);
+    builder.addCase(getProductsByName.pending, handlePending);
+
+    builder.addCase(getProductsByName.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = action.payload.products;
       state.currentPage = action.payload.currentPage;
       state.totalPages = action.payload.totalPages;
-    },
-    [getProductsByName.rejected]: handleRejected,
-    [addProducts.pending]: handlePending,
-    [addProducts.fulfilled](state, action) {
+    });
+
+    builder.addCase(getProductsByName.rejected, handleRejected);
+    builder.addCase(addProducts.pending, handlePending);
+
+    builder.addCase(addProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items.push(action.payload);
-    },
-    [addProducts.rejected]: handleRejected,
-    [removeProduct.pending]: (state) => {
+    });
+
+    builder.addCase(addProducts.rejected, handleRejected);
+
+    builder.addCase(removeProduct.pending, (state) => {
       state.isLoading = false;
-    },
-    [removeProduct.fulfilled](state, action) {
+    });
+
+    builder.addCase(removeProduct.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = state.items.filter(
         (product) => product._id !== action.payload._id
       );
-    },
-    [updateProduct.pending]: handlePending,
-    [updateProduct.fulfilled](state, action) {
+    });
+
+    builder.addCase(updateProduct.pending, handlePending);
+
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = state.items.map((product) =>
         product._id === action.payload._id ? action.payload : product
       );
-    },
-    [updateProduct.rejected]: handleRejected,
-    [getAllProducts.pending]: handlePending,
-    [getAllProducts.fulfilled](state, action) {
+    });
+
+    builder.addCase(updateProduct.rejected, handleRejected);
+    builder.addCase(getAllProducts.pending, handlePending);
+
+    builder.addCase(getAllProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.items = action.payload.products;
-    },
-    [getAllProducts.rejected]: handleRejected,
-    [getComingSoonProducts.pending]: handlePending,
-    [getComingSoonProducts.fulfilled](state, action) {
+    });
+
+    builder.addCase(getAllProducts.rejected, handleRejected);
+    builder.addCase(getComingSoonProducts.pending, handlePending);
+
+    builder.addCase(getComingSoonProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.comingSoonProducts = action.payload;
       // state.currentPage = action.payload.currentPage;
       // state.totalPages = action.payload.totalPages;
-    },
-    [getComingSoonProducts.rejected]: handleRejected,
-    [getProductsById.pending]: handlePending,
-    [getProductsById.fulfilled](state, action) {
+    });
+
+    builder.addCase(getComingSoonProducts.rejected, handleRejected);
+    builder.addCase(getProductsById.pending, handlePending);
+
+    builder.addCase(getProductsById.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.details = action.payload;
-    },
-    [getProductsById.rejected]: handleRejected,
-    [orderProducts.pending]: handlePending,
-    [orderProducts.fulfilled](state, action) {
+    });
+
+    builder.addCase(getProductsById.rejected, handleRejected);
+    builder.addCase(orderProducts.pending, handlePending);
+
+    builder.addCase(orderProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.busket = [];
-    },
-    [orderProducts.rejected]: handleRejected,
-  },
+    });
+
+    builder.addCase(orderProducts.rejected, handleRejected);
+  }
 });
 
 export const { addToBusket, incrementAmount, decrementAmount } =

@@ -31,7 +31,7 @@ function App() {
       if(!isLoggedIn && token) {
         dispatch(current());
       }
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn, token]);
 
   return (
     <>

@@ -29,19 +29,19 @@ export const createWaybill = createAsyncThunk(
   }
 )
 
-export const getSignature = createAsyncThunk(
-  "order/getSignature",
-  async(products, {getState, rejectWithValue}) => {
-    try {
-      const result = await api.AuthInstance.post(
-        `api/orders/createSignature`,
-        { products: orderData.products }
-      );
-      if (result.data) {
-        setData(result.data.data);
-        setSignature(result.data.signature);
-      }
-    } catch (error) {}
-  }
-)
+// export const getSignature = createAsyncThunk(
+//   "order/getSignature",
+//   async(products, {getState, rejectWithValue}) => {
+//     try {
+//       const result = await api.AuthInstance.post(
+//         `api/orders/createSignature`,
+//         { products: orderData.products }
+//       );
+//       if (result.data) {
+//         setData(result.data.data);
+//         setSignature(result.data.signature);
+//       }
+//     } catch (error) {}
+//   }
+// )
 

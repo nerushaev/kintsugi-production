@@ -20,17 +20,22 @@ const handleRejected = (state, action) => {
 const orderSlice = createSlice({
   name: "orders",
   initialState: ordersInitialState,
-  extraReducers: {
-    [getOrders.pending]: handlePending,
-    [getOrders.fulfilled] (state, {payload}) {
+
+  extraReducers: (builder) => {
+    builder.addCase(getOrders.pending, handlePending);
+
+    builder.addCase(getOrders.fulfilled, (state, {payload}) => {
       state.orders = payload;
-    },
-    [getOrders.rejected]: handleRejected,
-    [createWaybill.pending]: handlePending,
-    [createWaybill.fulfilled] (state, {payload}) {
+    });
+
+    builder.addCase(getOrders.rejected, handleRejected);
+    builder.addCase(createWaybill.pending, handlePending);
+
+    builder.addCase(createWaybill.fulfilled, (state, {payload}) => {
       state.waybill = payload;
-    },
-    [createWaybill.rejected]: handleRejected,
+    });
+
+    builder.addCase(createWaybill.rejected, handleRejected);
   }
 })
 

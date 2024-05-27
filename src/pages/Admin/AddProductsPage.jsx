@@ -10,7 +10,6 @@ import Modal from '../../components/Modal';
 import useModal from '../../hooks/modal';
 import { ItemsWrapper, Wrapper } from '../../components/Admin/Products/ProductsItem';
 import { Button, ButtonWrapper } from "../../components/Buttons/Buttons";
-import { nanoid } from "@reduxjs/toolkit";
 
 export default function Admin() {
   const products = useSelector(getStateProducts);

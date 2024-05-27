@@ -29,9 +29,11 @@ import {
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
 import { SmallLoader } from "../../../SmallLoader/SmallLoader";
+// import { selectUser } from "../../../../redux/auth/auth-selectors";
 
 
-export default function DeliveryData({ user }) {
+export default function DeliveryData({user}) {
+  console.log(user);
   const [city, setCity] = useState("");
   const [warehouse, setWarehouse] = useState("");
   const warehouses = useSelector(selectWarehouses);
@@ -47,6 +49,7 @@ export default function DeliveryData({ user }) {
   const { delivery } = user;
 
   useEffect(() => {
+
     if (user.email) {
       if (!delivery) {
         setButtonActive(true);
@@ -141,6 +144,7 @@ export default function DeliveryData({ user }) {
     setButtonActive(true);
     dispatch(clearDeliveryInfo());
   };
+
 
   return (
     <>

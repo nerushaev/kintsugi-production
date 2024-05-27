@@ -27,6 +27,7 @@ const novaInitialState = {
 const novaSlice = createSlice({
   name: "nova",
   initialState: novaInitialState,
+
   reducers: {
     selectCity(state, { payload }) {
       state.city = payload.city;
@@ -48,32 +49,38 @@ const novaSlice = createSlice({
       return novaInitialState;
     }
   },
-  extraReducers: {
-    [getWarehouses.pending](state) {
+
+  extraReducers: (builder) => {
+    builder.addCase(getWarehouses.pending, (state) => {
       state.warehousesLoading = true;
       state.error = null;
-    },
-    [getWarehouses.fulfilled](state, { payload }) {
+    });
+
+    builder.addCase(getWarehouses.fulfilled, (state, { payload }) => {
       state.warehouses = payload;
       state.warehousesLoading = false;
-    },
-    [getWarehouses.rejected](state, { error }) {
+    });
+
+    builder.addCase(getWarehouses.rejected, (state, { error }) => {
       state.warehousesLoading = false;
       state.error = error;
-    },
-    [getCities.pending](state) {
+    });
+
+    builder.addCase(getCities.pending, (state) => {
       state.citiesLoading = true;
       state.error = null;
-    },
-    [getCities.fulfilled](state, { payload }) {
+    });
+
+    builder.addCase(getCities.fulfilled, (state, { payload }) => {
       state.cities = payload;
       state.citiesLoading = false;
-    },
-    [getCities.rejected](state, { error }) {
+    });
+
+    builder.addCase(getCities.rejected, (state, { error }) => {
       state.citiesLoading = false;
       state.error = error;
-    },
-  },
+    });
+  }
 });
 
 export const {

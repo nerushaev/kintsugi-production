@@ -3,7 +3,7 @@ import Slider from "../components/Home/Swiper/Swiper";
 import Title from "../components/Home/Title/Title";
 import Search from "../components/Home/Search/Search";
 import React, { useEffect } from "react";
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import { Element, animateScroll as scroller } from 'react-scroll'
 import { useSelector } from "react-redux";
 import { getCurrentPage } from "../redux/products/products-selectors";
 

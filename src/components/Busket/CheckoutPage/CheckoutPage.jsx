@@ -1,17 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../redux/products/products-operation";
-import { getBusket } from "../../../redux/products/products-selectors";
 import { ButtonWrapper, Button } from "../../Buttons/Buttons";
 import {
-  Label,
   OrderWrapper,
-  ProductsList,
-  ProductsItem,
-  ProductsItemImage,
-  ProductsItemTextWrapper,
-  Text,
   Form,
 } from "../../Fields/Fields.styled";
 import {
@@ -26,29 +19,18 @@ import { register } from "../../../redux/auth/auth-operations";
 import { notifyOptions } from "../../../helpers/notifyConfig";
 import { selectUser } from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
-import { Navigate } from "react-router";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
-import styled from "styled-components";
 import { AuthInstance, BASE_URL } from "../../../API/api";
-
-const BusketWrapper = styled.div`
-  @media (min-width: 1199px) {
-    margin-right: 50px;
-  }
-`;
-
-const LiqpayWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-`;
+import LiqpayButton from "./LiqpayButton";
+import PreOrderBusketList from "./PreOrderBusketList";
+import { getBusket } from "../../../redux/products/products-selectors";
 
 export default function CheckoutPage() {
-  const dispatch = useDispatch();
-  const busket = useSelector(getBusket);
   const user = useSelector(selectUser);
+  const busket = useSelector(getBusket);
+  const dispatch = useDispatch();
   const nova = useSelector(selectNovaState);
   const { isLoggedIn } = useAuth();
   const [willBeRegister, setWillBeRegister] = useState(false);
@@ -90,11 +72,6 @@ export default function CheckoutPage() {
       } catch (error) {}
     };
 
-    // const signatureMemo = useMemo(() => {
-    //   getSignature()
-    // }, [getSignature]);
-
-
     if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
         ...prev,
@@ -103,24 +80,10 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-    // checkBusket();
-  }, [user, busket, data]);
-
-  let elements;
-  if (busket) {
-    elements = busket.map(({ image, name, price, amount }) => {
-      return (
-        <ProductsItem key={image}>
-          <ProductsItemImage src={image[0]} alt="" />
-          <ProductsItemTextWrapper>
-            <Text>{name}</Text>
-            <Text>{price}</Text>
-            <Text>{amount}</Text>
-          </ProductsItemTextWrapper>
-        </ProductsItem>
-      );
-    });
-  }
+    if (orderData.liqpay) {
+      getSignature();
+    }
+  }, [user.name, user.email, user.phone, orderData.liqpay, orderData.products]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -297,19 +260,12 @@ export default function CheckoutPage() {
     }
   };
 
-  if (busket.length < 1) {
-    return <Navigate to="/" />;
-  }
+  // console.log("render");
 
   return (
     <>
       <OrderWrapper>
-        <BusketWrapper>
-          <ProductsList>
-            <Label>Ваше замовлення:</Label>
-            {elements}
-          </ProductsList>
-        </BusketWrapper>
+        <PreOrderBusketList busket={busket} />
         <Form $checkout onSubmit={handleSubmit}>
           <Inputt
             name="email"
@@ -343,7 +299,7 @@ export default function CheckoutPage() {
             value={[orderData.nova, orderData.afina]}
             label={["Нова Пошта", "Самовівіз м.Одеса, ТЦ Афіна 4-й поверх"]}
           />
-          <DeliveryData user={user} />
+          <DeliveryData user={user}/>
           <SelectInput
             text="Оплата:"
             names={["cash", "liqpay"]}
@@ -364,20 +320,7 @@ export default function CheckoutPage() {
           )}
         </Form>
         {orderData.liqpay && (
-          <LiqpayWrapper>
-            <form
-              method="POST"
-              action="https://www.liqpay.ua/api/3/checkout"
-              acceptCharset="utf-8"
-            >
-              <input type="hidden" name="data" value={data} />
-              <input type="hidden" name="signature" value={signature} />
-              <input
-                type="image"
-                src="//static.liqpay.ua/buttons/p1ru.radius.png"
-              />
-            </form>
-          </LiqpayWrapper>
+          <LiqpayButton data={data} signature={signature} />
         )}
         <ButtonWrapper>
           <Button disabled={orderData.liqpay && !isLiqpaySuccess} type="submit" onSubmit={handleSubmit}>
@@ -388,5 +331,3 @@ export default function CheckoutPage() {
     </>
   );
 }
-
-// 459

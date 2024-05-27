@@ -8,7 +8,8 @@ import { Option, OptionsWrapper, OptionWrapper } from '../Form';
 import { Button } from '../../Buttons/Buttons';
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { updateProduct } from '../../../redux/products/products-operation';
+import { removeProduct, updateProduct } from '../../../redux/products/products-operation';
+
 
 const Title = styled.p`
   text-align: center;
@@ -16,16 +17,14 @@ const Title = styled.p`
 `;
 
 const Container = styled.div`
-  padding: 18px;
-  width: 540px;
+  margin-top: 150px;
+  padding: 10px;
+  width: 100%;
   height: 100%;
-  // margin: 0 auto;
-  // margin-bottom: 50px;
-
 `;
 
 const FormWrapper = styled.form`
-padding: 16px;
+  padding: 10px;
   background-color: white;
 `;
 
@@ -91,8 +90,8 @@ export default function ProductsChangeModal({closeModal, data}) {
   const oldName = useMemo(() => name, [name]);
   const oldAmount = useMemo(() => amount, [amount]);
   const oldPrice = useMemo(() => price, [price]);
-  const oldSize = useMemo(() => size, [size]);
-  const oldSizeInformation = useMemo(() => sizeInformation, [sizeInformation]);
+  // const oldSize = useMemo(() => size, [size]);
+  // const oldSizeInformation = useMemo(() => sizeInformation, [sizeInformation]);
   //STATE
   const [productName, setProductName] = useState(name);
   const [productNameChange, setProductNameChange] = useState(false);
