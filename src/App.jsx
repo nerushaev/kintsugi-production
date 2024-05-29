@@ -21,6 +21,7 @@ import RestorePass from "./components/Auth/RestorePass";
 import AdminPage from "./pages/Admin/AdminPage";
 import OrdersPage from "./pages/Admin/OrdersPage";
 import BusketPage from './pages/BusketPage';
+import Payment from "./components/Busket/CheckoutPage/Payment";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +43,8 @@ function App() {
         <Route path="/products/:_id" element={<Product />} />
         <Route path="/info" element={<InfoPage />} />
         <Route path="/busket" element={<BusketPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<CheckoutPage />}/>
+        <Route path="/payment" element={<Payment />}/>
         <Route path="/restore" element={<RestorePasswordPage />} />
         <Route
           path="/admin"

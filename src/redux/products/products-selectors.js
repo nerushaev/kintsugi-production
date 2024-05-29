@@ -19,6 +19,8 @@ export const getTotalPages = (state) => state.products.totalPages;
 
 export const getBusket = (state) => state.products.busket;
 
+export const selectOrderId = (state) => state.products.orderId;
+
 export const selectBusketAmount = ({ products }) => {
   const busket = products.busket;
 

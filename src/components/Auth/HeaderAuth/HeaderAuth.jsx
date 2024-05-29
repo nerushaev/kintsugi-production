@@ -46,7 +46,7 @@ export default function HeaderAuth() {
 
   return (
     <>
-      <Form login onSubmit={handleSubmit}>
+      <Form $login onSubmit={handleSubmit}>
         <InputsWrapper>
           <InputWrapper>
             <Label>Пошта</Label>

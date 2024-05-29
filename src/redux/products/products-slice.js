@@ -23,6 +23,7 @@ const productsInitialState = {
   details: [],
   banners: [],
   similarProducts: [],
+  orderId: '',
 };
 
 const handlePending = (state) => {
@@ -167,7 +168,7 @@ const productsSlice = createSlice({
     builder.addCase(orderProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
-      state.busket = [];
+      state.orderId = action.payload.orderId;
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);

@@ -15,10 +15,8 @@ import {
   getWarehouses,
 } from "../../../../redux/nova/nova-operation";
 import {
-  selectCities,
   selectCitiesLoading,
   selectNovaState,
-  selectWarehouses,
   selectWarehousesLoading,
 } from "../../../../redux/nova/nova-selectors";
 import {
@@ -33,20 +31,20 @@ import { SmallLoader } from "../../../SmallLoader/SmallLoader";
 
 
 export default function DeliveryData({user}) {
-  console.log(user);
+  const dispatch = useDispatch();
+  const { delivery } = user;
+  //SELECTORS
+  const nova = useSelector(selectNovaState);
+  const {warehouses, cities} = nova;
+  const citiesLoading = useSelector(selectCitiesLoading);
+  const warehousesLoading = useSelector(selectWarehousesLoading);
+  //STATE
   const [city, setCity] = useState("");
   const [warehouse, setWarehouse] = useState("");
-  const warehouses = useSelector(selectWarehouses);
-  const cities = useSelector(selectCities);
-  const dispatch = useDispatch();
   const [cityInputDisabled, setCityInputDisabled] = useState(false);
   const [warehouseInputDisabled, setWarehouseInputDisabled] = useState(false);
   const [userEdit, setUserEdit] = useState(false);
-  const nova = useSelector(selectNovaState);
-  const citiesLoading = useSelector(selectCitiesLoading);
-  const warehousesLoading = useSelector(selectWarehousesLoading);
   const [buttonActive, setButtonActive] = useState(false);
-  const { delivery } = user;
 
   useEffect(() => {
 
@@ -114,7 +112,7 @@ export default function DeliveryData({user}) {
     const { name, value } = e.target;
     switch (name) {
       case "city":
-        return setCity(value);
+          return setCity(value);
       case "warehouse":
         return setWarehouse(value);
       default:
@@ -153,13 +151,13 @@ export default function DeliveryData({user}) {
         name="city"
         type="text"
         label="Ваше місто:"
-        placeholder="Одеса"
+        placeholder="Назва міста або селища"
         onChange={handleChange}
         value={city}
-        $disabled={cityInputDisabled}
+        disabled={cityInputDisabled}
       />
       {cities.length !== 0 && !citiesLoading && (
-        <CityList disable={false}>
+        <CityList $disable={false}>
           {cities.map((item) => {
             const city = item.Description;
             const cityRef = item.Ref;
@@ -180,13 +178,13 @@ export default function DeliveryData({user}) {
         name="warehouse"
         type="text"
         label="Відділення:"
-        placeholder="54"
+        placeholder="Номер відділення"
         onChange={handleChange}
         value={warehouse}
-        $disabled={warehouseInputDisabled}
+        disabled={warehouseInputDisabled}
       />
       {warehouses.length !== 0 && !warehousesLoading && (
-        <CityList disable={false}>
+        <CityList $disable={false}>
           {warehouses.map((item) => {
             const { ShortAddress, Ref, WarehouseIndex, Description } = item;
             return (
@@ -230,6 +228,7 @@ export default function DeliveryData({user}) {
       {!user.email && cityInputDisabled && warehouseInputDisabled && 
       <ButtonWrapper>
         <Button
+        $delete
         type="button"
         onClick={clearInputs}
         >Змінити</Button>

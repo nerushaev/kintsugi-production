@@ -11,16 +11,17 @@ const Image = styled.img`
 `;
 
 export const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  // max-height: 200px;
-  margin-bottom: 5px;
+  // position: relative;
+  // display: flex;
+  // flex: 1 1 50px;
+  // align-items: center;
+  // justify-content: space-around;
+  // margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
 `;
 
 export const ItemsWrapper = styled.div`
-  flex: 1 1 0;
 `;
 
 const ImageWrapper = styled.div`
@@ -28,13 +29,15 @@ const ImageWrapper = styled.div`
 `;
 
 const OptionsButton = styled.button`
-  position: absolute;
-  right: -10px;
   color: red;
   &:not(:last-child) {
     color: blue;
     margin-right: 50px;
   }
+`;
+
+const Text = styled.p`
+  font-size: 14px;
 `;
 
 export default function ProductsItem({ data }) {
@@ -54,11 +57,15 @@ export default function ProductsItem({ data }) {
     <Wrapper>
       <ItemsWrapper>
         <ImageWrapper><Image src={image[0]}/></ImageWrapper></ItemsWrapper>
-      <ItemsWrapper><p>{name}</p></ItemsWrapper>
-      <ItemsWrapper><p>{amount}</p></ItemsWrapper>
-      <ItemsWrapper><p>{price}</p></ItemsWrapper>
-      <OptionsButton onClick={openModal}>Ред</OptionsButton>
-      <OptionsButton onClick={() => dispatch(removeProduct(_id))}>Вид</OptionsButton>
+      <ItemsWrapper><Text>{name}</Text></ItemsWrapper>
+      <ItemsWrapper><Text>{amount}</Text></ItemsWrapper>
+      <ItemsWrapper><Text>{price}</Text></ItemsWrapper>
+      <ItemsWrapper>
+        <OptionsButton onClick={openModal}>Ред</OptionsButton>
+        </ItemsWrapper>
+        <ItemsWrapper>
+        <OptionsButton onClick={() => dispatch(removeProduct(_id))}>Вид</OptionsButton>
+      </ItemsWrapper>
     </Wrapper>
     </li>
   );

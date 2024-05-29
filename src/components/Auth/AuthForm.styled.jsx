@@ -6,7 +6,7 @@ export const Form = styled.form`
   padding: 20px;
   margin: 0 auto;
   @media (min-width: 479px) {
-      width: ${props => props.login ? "320px" : "400px"};
+      width: ${props => props.$login ? "320px" : "400px"};
   }
 `;
 

@@ -10,7 +10,7 @@ import ProductsItem from './ProductsItem';
 export default function ProductsList() {
   const products = useSelector(getStateProducts);
   const search = useSelector(getSearch);
-
+  
   const result = products.filter(item => {
     return item.name.toLowerCase().includes(search);
 

@@ -21,7 +21,7 @@ export const Inputt = ({
         {label}
       </Label>
       <Input
-        $disabled={disabled}
+        disabled={disabled}
         min={min}
         $disable={disable}
         name={name}

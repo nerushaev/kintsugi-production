@@ -22,12 +22,14 @@ import { useAuth } from "../../../hooks/useAuth";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
-import { AuthInstance, BASE_URL } from "../../../API/api";
-import LiqpayButton from "./LiqpayButton";
+// import LiqpayButton from "./LiqpayButton";
 import PreOrderBusketList from "./PreOrderBusketList";
 import { getBusket } from "../../../redux/products/products-selectors";
+import { useNavigate } from "react-router";
+
 
 export default function CheckoutPage() {
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const busket = useSelector(getBusket);
   const dispatch = useDispatch();
@@ -47,31 +49,9 @@ export default function CheckoutPage() {
     products: busket,
     orderId: "",
   });
-  const [data, setData] = useState("");
-  const [signature, setSignature] = useState("");
-  const [isLiqpaySuccess, setIsLiqpaySuccess] = useState(false);
+  // const [buttonActive, setButtonActive] = useState(false);
 
   useEffect(() => {
-
-    const getSignature = async () => {
-      try {
-        const result = await AuthInstance.post(
-          `${BASE_URL}api/orders/createSignature`,
-          { products: orderData.products }
-        );
-        if (result.data) {
-          setData(result.data.data);
-          setSignature(result.data.signature);
-          setOrderData(prev => {
-            return {
-              ...prev,
-              orderId: result.data.orderId
-            }
-          })
-        }
-      } catch (error) {}
-    };
-
     if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
         ...prev,
@@ -80,35 +60,18 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-    if (orderData.liqpay) {
-      getSignature();
-    }
   }, [user.name, user.email, user.phone, orderData.liqpay, orderData.products]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user.email) {
-      const { delivery } = user;
+    if (user.delivery) {
       await deliveryDataValidation
-        .validate(delivery)
+        .validate(user.delivery)
         .then()
         .catch((e) => console.log(e));
-      const {
-        city,
-        cityRef,
-        warehouse,
-        recipientWarehouseIndex,
-        warehouseRef,
-        warehouseAddress,
-      } = delivery;
       const newOrder = {
         ...orderData,
-        city,
-        cityRef,
-        warehouse,
-        recipientWarehouseIndex,
-        warehouseRef,
-        warehouseAddress,
+        ...user.delivery,
       };
       try {
         await checkoutPageValidation.validate(newOrder);
@@ -118,7 +81,9 @@ export default function CheckoutPage() {
           user.phone !== newOrder.phone
         ) {
           dispatch(orderProducts(newOrder));
-          return;
+          return setTimeout(() => {
+            navigate("/payment");
+          }, 1000);
         }
         dispatch(
           orderProducts({
@@ -128,6 +93,9 @@ export default function CheckoutPage() {
             phone: user.phone,
           })
         );
+        return setTimeout(() => {
+          navigate("/payment");
+        }, 1000);
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
       }
@@ -211,6 +179,7 @@ export default function CheckoutPage() {
         Notify.failure(error.message, notifyOptions);
       }
     }
+
   };
 
   const handleChange = (e) => {
@@ -319,12 +288,12 @@ export default function CheckoutPage() {
             </CheckoutWrapper>
           )}
         </Form>
-        {orderData.liqpay && (
+        {/* {orderData.liqpay && (
           <LiqpayButton data={data} signature={signature} />
-        )}
+        )} */}
         <ButtonWrapper>
-          <Button disabled={orderData.liqpay && !isLiqpaySuccess} type="submit" onSubmit={handleSubmit}>
-            {willBeRegister ? "Замовити і зареєструватись" : "Замовити"}
+          <Button type="submit" onClick={handleSubmit}>
+            {orderData.liqpay ? "Перейти до оплати" : "Замовити"}
           </Button>
         </ButtonWrapper>
       </OrderWrapper>
