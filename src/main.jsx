@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./redux/store";
 import { Provider } from "react-redux";
@@ -16,7 +16,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <HashRouter basename="">
+        <BrowserRouter basename="">
           {/* <CookiesProvider> */}
             <ThemeProvider theme={theme}>
               <GoogleReCaptchaProvider reCaptchaKey="6LcuU1QnAAAAAGX4dvTGlNxxccZa6KGNasZfuTnZ">
@@ -24,7 +24,7 @@ root.render(
               </GoogleReCaptchaProvider>
             </ThemeProvider>
           {/* </CookiesProvider> */}
-        </HashRouter>
+        </BrowserRouter>
       </PersistGate>
     </Provider>
   </React.StrictMode>

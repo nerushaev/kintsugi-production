@@ -104,7 +104,7 @@ export default function UserInfo({ user }) {
             $disabled={false}
             onClick={() => setUserEdit(true)}
           >
-            Змінити данні
+            Редагувати данні
           </Button>
         </ButtonWrapper>
       )}

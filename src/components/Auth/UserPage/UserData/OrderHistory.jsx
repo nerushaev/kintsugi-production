@@ -35,8 +35,8 @@ export default function OrderHistory({ orders, userPhone }) {
                 <ProductsItemImage src={image[0]} alt="" />
                 <ProductsItemTextWrapper>
                   <Text>{name}</Text>
-                  <Text>{price}</Text>
-                  <Text>{amount}</Text>
+                  <Text>{price}грн</Text>
+                  <Text>{amount}шт</Text>
                 </ProductsItemTextWrapper>
               </ProductsItem>
             );

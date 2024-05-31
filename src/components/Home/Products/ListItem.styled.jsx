@@ -20,11 +20,11 @@ export const Item = styled.li`
   display: flex;
   padding: 5px;
 
-  @media (min-width: 479px) {
+  // @media (min-width: 479px) {
   margin-left: 5px;
   margin-right: 5px;
   flex-basis: calc((100% - 20px) / 2);
-  }
+  // }
 
   @media (min-width: 768px) {
     flex-basis: calc((100% - 30px) / 3);

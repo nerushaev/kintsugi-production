@@ -40,13 +40,7 @@ const Logo = ({ url, width, height, active }) => {
 };
 
 export default function UserData({ user }) {
-  const [isShow, setIsShow] = useState({
-    orders: false,
-    delivery: false,
-    information: false,
-    password: false,
-    callback: false,
-  });
+  const [isShowOrders, setIsShowOrders] = useState(false);
 
   const { orders } = user;
 
@@ -55,12 +49,7 @@ export default function UserData({ user }) {
 
     switch (name) {
       case name:
-        setIsShow((prev) => {
-          return {
-            ...prev,
-            [name]: !prev[name],
-          };
-        });
+        setIsShowOrders(!isShowOrders);
         break;
       default:
         break;
@@ -69,69 +58,23 @@ export default function UserData({ user }) {
 
   return (
     <Wrapper>
-      <DataWrapper $marginBottom={isShow.orders ? true : false}>
-        <DataTitle>Історія ваших замовлень</DataTitle>
-        <button data-name="orders" onClick={handleClick}>
-          <Logo
-            $active={isShow.orders ? true : false}
-            url={`${svg}#icon-arrow`}
-            width="20"
-            height="20"
-          />
-        </button>
-      </DataWrapper>
-      {isShow.orders && <OrderHistory orders={orders} userPhone={user.phone} />}
-      <DataWrapper $marginBottom={isShow.delivery ? true : false}>
-        <DataTitle>Адреса доставки</DataTitle>
+      <UserInfo user={user}/>
+      <PasswordChangeForm />
+      <Form>
+        <DeliveryData user={user} />
+      </Form>
+      {<DataWrapper $marginBottom={isShowOrders ? true : false}>
+        <DataTitle>Історія замовлень</DataTitle>
         <button data-name="delivery" onClick={handleClick}>
           <Logo
-            $active={isShow.delivery ? true : false}
+            $active={isShowOrders ? true : false}
             url={`${svg}#icon-arrow`}
             width="20"
             height="20"
           />
         </button>
-      </DataWrapper>
-      {isShow.delivery && (
-        <Form>
-          <DeliveryData user={user} />
-        </Form>
-      )}
-      <DataWrapper $marginBottom={isShow.information ? true : false}>
-        <DataTitle>Особиста інформація</DataTitle>
-        <button data-name="information" onClick={handleClick}>
-          <Logo
-            $active={isShow.information ? true : false}
-            url={`${svg}#icon-arrow`}
-            width="20"
-            height="20"
-          />
-        </button>
-      </DataWrapper>
-      {isShow.information && <UserInfo user={user} />}
-      <DataWrapper $marginBottom={isShow.password ? true : false}>
-        <DataTitle>Змінна паролю</DataTitle>
-        <button data-name="password" onClick={handleClick}>
-          <Logo
-            $active={isShow.password ? true : false}
-            url={`${svg}#icon-arrow`}
-            width="20"
-            height="20"
-          />
-        </button>
-      </DataWrapper>
-      {isShow.password && <PasswordChangeForm />}
-      <DataWrapper $marginBottom={isShow.callback ? true : false}>
-        <DataTitle>Зворотній зв’язок:</DataTitle>
-        <button data-name="callback" onClick={handleClick}>
-          <Logo
-            $active={isShow.callback ? true : false}
-            url={`${svg}#icon-arrow`}
-            width="20"
-            height="20"
-          />
-        </button>
-      </DataWrapper>
+      </DataWrapper>}
+      {isShowOrders && <OrderHistory orders={orders} userPhone={user.phone} />}
     </Wrapper>
   );
 }
