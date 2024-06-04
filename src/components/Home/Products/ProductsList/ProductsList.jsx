@@ -13,6 +13,7 @@ import Pagination from "../../Pagination/Pagination";
 import { getSearch } from "../../../../redux/search/search-selectors";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
+import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const ProductsList = () => {
 
   return (
     <>
-    <FilterPanel />
+    <FilterPanel getObjectKeysString={getObjectKeysString} />
       <ListWrapper>
         {product.length < 1 && (
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />

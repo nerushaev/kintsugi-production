@@ -12,6 +12,7 @@ import { setFilter } from "../../../redux/filter/filter-slice";
 import svg from "../../../assets/filterIcons.svg";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
 
 const Box = styled.div`
 
@@ -34,10 +35,7 @@ const Box = styled.div`
   }
 }`;
 
-export default function FilterPanel() {
-  const dispatch = useDispatch();
-  //общий стейт
-  const [filters, setFilters] = useState({
+const initialState = {
     wigs: false,
     costume: false,
     accessories: false,
@@ -49,17 +47,61 @@ export default function FilterPanel() {
     earrings: false,
     tapestries: false,
     other: false,
+}
+
+export default function FilterPanel({getObjectKeysString}) {
+  const dispatch = useDispatch();
+  //общий стейт
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get('category')
+
+  function makeObjectFromUrl (urls) {
+    if(!urls) {
+      return initialState;
+    }
+    const categoryUrl = {};
+    const urlsArray = urls.split(',')
+    urlsArray.pop();
+      for (const key of urlsArray) {
+        categoryUrl[key] = true;
+      } 
+    return categoryUrl;
+  }
+
+
+
+  const result = makeObjectFromUrl(category);
+
+
+  const [filters, setFilters] = useState({
+    wigs: result.wigs || false,
+    costume: result.costume || false,
+    accessories: result.accessories || false,
+    smallStand: result.smallStand || false,
+    bigStand: result.bigStand || false,
+    pendant: result.pendant || false,
+    pin: result.pin || false,
+    hairpins: result.hairpins || false,
+    earrings: result.earrings || false,
+    tapestries: result.tapestries || false,
+    other: result.other || false,
   });
   //стейт для кнопки "Сортировать по цене"
   const [priceFilter, setPriceFilter] = useState(false);
   //стейт для кнопки "Фильтр"
   const [allFilter, setAllFilter] = useState(false);
 
+
   const nodeRef = useRef(null);
 
   useEffect(() => {
+
+      const result = getObjectKeysString(filters);
+      searchParams.set('category', result);
+      setSearchParams(searchParams);
+
     dispatch(setFilter(filters));
-  }, [filters, dispatch]);
+  }, [filters, dispatch, getObjectKeysString, searchParams, setSearchParams]);
 
   const filterButtonsClick = (e) => {
     const { id } = e.target;
