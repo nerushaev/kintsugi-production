@@ -51,12 +51,13 @@ const Category = styled.p`
   margin-bottom: 10px;
 `;
 const Wrapper = styled.div`
+  margin-top: 20%;
   padding: 10px 20px;
   background-color: white;
+  border-radius: 5px;
 `;
 
 export default function FormAddProducts({closeModal}) {
-  console.log(closeModal);
   const loading = true;
   const dispatch = useDispatch();
 

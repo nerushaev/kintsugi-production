@@ -1,7 +1,7 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../../redux/products/products-operation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   getTotalPages,
   selectFilteredProducts,
@@ -38,10 +38,11 @@ const ProductsList = () => {
   }
 
   useEffect(() => {
-
-    if (!search && !Object.values(filter).includes(true)) {
+    if (!search && !Object.values(filter).includes(true) && page) {
+      console.log('without filters');
       dispatch(getProducts({ page }));
     } else if (search || filter) {
+      console.log('with filters');
       const result = getObjectKeysString(filter);
       dispatch(getProducts({ page, search: search, filter: result }));
     }

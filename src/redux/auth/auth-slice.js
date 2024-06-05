@@ -14,10 +14,10 @@ const initialState = {
   user: {
     busket: [],
     delivery: {},
-    role: "user",
+    role: "admin",
   },
   token: "",
-  isLogin: false,
+  isLogin: true,
   loading: false,
   error: null,
 };

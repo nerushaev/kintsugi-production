@@ -4,6 +4,7 @@ import React from "react";
 
 const AdminRoute = ({ component: Component, redirectTo = "/login" }) => {
   const { isLoggedIn, role } = useAuth();
+  console.log(role);
 
     return isLoggedIn && role === "admin" ? 
     (
