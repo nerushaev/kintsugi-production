@@ -68,8 +68,6 @@ export default function FilterPanel({getObjectKeysString}) {
     return categoryUrl;
   }
 
-
-
   const result = makeObjectFromUrl(category);
 
 
@@ -85,11 +83,13 @@ export default function FilterPanel({getObjectKeysString}) {
     earrings: result.earrings || false,
     tapestries: result.tapestries || false,
     other: result.other || false,
+    low: result.low || false,
+    high: result.high || false,
   });
   //стейт для кнопки "Сортировать по цене"
   const [priceFilter, setPriceFilter] = useState(false);
   //стейт для кнопки "Фильтр"
-  const [allFilter, setAllFilter] = useState(false);
+  const [allFilter, setAllFilter] = useState(category ? true :false);
 
 
   const nodeRef = useRef(null);
@@ -97,11 +97,15 @@ export default function FilterPanel({getObjectKeysString}) {
   useEffect(() => {
 
       const result = getObjectKeysString(filters);
-      searchParams.set('category', result);
-      setSearchParams(searchParams);
+      if(result === category) {
+        return;
+      } else {
+        searchParams.set('category', result);
+        setSearchParams(searchParams);
+      }
 
-    dispatch(setFilter(filters));
-  }, [filters, dispatch, getObjectKeysString, searchParams, setSearchParams]);
+      dispatch(setFilter(filters));
+  }, [filters, dispatch, getObjectKeysString, searchParams, setSearchParams, category]);
 
   const filterButtonsClick = (e) => {
     const { id } = e.target;
@@ -133,6 +137,8 @@ export default function FilterPanel({getObjectKeysString}) {
           high: false,
         };
       });
+      searchParams.set('page', 1);
+      setSearchParams(searchParams);
       return;
     } else if (id === "high" && filters.low) {
       setFilters((prev) => {
@@ -142,6 +148,8 @@ export default function FilterPanel({getObjectKeysString}) {
           high: true,
         };
       });
+      searchParams.set('page', 1);
+      setSearchParams(searchParams);
     } else {
       setFilters((prev) => {
         return {
@@ -149,6 +157,8 @@ export default function FilterPanel({getObjectKeysString}) {
           [id]: !prev[id],
         };
       });
+      searchParams.set('page', 1);
+      setSearchParams(searchParams);
     }
   };
 

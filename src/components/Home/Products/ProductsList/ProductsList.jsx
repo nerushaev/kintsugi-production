@@ -17,8 +17,10 @@ import { useSearchParams } from "react-router-dom";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const product = useSelector(selectFilteredProducts);
-  const [page, setPage] = useState(1);
+  const page = searchParams.get('page') || 1;
   const totalPages = useSelector(getTotalPages);
   const filter = useSelector(getFilter);
   const scrollPosition = useRef(null);
@@ -40,11 +42,6 @@ const ProductsList = () => {
     if (!search && !Object.values(filter).includes(true)) {
       dispatch(getProducts({ page }));
     } else if (search || filter) {
-      if (page > 1) {
-        setPage(1);
-        const result = getObjectKeysString(filter);
-        dispatch(getProducts({ page: 1, search: search, filter: result }));
-      }
       const result = getObjectKeysString(filter);
       dispatch(getProducts({ page, search: search, filter: result }));
     }
@@ -54,7 +51,8 @@ const ProductsList = () => {
     e.preventDefault();
     const { textContent } = e.target;
     const page = parseInt(textContent);
-    setPage(page);
+    searchParams.set('page', page);
+    setSearchParams(searchParams);
   };
 
   return (
