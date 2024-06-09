@@ -34,13 +34,16 @@ export default function Product() {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading ? <Loader /> :
+      <>
       <ProductsDetails data={product} />
       <MoreInfoControlls data={product} />
       <Title text="Схожі товари" />
       <List>
         <ProductsItem data={products} id={product._id} />
       </List>
+      </>
+      }
     </>
   );
 }

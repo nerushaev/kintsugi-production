@@ -26,13 +26,13 @@ import Payment from "./components/Busket/CheckoutPage/Payment";
 function App() {
   const dispatch = useDispatch();
 
-  const { token, isLoggedIn, isRefreshing } = useAuth();
+  const { token, isRefreshing } = useAuth();
 
   useEffect(() => {
-      if(!isLoggedIn && token) {
+      if(token) {
         dispatch(current());
       }
-  }, [dispatch, isLoggedIn, token]);
+  }, [dispatch, token]);
 
   return (
     <>

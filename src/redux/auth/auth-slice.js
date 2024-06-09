@@ -52,6 +52,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = error;
       state.isLogin = false;
+      state.user = "user";
     });
 
     builder.addCase(register.pending, (state) => {
@@ -86,6 +87,7 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state, { error }) => {
       state.loading = false;
       state.error = error;
+      state.user = "user";
     });
 
     builder.addCase(logout.pending, (state) => {

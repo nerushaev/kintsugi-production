@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { getStateProducts } from '../../../redux/products/products-selectors';
 import { getSearch } from '../../../redux/search/search-selectors';
-
 import ProductsItem from './ProductsItem';
 
 

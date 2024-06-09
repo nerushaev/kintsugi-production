@@ -1,26 +1,25 @@
 import styled from "styled-components";
 
-export const Item = styled.li`
-  @media(min-width: 320px) and (max-width: 430px) {
-    gap: 5px;
-    justify-content: space-around;
-  } 
+export const BusketList = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  padding: 0;
+  justify-content: center;
+  margin-right: -5px;
+  margin-left: -5px;
   margin-bottom: 30px;
+  min-height: 300px;
+`;
+
+export const Item = styled.li`
+  margin-left: 5px;
+  margin-right: 5px;
+  flex-basis: calc((100% - 30px) / 3);
+  background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
 `;
 
 export const TextWrapper = styled.div`
-    @media(min-width: 320px) and (max-width: 430px) {
-    padding: 5px;
-  }
-  flex-basis: calc((100% - 150px) / 5);
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 4px;
+  margin-bottom: 10px;
 `;
 
 export const Title = styled.h3`
@@ -31,7 +30,6 @@ export const Title = styled.h3`
 `;
 
 export const Image = styled.img`
-  max-width: 100px;
 `;
 
 export const Text = styled.p`
@@ -40,30 +38,14 @@ export const Text = styled.p`
   }
 `;
 
-export const List = styled.ul`
-`;
-
 export const IncrementButton = styled.span`
-    width: 16px;
-    height: 16px;
-  @media (min-width: 700px) {
     width: 32px;
     height: 32px;
-  }
-  left: 85%;
-  right: 50%;
-  position: absolute;
+    margin-right: 20px;
 `;
 
 export const DecrementButton = styled.span`
-    width: 16px;
-    height: 16px;
-  @media (min-width: 700px) {
     width: 32px;
     height: 32px;
-  }
-  left: 90%;
-  right: 50%;
-  position: absolute;
 `;
 

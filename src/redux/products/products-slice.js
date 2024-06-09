@@ -14,7 +14,7 @@ import {
 
 const productsInitialState = {
   items: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
   currentPage: 1,
   totalPages: 1,

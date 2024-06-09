@@ -2,13 +2,14 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '../../Swiper/Swiper';
 import { AddButton } from '../../../Buttons/Buttons';
-import React from 'react';
+import React, { useRef } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { theme } from '../../../../styles/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBusket } from '../../../../redux/products/products-slice';
 import { getBusket } from '../../../../redux/products/products-selectors';
 import CountButton from '../ProductsItem/CountButton';
+import { Select } from '../ProductsItem/ProductsItem';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -99,12 +100,17 @@ const Price = styled.p`
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.extraLarge};
     }
-`
+`;
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    width: 100%;
+`;
 
 export default function ProductsDetails({ data }) {
   const { name, image, description, price, size, _id, amount, category } = data;
   const sizes = size && size.join(", ");
-
+  const sizeRef = useRef();
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const handleClick = (newData) => {
@@ -135,11 +141,22 @@ export default function ProductsDetails({ data }) {
       <DetailsText>{size === "-" ? "One size" : sizes}</DetailsText>
         <Price $accent>{price}грн.</Price>
         {isFromBusket ? 
+        <ButtonWrapper>
       <AddButton>
         <CountButton quantity={isFromBusket.amount} _id={_id} />
       </AddButton>
+        </ButtonWrapper>
         :
-        <AddButton id={_id} onClick={() =>
+        <ButtonWrapper>
+          {size === "-" ? "" : 
+          <Select onChange={e => sizeRef.current.value = e.target.value} ref={sizeRef}>
+            {size.map(item => {
+              return <option>{item}</option>
+            })}
+          </Select>
+          }
+        <AddButton id={_id} onClick={() => {
+          const {value} = sizeRef.current;
           handleClick({
             _id,
             name,
@@ -148,10 +165,13 @@ export default function ProductsDetails({ data }) {
             price,
             amount,
             category,
+            size: value
           })
+        }
         }>
       Додати у кошик
-</AddButton>
+    </AddButton>
+    </ButtonWrapper>
       }
       </DetailsWrapper>
       </ProductWrapper>

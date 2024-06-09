@@ -25,6 +25,7 @@ export default function Home() {
       smooth: 'easeInOutQuart'
     })
   }, [currentPage])
+
   return (
     <>
       <Title text="Картини по номерам в наявності" />

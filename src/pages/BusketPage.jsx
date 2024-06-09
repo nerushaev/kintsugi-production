@@ -1,9 +1,11 @@
 import React from "react";
-import BusketList from "../components/Busket/BusketList";
 import { ButtonWrapper } from "../components/Buttons/Buttons";
 import Title from "../components/Home/Title/Title";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Busket from "../components/Busket/BusketList";
+import { useSelector } from "react-redux";
+import { getBusket } from "../redux/products/products-selectors";
 
 const StyledNavLink = styled(NavLink)`
   font-size: 16px;
@@ -26,13 +28,18 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export default function BusketPage() {
+  const busket = useSelector(getBusket);
+  const isBusketHaveItems = busket.length >= 1 ? true : false;
+
   return (
     <>
       <Title text="Додані товари" />
-      <BusketList />
+      <Busket/>
+      {isBusketHaveItems && 
       <ButtonWrapper>
-        <StyledNavLink to="/checkout">Оформити замовлення</StyledNavLink>
-      </ButtonWrapper>
-    </>
+      <StyledNavLink to="/checkout">Оформити замовлення</StyledNavLink>
+    </ButtonWrapper>
+      }
+      </>
   );
 }

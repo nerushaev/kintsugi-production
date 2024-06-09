@@ -6,7 +6,6 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: ${props => props.$noMargin ? "0" : "30px"};
-  align-items: flex-end;
 `;
 
 export const Button = styled.button`
@@ -49,13 +48,13 @@ export const AddButton = styled.button`
   align-items: center;
   width: 100%;
   min-height: 60px;
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   padding: 10px 10px;
   background-color: ${(props) =>
     props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.large};
+    font-size: ${theme.fontSizes.medium};
   }
 `;

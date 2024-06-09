@@ -11,12 +11,6 @@ const Image = styled.img`
 `;
 
 export const Wrapper = styled.div`
-  // position: relative;
-  // display: flex;
-  // flex: 1 1 50px;
-  // align-items: center;
-  // justify-content: space-around;
-  // margin-bottom: 5px;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
 `;

@@ -6,7 +6,7 @@ const Block = styled.div`
   margin: 0 auto;
 
   @media screen and (min-width: 320px) {
-    max-width: 479px;
+    // max-width: 479px;
   }
 
   @media screen and (min-width: 768px) {

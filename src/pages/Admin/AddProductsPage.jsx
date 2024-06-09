@@ -4,11 +4,11 @@ import { useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { getAllProducts } from "../../redux/products/products-operation";
 import { useDispatch } from "react-redux";
-import ProductsList from "../../components/Admin/Products/ProductsList";
 import Search from "../../components/Home/Search/Search";
 import Modal from '../../components/Modal';
 import useModal from '../../hooks/modal';
 import { Button, ButtonWrapper } from "../../components/Buttons/Buttons";
+import ProductsList from "../../components/Admin/Products/ProductsList";
 
 export default function Admin() {
   const products = useSelector(getStateProducts);
