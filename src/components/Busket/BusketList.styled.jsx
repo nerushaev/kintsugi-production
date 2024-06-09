@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../styles/theme";
 
 export const BusketList = styled.ul`
   display: flex;
@@ -23,9 +24,8 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: 14px;
   @media(min-width: 320px) and (max-width: 430px) {
-    font-size: 12px;
+    font-size: ${theme.fontSizes.small};
   }
 `;
 
@@ -34,7 +34,7 @@ export const Image = styled.img`
 
 export const Text = styled.p`
   @media(min-width: 320px) and (max-width: 430px) {
-    font-size: 12px;
+    font-size: ${theme.fontSizes.small};
   }
 `;
 

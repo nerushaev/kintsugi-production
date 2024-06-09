@@ -55,6 +55,6 @@ export const AddButton = styled.button`
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.medium};
+    font-size: ${theme.fontSizes.small};
   }
 `;

@@ -26,6 +26,7 @@ import { selectNovaState } from "../../../redux/nova/nova-selectors";
 import PreOrderBusketList from "./PreOrderBusketList";
 import { getBusket } from "../../../redux/products/products-selectors";
 import { useNavigate } from "react-router";
+import { clearBusket } from "../../../redux/products/products-slice";
 
 
 export default function CheckoutPage() {
@@ -81,9 +82,16 @@ export default function CheckoutPage() {
           user.phone !== newOrder.phone
         ) {
           dispatch(orderProducts(newOrder));
-          return setTimeout(() => {
-            navigate("/payment");
-          }, 1000);
+          if(orderData.liqpay) {
+            return setTimeout(() => {
+              navigate("/payment");
+            }, 1000);
+          } else {
+            return setTimeout(() => {
+              dispatch(clearBusket());
+              navigate("/");
+            }, 1000);
+          }
         }
         dispatch(
           orderProducts({
@@ -93,9 +101,16 @@ export default function CheckoutPage() {
             phone: user.phone,
           })
         );
-        return setTimeout(() => {
-          navigate("/payment");
-        }, 1000);
+        if(orderData.liqpay) {
+          return setTimeout(() => {
+            navigate("/payment");
+          }, 1000);
+        } else {
+          return setTimeout(() => {
+            dispatch(clearBusket());
+            navigate("/");
+          }, 1000);
+        }
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
       }
@@ -129,7 +144,16 @@ export default function CheckoutPage() {
           user.phone !== newOrder.phone
         ) {
           dispatch(orderProducts(newOrder));
-          return;
+          if(orderData.liqpay) {
+            return setTimeout(() => {
+              navigate("/payment");
+            }, 1000);
+          } else {
+            return setTimeout(() => {
+              dispatch(clearBusket());
+              navigate("/");
+            }, 1000);
+          }
         }
         dispatch(
           orderProducts({
@@ -139,6 +163,16 @@ export default function CheckoutPage() {
             phone: user.phone,
           })
         );
+        if(orderData.liqpay) {
+          return setTimeout(() => {
+            navigate("/payment");
+          }, 1000);
+        } else {
+          return setTimeout(() => {
+            dispatch(clearBusket());
+            navigate("/");
+          }, 1000);
+        }
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
       }

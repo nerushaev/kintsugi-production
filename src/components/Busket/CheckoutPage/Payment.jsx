@@ -24,7 +24,9 @@ export default function Payment() {
           setData(result.data.data);
           setSignature(result.data.signature);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     getSignature();
   }, [busket, orderId])

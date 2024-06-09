@@ -13,6 +13,6 @@ const Text = styled.p`
 export default function Subtitle(props) {
 
   return (
-    <Text $accent={props.accent}>{props.children}</Text>
+      <Text $accent={props.accent}>{props.children}</Text>
   )
 }

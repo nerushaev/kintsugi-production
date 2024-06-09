@@ -1,12 +1,18 @@
 import styled from "styled-components";
 
 export const List = styled.ul`
-  display: flex;
-	flex-wrap: wrap;
+  display: grid;
+	grid-template-columns: 1fr 1fr;
   justify-content: center;
-	margin-right: -5px;
-	margin-left: -5px;
-
+  @media(min-width: 479px) {
+	  grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media(min-width: 767px) {
+	  grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  @media(min-width: 1199px) {
+	  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
 `;
 
 export const ListWrapper = styled.div`

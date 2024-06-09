@@ -67,6 +67,9 @@ const productsSlice = createSlice({
         item.amount--;
       }
     },
+    clearBusket: (state, action) => {
+      state.busket = [];
+    },
   },
 
   extraReducers: (builder) => {
@@ -169,12 +172,13 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.orderId = action.payload.orderId;
+      // state.busket = [];
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);
   }
 });
 
-export const { addToBusket, incrementAmount, decrementAmount } =
+export const { addToBusket, incrementAmount, decrementAmount, clearBusket } =
   productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

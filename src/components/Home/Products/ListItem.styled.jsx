@@ -20,25 +20,6 @@ export const Item = styled.li`
   display: flex;
   padding: 5px;
 
-  // @media (min-width: 479px) {
-  margin-left: 5px;
-  margin-right: 5px;
-  flex-basis: calc((100% - 20px) / 2);
-  // }
-
-  @media (min-width: 479px) {
-    margin-left: 5px;
-    margin-right: 5px;
-    flex-basis: calc((100% - 30px) / 3);
-    }
-
-  @media (min-width: 768px) {
-    flex-basis: calc((100% - 50px) / 4);
-  }
-
-  @media (min-width: 1200px) {
-    flex-basis: calc((100% - 40px) / 4);
-  }
   &:hover,
   &:focus {
     transform: scale(1.01);
