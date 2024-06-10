@@ -27,7 +27,6 @@ export default function BusketItem({ data }) {
 
   return data.map(({ name, _id, image, price, amount, size }) => {
     const isFromBusket = busket.find((item) => item._id === _id);
-    console.log(size);
 
     return (
       <Item key={_id}>

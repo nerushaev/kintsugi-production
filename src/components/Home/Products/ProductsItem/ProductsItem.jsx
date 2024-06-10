@@ -26,12 +26,15 @@ export const IconWrapper = styled.div`
 `;
 
 export const Select = styled.select`
-  height: 100%;
+  // height: 100%;
   width: 40px;
   text-align-last: center;
   background: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-20.png) no-repeat ${theme.colors.formButton};
   background-position-x: 50%;
   background-position-y: 90%;
+  &:hover {
+    background-color: ${theme.colors.formButtonAccent}
+  }
 `;
 
 export const ProductsItem = ({ data, id }) => {

@@ -148,13 +148,30 @@ export default function ProductsDetails({ data }) {
         </ButtonWrapper>
         :
         <ButtonWrapper>
-          {size === "-" ? "" : 
+          {size[0] === "-" ? "" : 
           <Select onChange={e => sizeRef.current.value = e.target.value} ref={sizeRef}>
             {size.map(item => {
               return <option>{item}</option>
             })}
           </Select>
           }
+          {
+            size === "-" ?
+            <AddButton id={_id} onClick={() => {
+              handleClick({
+                _id,
+                name,
+                description,
+                image,
+                price,
+                amount,
+                category,
+              })
+            }
+            }>
+          Додати у кошик
+        </AddButton>
+        :
         <AddButton id={_id} onClick={() => {
           const {value} = sizeRef.current;
           handleClick({
@@ -171,6 +188,7 @@ export default function ProductsDetails({ data }) {
         }>
       Додати у кошик
     </AddButton>
+          }
     </ButtonWrapper>
       }
       </DetailsWrapper>
