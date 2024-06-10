@@ -1,5 +1,21 @@
 @import-normalize;
 
+select {
+    -moz-appearance: none; 
+    -webkit-appearance: none; 
+    appearance: none;
+    border: none;
+    border-radius: 0;
+    /* pointer-events: none; */
+    box-shadow: none;
+    border-radius: 0;
+}
+
+
+select:focus {
+  outline: -webkit-focus-ring-color auto thin;
+}
+
 html,
 body {
   margin: 0;

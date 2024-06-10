@@ -13,11 +13,11 @@ export const theme = Object.freeze({
     mainBackground: "#FDF7F2",
   },
   fontSizes: {
-    small: "16px",
-    medium: "18px",
-    large: "22px",
-    extraLarge: "24px",
-    title: "26px",
+    small: "14px",
+    medium: "16px",
+    large: "18px",
+    extraLarge: "22px",
+    title: "24px",
   },
   shadows: {
     small: "0 5px 7px -1px rgba(51, 51, 51, 0.23)",

@@ -26,8 +26,12 @@ export const IconWrapper = styled.div`
 `;
 
 export const Select = styled.select`
-  // height: 100%;
-  background-color: ${theme.colors.formButton};
+  height: 100%;
+  width: 40px;
+  text-align-last: center;
+  background: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-20.png) no-repeat ${theme.colors.formButton};
+  background-position-x: 50%;
+  background-position-y: 90%;
 `;
 
 export const ProductsItem = ({ data, id }) => {
@@ -45,7 +49,7 @@ export const ProductsItem = ({ data, id }) => {
       const item = busket.find((item) => item._id === _id);
       const itemId = nanoid();
       const sizes = size ? size.join(", ") : "";
-      
+
       return (
         <Item key={itemId}>
           <ItemBody>
@@ -63,13 +67,13 @@ export const ProductsItem = ({ data, id }) => {
             <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes>
             </CardInfoWrapper>
           {isFromBusket ? (
-            <ButtonWrapper>
+            <ButtonWrapper $noMargin>
             <AddButton>
               <CountButton quantity={item.amount} _id={_id} />
             </AddButton>
             </ButtonWrapper>
           ) : (
-            <ButtonWrapper>
+            <ButtonWrapper $noMargin>
             {sizes === "-" ? "" : 
             <Select onChange={e => sizeRef.current.value = e.target.value} ref={sizeRef} name="size" id="size">
               {size.map(item => {
