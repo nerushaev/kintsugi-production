@@ -29,9 +29,9 @@ function App() {
   const { token, isRefreshing } = useAuth();
 
   useEffect(() => {
-      if(token) {
+      // if(token) {
         dispatch(current());
-      }
+      // }
   }, [dispatch, token]);
 
   return (

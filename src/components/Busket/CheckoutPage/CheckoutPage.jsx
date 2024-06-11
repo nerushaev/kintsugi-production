@@ -24,15 +24,16 @@ import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation"
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
 // import LiqpayButton from "./LiqpayButton";
 import PreOrderBusketList from "./PreOrderBusketList";
-import { getBusket } from "../../../redux/products/products-selectors";
+import { getBusket, getLiqpay } from "../../../redux/products/products-selectors";
 import { useNavigate } from "react-router";
-import { clearBusket } from "../../../redux/products/products-slice";
 
 
 export default function CheckoutPage() {
-  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const busket = useSelector(getBusket);
+  const isLiqpay = useSelector(getLiqpay);
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const nova = useSelector(selectNovaState);
   const { isLoggedIn } = useAuth();
@@ -53,6 +54,12 @@ export default function CheckoutPage() {
   // const [buttonActive, setButtonActive] = useState(false);
 
   useEffect(() => {
+    if(isLiqpay === true) {
+      navigate('/payment');
+    } else if (isLiqpay === false) {
+      navigate('/');
+    }
+
     if (user.name && user.email && user.phone) {
       setOrderData((prev) => ({
         ...prev,
@@ -61,7 +68,7 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-  }, [user.name, user.email, user.phone, orderData.liqpay, orderData.products]);
+  }, [user.name, user.email, user.phone, orderData.liqpay, orderData.products, isLiqpay, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,34 +89,15 @@ export default function CheckoutPage() {
           user.phone !== newOrder.phone
         ) {
           dispatch(orderProducts(newOrder));
-          if(orderData.liqpay) {
-            return setTimeout(() => {
-              navigate("/payment");
-            }, 1000);
-          } else {
-            return setTimeout(() => {
-              dispatch(clearBusket());
-              navigate("/");
-            }, 1000);
-          }
-        }
-        dispatch(
-          orderProducts({
-            ...newOrder,
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-          })
-        );
-        if(orderData.liqpay) {
-          return setTimeout(() => {
-            navigate("/payment");
-          }, 1000);
         } else {
-          return setTimeout(() => {
-            dispatch(clearBusket());
-            navigate("/");
-          }, 1000);
+          dispatch(
+            orderProducts({
+              ...newOrder,
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+            })
+          );
         }
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
@@ -144,16 +132,6 @@ export default function CheckoutPage() {
           user.phone !== newOrder.phone
         ) {
           dispatch(orderProducts(newOrder));
-          if(orderData.liqpay) {
-            return setTimeout(() => {
-              navigate("/payment");
-            }, 1000);
-          } else {
-            return setTimeout(() => {
-              dispatch(clearBusket());
-              navigate("/");
-            }, 1000);
-          }
         }
         dispatch(
           orderProducts({
@@ -163,16 +141,6 @@ export default function CheckoutPage() {
             phone: user.phone,
           })
         );
-        if(orderData.liqpay) {
-          return setTimeout(() => {
-            navigate("/payment");
-          }, 1000);
-        } else {
-          return setTimeout(() => {
-            dispatch(clearBusket());
-            navigate("/");
-          }, 1000);
-        }
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
       }

@@ -24,6 +24,7 @@ const productsInitialState = {
   banners: [],
   similarProducts: [],
   orderId: '',
+  liqpay: null
 };
 
 const handlePending = (state) => {
@@ -90,6 +91,7 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.similarProducts = action.payload.products;
+      state.liqpay = null;
     });
 
     builder.addCase(getSimilarProducts.rejected, handleRejected);
@@ -172,6 +174,7 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.orderId = action.payload.orderId;
+      state.liqpay = action.payload.liqpay;
       // state.busket = [];
     });
 

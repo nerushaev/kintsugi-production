@@ -13,12 +13,12 @@ import { Select } from '../ProductsItem/ProductsItem';
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
-  font-size: ${theme.fontSizes.large};
+  font-size: ${theme.fontSizes.small};
   @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.extraLarge};
+    font-size: ${theme.fontSizes.medium};
     }
   @media (min-width: 1199px) {
-      font-size: ${theme.fontSizes.title};
+      font-size: ${theme.fontSizes.large};
       }
 `;
 const GoBackWrapper = styled.div`
@@ -28,14 +28,14 @@ const GoBackWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-const ProductName = styled.h2`
-  font-size: ${theme.fontSizes.medium};
+const ProductName = styled.p`
+  font-size: ${theme.fontSizes.small};
   margin-bottom: 20px;
   @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.large};
+    font-size: ${theme.fontSizes.medium};
     }
   @media (min-width: 1199px) {
-      font-size: ${theme.fontSizes.extraLarge};
+      font-size: ${theme.fontSizes.large};
       }
 `;
 
@@ -50,10 +50,10 @@ const ProductWrapper = styled.div`
 
 const DetailsCategory = styled.p`
   font-weight: 400;
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   margin-bottom: 10px;
   @media (min-width: 767px) {
-  font-size: ${theme.fontSizes.large};
+  font-size: ${theme.fontSizes.medium};
   }
   @media (min-width: 1199px) {
     font-size: ${theme.fontSizes.extraLarge};
@@ -156,7 +156,7 @@ export default function ProductsDetails({ data }) {
           </Select>
           }
           {
-            size === "-" ?
+            size[0] === "-" ?
             <AddButton id={_id} onClick={() => {
               handleClick({
                 _id,

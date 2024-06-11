@@ -9,6 +9,7 @@ export const BusketList = styled.ul`
   margin-left: -5px;
   margin-bottom: 30px;
   min-height: 300px;
+  gap:40px;
 `;
 
 export const Item = styled.li`
@@ -23,10 +24,10 @@ export const TextWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Title = styled.h3`
-  @media(min-width: 320px) and (max-width: 430px) {
+export const Title = styled.p`
     font-size: ${theme.fontSizes.small};
-  }
+    font-weight: 600;
+    min-height: 50px;
 `;
 
 export const Image = styled.img`

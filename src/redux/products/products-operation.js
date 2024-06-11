@@ -174,13 +174,13 @@ export const orderProducts = createAsyncThunk(
     } catch (error) {
       if (error) {
         setTimeout(
-          Notify.success(error.message, {
+          Notify.failure(error.statusText, {
             borderRadius: "0px",
           }),
           20000
         );
       }
-      return ThunkAPI.rejectWithValue(error.message);
+      return ThunkAPI.rejectWithValue(error.statusText);
     }
   }
 );
