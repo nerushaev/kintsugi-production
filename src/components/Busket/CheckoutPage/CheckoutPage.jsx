@@ -6,26 +6,26 @@ import { ButtonWrapper, Button } from "../../Buttons/Buttons";
 import {
   OrderWrapper,
   Form,
+  Text,
 } from "../../Fields/Fields.styled";
 import {
   checkoutPageValidation,
-  passwordsValidation,
 } from "../../../helpers/checkoutPageValidation";
 import { Notify } from "notiflix";
 import { Inputt } from "./Input";
 import { SelectInput } from "./SelectInput";
 import CheckoutModal, { CheckoutWrapper } from "./CheckoutModal";
-import { register } from "../../../redux/auth/auth-operations";
 import { notifyOptions } from "../../../helpers/notifyConfig";
-import { selectUser } from "../../../redux/auth/auth-selectors";
+import { selectIsUserLoading, selectUser } from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
-// import LiqpayButton from "./LiqpayButton";
 import PreOrderBusketList from "./PreOrderBusketList";
-import { getBusket, getLiqpay } from "../../../redux/products/products-selectors";
+import { getBusket, getLiqpay, selectIsLoading } from "../../../redux/products/products-selectors";
 import { useNavigate } from "react-router";
+import { register } from "../../../redux/auth/auth-operations";
+import Loader from "../../Loader/Loader";
 
 
 export default function CheckoutPage() {
@@ -33,11 +33,12 @@ export default function CheckoutPage() {
   const busket = useSelector(getBusket);
   const isLiqpay = useSelector(getLiqpay);
   const navigate = useNavigate();
+  const isUserLoading = useSelector(selectIsUserLoading);
+  const isProductsLoading = useSelector(selectIsLoading);
 
   const dispatch = useDispatch();
   const nova = useSelector(selectNovaState);
   const { isLoggedIn } = useAuth();
-  const [willBeRegister, setWillBeRegister] = useState(false);
   const [orderData, setOrderData] = useState({
     email: "",
     name: "",
@@ -131,57 +132,33 @@ export default function CheckoutPage() {
           user.name !== newOrder.name ||
           user.phone !== newOrder.phone
         ) {
-          dispatch(orderProducts(newOrder));
-        }
-        dispatch(
-          orderProducts({
-            ...newOrder,
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-          })
-        );
-      } catch (error) {
-        Notify.failure(error.message, notifyOptions);
-      }
-    }
-
-    if (willBeRegister) {
-      try {
-        await passwordsValidation.validate({
-          email: orderData.email,
-          confirmPassword: orderData.confirmPassword,
-          password: orderData.password,
-        });
-        dispatch(
-          register({
-            email: orderData.email,
+          await dispatch(register({
             name: orderData.name,
+            email: orderData.email,
             phone: orderData.phone,
             password: orderData.password,
-          })
-        ).then((res) => {
-          console.log(res);
-          if (res.payload.status !== 201) {
-            Notify.failure(res.payload.message, {});
-          } else {
-            Notify.success(
-              `На пошту ${res.payload.user.email} було надіслано листа з посиланням для підтвердження профіля!`,
-              {
-                timeout: 5000,
-                pauseOnHover: true,
-                success: {
-                  background: "#a2d2ff",
-                },
-              }
-            );
-          }
-        });
+          }));
+          dispatch(orderProducts(newOrder));
+        } else {
+          await dispatch(register({
+            name: orderData.name,
+            email: orderData.email,
+            phone: orderData.phone,
+            password: orderData.password,
+          }));
+          dispatch(
+            orderProducts({
+              ...newOrder,
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+            })
+          );
+        }
       } catch (error) {
         Notify.failure(error.message, notifyOptions);
       }
     }
-
   };
 
   const handleChange = (e) => {
@@ -231,10 +208,11 @@ export default function CheckoutPage() {
     }
   };
 
-  // console.log("render");
-
   return (
     <>
+    <>
+    {(isUserLoading || isProductsLoading) && <Loader />}
+    </>
       <OrderWrapper>
         <PreOrderBusketList busket={busket} />
         <Form $checkout onSubmit={handleSubmit}>
@@ -281,18 +259,14 @@ export default function CheckoutPage() {
           />
           {!isLoggedIn && (
             <CheckoutWrapper>
+            <Text>Щоб завершити замовлення, введіть пароль від вашого особистого кабінету:</Text>
               <CheckoutModal
-                setWillBeRegister={setWillBeRegister}
-                willBeRegister={willBeRegister}
                 orderData={orderData}
                 setOrderData={setOrderData}
               />
             </CheckoutWrapper>
           )}
         </Form>
-        {/* {orderData.liqpay && (
-          <LiqpayButton data={data} signature={signature} />
-        )} */}
         <ButtonWrapper>
           <Button type="submit" onClick={handleSubmit}>
             {orderData.liqpay ? "Перейти до оплати" : "Замовити"}

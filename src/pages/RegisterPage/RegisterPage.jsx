@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import Loader from "../../components/Loader/Loader";
-import { selectIsLoading } from "../../redux/auth/auth-selectors";
+import { selectIsUserLoading } from "../../redux/auth/auth-selectors";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 export default function RegisterPage() {
-  const loading = useSelector(selectIsLoading);
+  const loading = useSelector(selectIsUserLoading);
 
   return (
     <Wrapper>

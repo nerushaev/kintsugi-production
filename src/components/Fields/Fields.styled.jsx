@@ -120,8 +120,9 @@ export const Text = styled.p`
   font-family: "Montserrat";
   font-weight: ${(props) => (props.$accent ? "500" : "400")};
   line-height: 20px;
-  max-width: 240px;
+  max-width: 100%;
   display: inline-block;
+  text-align: ${props => props.$left ? "left" : "inherit"};
   &:not(:last-child) {
     margin-bottom: 15px;
   }

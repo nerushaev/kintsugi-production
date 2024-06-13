@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Select, Text } from "../../Fields/Fields.styled";
 import { Inputt } from "./Input";
 
 export const InputWrapper = styled.div`
@@ -45,23 +44,11 @@ export const CheckoutWrapper = styled.div`
 `;
 
 export default function CheckoutModal(props) {
-  const { setOrderData, orderData, setWillBeRegister } = props;
-  const [yes, setYes] = useState(false);
-  const [no, setNo] = useState(false);
+  const { setOrderData, orderData } = props;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case "yes":
-        setYes(true);
-        setNo(false);
-        setWillBeRegister(true);
-        break;
-      case "no":
-        setNo(true);
-        setYes(false);
-        setWillBeRegister(false);
-        break;
       case "password":
         setOrderData((prev) => {
           return {
@@ -86,31 +73,6 @@ export default function CheckoutModal(props) {
   return (
     <div>
       <InputWrapper>
-        <Text $accent={true}>Зареєструвати вас на сайті?</Text>
-        <CheckboxesWrapper>
-          <CheckboxWrapper>
-            <Label htmlFor="yes">Так</Label>
-            <Select
-              name="yes"
-              onChange={handleChange}
-              id="yes"
-              type="checkbox"
-              checked={yes}
-            />
-          </CheckboxWrapper>
-          <CheckboxWrapper>
-            <Label htmlFor="no">Ні</Label>
-            <Select
-              name="no"
-              onChange={handleChange}
-              id="no"
-              type="checkbox"
-              checked={no}
-            />
-          </CheckboxWrapper>
-        </CheckboxesWrapper>
-        {yes && (
-          <>
             <Inputt
               onChange={handleChange}
               label="Пароль:"
@@ -125,8 +87,6 @@ export default function CheckoutModal(props) {
               type="password"
               value={orderData.confirmPassword}
             />
-          </>
-        )}
       </InputWrapper>
     </div>
   );

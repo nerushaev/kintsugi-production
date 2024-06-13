@@ -37,7 +37,7 @@ const authSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(refreshToken.pending, (state) => {
-      state.loading = false;
+      state.loading = true;
       state.error = null;
     });
 

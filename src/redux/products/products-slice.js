@@ -14,7 +14,7 @@ import {
 
 const productsInitialState = {
   items: [],
-  isLoading: true,
+  isLoading: false,
   error: null,
   currentPage: 1,
   totalPages: 1,
@@ -82,6 +82,7 @@ const productsSlice = createSlice({
       state.items = action.payload.products;
       state.currentPage = action.payload.currentPage;
       state.totalPages = action.payload.totalPages;
+      state.liqpay = null;
     });
 
     builder.addCase(getProducts.rejected, handleRejected);

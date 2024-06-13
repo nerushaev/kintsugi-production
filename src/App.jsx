@@ -22,21 +22,22 @@ import AdminPage from "./pages/Admin/AdminPage";
 import OrdersPage from "./pages/Admin/OrdersPage";
 import BusketPage from './pages/BusketPage';
 import Payment from "./components/Busket/CheckoutPage/Payment";
+import PublicOfferPage from "./pages/PublicOfferPage";
+import Politic from "./pages/Politic";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { token, isRefreshing } = useAuth();
+  const { token} = useAuth();
 
   useEffect(() => {
-      // if(token) {
+      if(token) {
         dispatch(current());
-      // }
+      }
   }, [dispatch, token]);
 
   return (
     <>
-    {!isRefreshing && (
       <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
@@ -46,6 +47,8 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />}/>
         <Route path="/payment" element={<Payment />}/>
         <Route path="/restore" element={<RestorePasswordPage />} />
+        <Route path="/publicoffer" element={<PublicOfferPage />}/>
+        <Route path="/politic" element={<Politic />}/>
         <Route
           path="/admin"
           element={
@@ -76,7 +79,6 @@ function App() {
         <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
-    )} 
       </>
   );
   

@@ -21,6 +21,13 @@ export const checkoutPageValidation = Yup.object({
       'Введіть вашу пошту у форматі "youemail@gmail.com"'
     )
     .max(32, "Пошта занадто довга!"),
+    confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), ""], "Паролі повинні співпадати!")
+    .required("Введіть пароль повторно для підтвердження"),
+  password: Yup.string()
+    .required("Пароль це обов'язкове поле!")
+    .min(7, "Пароль занадто маленький!")
+    .max(32, "Пароль занадто довгий!"),
 });
 
 export const passwordsValidation = Yup.object({

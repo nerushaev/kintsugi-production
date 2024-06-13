@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IconsSet } from "./IconsSet";
 
@@ -14,10 +15,26 @@ const Text = styled.p`
   color: black;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const StyledLink = styled(Link)`
+  color: gray;
+  cursor: pointer;
+`;
+
 const Footer = () => {
   return (
     <FooterWrapper>
       <IconsSet />
+      <Wrapper>
+      <StyledLink to="/publicoffer">Публічна оферта</StyledLink>
+      <StyledLink to="/politic">Політика конфіденційності</StyledLink>
+      </Wrapper>
       <Text>Kintsugi</Text>
     </FooterWrapper>
   );
