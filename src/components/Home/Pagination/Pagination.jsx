@@ -13,6 +13,12 @@ export default function Pagination({
 
   return (
     <PaginationWrapper>
+      {currentPage >=3 && 
+      <>
+      <PaginationItem>1</PaginationItem>
+      <PaginationItem>...</PaginationItem>
+      </>
+      }
       {paginationAmount.map((item) => {
         return (
           <PaginationItem
@@ -27,6 +33,12 @@ export default function Pagination({
           </PaginationItem>
         );
       })}
+      {currentPage < totalPages - 2 && 
+      <>
+      <PaginationItem>...</PaginationItem>
+      <PaginationItem>{totalPages}</PaginationItem>
+      </>
+      }
     </PaginationWrapper>
   );
 }

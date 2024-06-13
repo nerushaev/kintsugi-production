@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Slider from '../../Swiper/Swiper';
 import { AddButton } from '../../../Buttons/Buttons';
 import React, { useRef } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { theme } from '../../../../styles/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBusket } from '../../../../redux/products/products-slice';
 import { getBusket } from '../../../../redux/products/products-selectors';
 import CountButton from '../ProductsItem/CountButton';
 import { Select } from '../ProductsItem/ProductsItem';
+import { SlArrowLeftCircle } from "react-icons/sl";
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -25,7 +25,7 @@ const GoBackWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 
 const ProductName = styled.p`
@@ -116,14 +116,14 @@ export default function ProductsDetails({ data }) {
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
-
+  console.log(size);
   const isFromBusket = busket.find((item) => item._id === _id);
 
   return (
     
     <>
       <GoBackWrapper>
-        <ArrowBackIcon fontSize="large" />
+      <SlArrowLeftCircle size="32"/>
       <GoBackLink to="/">
           Назад
       </GoBackLink>

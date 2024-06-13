@@ -112,6 +112,9 @@ export const addProducts = createAsyncThunk(
       const { data } = await instance.post("/api/products/", newProduct);
       return data;
     } catch (error) {
+      console.log(error);
+      Notify.failure(error.response.data)
+      console.log(error);
       return ThunkAPI.rejectWithValue(error.message);
     }
   }

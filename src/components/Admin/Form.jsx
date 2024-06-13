@@ -8,10 +8,16 @@ import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import { addProductValidation } from "../../helpers/addProductValidation";
 import { Notify } from "notiflix";
+import { SlClose } from "react-icons/sl";
 
 const Select = styled.select`
   width: 100%;
   height: 40px;
+  background: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-20.png) no-repeat #fff;
+  background-position-x: 95%;
+  background-position-y: 50%;
+  border: solid;
+  padding-left: 5px;
 `;
 
 const Input = styled.input`
@@ -57,6 +63,11 @@ const Wrapper = styled.div`
   border-radius: 5px;
 `;
 
+const CloseBtnWrapper = styled.div`
+  margin-left: auto;
+  margin-bottom: 10px;
+`;
+
 export default function FormAddProducts({closeModal}) {
   const loading = true;
   const dispatch = useDispatch();
@@ -95,7 +106,9 @@ export default function FormAddProducts({closeModal}) {
       encType="multipart/form-data"
       onSubmit={handleSubmit}
     >
-      <span onClick={closeModal}>close</span>
+      <CloseBtnWrapper>
+      <SlClose onClick={closeModal}>close</SlClose>
+      </CloseBtnWrapper>
       <FieldWrapper>
         <Input
           placeholder="Назва товару"

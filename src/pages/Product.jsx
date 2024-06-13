@@ -17,24 +17,28 @@ import Title from "../components/Home/Title/Title";
 export default function Product() {
   const dispatch = useDispatch();
   const _id = useParams();
-  const product = useSelector(getDetails);
   const isLoading = useSelector(selectIsLoading);
   const products = useSelector(selectSimilarProducts);
+  const product = useSelector(getDetails);
 
   const productCategory = useMemo(() => {
     return product.category;
   }, [product])
 
   useEffect(() => {
+    console.log('here');
       dispatch(getProductsById(...Object.values(_id)));
       if(productCategory) {
         dispatch(getSimilarProducts({category: productCategory}));
       }
   }, [dispatch, _id, productCategory]);
 
+  console.log(isLoading);
+  console.log(product.length > 0);
+
   return (
     <>
-      {isLoading ? <Loader /> :
+      {(isLoading || product.length === 0) ? <Loader /> :
       <>
       <ProductsDetails data={product} />
       <MoreInfoControlls data={product} />
