@@ -26,28 +26,25 @@ export default function Product() {
   }, [product])
 
   useEffect(() => {
-    console.log('here');
       dispatch(getProductsById(...Object.values(_id)));
       if(productCategory) {
         dispatch(getSimilarProducts({category: productCategory}));
       }
   }, [dispatch, _id, productCategory]);
 
-  console.log(isLoading);
-  console.log(product.length > 0);
-
   return (
     <>
-      {(isLoading || product.length === 0) ? <Loader /> :
+      {(isLoading) && <Loader />}
       <>
-      <ProductsDetails data={product} />
+      {(!isLoading && product.length !== 0) && 
+        <ProductsDetails data={product} />
+      }
       <MoreInfoControlls data={product} />
       <Title text="Схожі товари" />
       <List>
         <ProductsItem data={products} id={product._id} />
       </List>
       </>
-      }
-    </>
+      </>
   );
 }

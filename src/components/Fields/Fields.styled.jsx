@@ -17,6 +17,7 @@ export const Form = styled.form`
   display: inline-block;
   width: 100%;
   max-width: 450px;
+  margin-bottom: 20px;
   @media (min-width: 768px) {
     margin-right: ${(props) => (props.$checkout ? "30px" : "0")};
   }

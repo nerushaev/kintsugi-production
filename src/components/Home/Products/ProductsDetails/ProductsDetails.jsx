@@ -113,10 +113,11 @@ export default function ProductsDetails({ data }) {
   const sizeRef = useRef();
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
+
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
-  console.log(size);
+
   const isFromBusket = busket.find((item) => item._id === _id);
 
   return (

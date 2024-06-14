@@ -24,7 +24,8 @@ const productsInitialState = {
   banners: [],
   similarProducts: [],
   orderId: '',
-  liqpay: null
+  liqpay: null,
+  feedback: [],
 };
 
 const handlePending = (state) => {

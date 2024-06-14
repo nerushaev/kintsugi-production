@@ -4,6 +4,8 @@ import { theme } from "../../../../../styles/theme";
 import novaLogo from '../../../../../assets/nova-poshta-logo.jpg';
 import afinaLogo from '../../../../../assets/afina-image.jpg';
 import liqpayLogo from '../../../../../assets/liqpay-logo.jpg';
+import FeedbackForm from "../../Feedback/FeedbackForm";
+import FeedbackList from "../../Feedback/FeedbackList";
 
 const Title = styled.h2`
   font-size: ${theme.fontSizes.medium};
@@ -175,6 +177,12 @@ export default function MoreInfoControlls({ data }) {
       <Title>Мінімальна сума замовлення складає - 200грн.</Title>
       </PaymentWrapper>
       </>
+      }
+      {feedback && 
+      <>
+        <FeedbackForm />
+        <FeedbackList />
+        </>
       }
     </MoreInfoControllsWrapper>
   );
