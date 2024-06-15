@@ -24,6 +24,12 @@ const ContentWrapper = styled.div`
 
   const Text = styled.p`
     font-size: ${props => props.accent ? `${theme.fontSizes.medium}` : `${theme.fontSizes.small}`}
+    @media (min-width: 767px) {
+    font-size: ${props => props.accent ? `${theme.fontSizes.large}` : `${theme.fontSizes.medium}`}
+    }
+    @media (min-width: 1199px) {
+      font-size: ${props => props.accent ? `${theme.fontSizes.extraLarge}` : `${theme.fontSizes.large}`}
+      }
   `;
 
 export default function FeedbackList() {

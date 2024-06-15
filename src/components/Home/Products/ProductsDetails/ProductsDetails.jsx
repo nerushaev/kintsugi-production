@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Slider from '../../Swiper/Swiper';
 import { AddButton } from '../../../Buttons/Buttons';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { theme } from '../../../../styles/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBusket } from '../../../../redux/products/products-slice';
@@ -11,6 +11,7 @@ import CountButton from '../ProductsItem/CountButton';
 import { Select } from '../ProductsItem/ProductsItem';
 import { SlArrowLeftCircle } from "react-icons/sl";
 import Score from '../Feedback/Score';
+import { scroller } from 'react-scroll';
 
 const ScoreWrapper = styled.div`
   margin-bottom: 20px;
@@ -123,6 +124,14 @@ export default function ProductsDetails({ data }) {
     dispatch(addToBusket(newData));
   };
 
+  useEffect(() => {
+    scroller.scrollTo('scroll', {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart'
+    })
+  }, [])
+
   const isFromBusket = busket.find((item) => item._id === _id);
 
   return (
@@ -130,7 +139,7 @@ export default function ProductsDetails({ data }) {
     <>
       <GoBackWrapper>
       <SlArrowLeftCircle size="32"/>
-      <GoBackLink to="/">
+      <GoBackLink id="scroll" to="/">
           Назад
       </GoBackLink>
     </GoBackWrapper>

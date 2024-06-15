@@ -48,7 +48,7 @@ export default function UserInfo({ user }) {
       const key = item[0];
       const value = item[1];
       if (oldData[key] !== value) {
-        return res[key] = value;
+        return (res[key] = value);
       }
     });
     return res;
@@ -66,7 +66,6 @@ export default function UserInfo({ user }) {
     });
     setUserEdit(false);
   };
-  console.log(!userEdit);
 
   return (
     <Form>

@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from "react";
 import {
   getTotalPages,
   selectFilteredProducts,
+  selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import { getFilter } from "../../../../redux/filter/filter-selectors";
 import { List, ListWrapper } from "../List.styled";
@@ -14,6 +15,7 @@ import { getSearch } from "../../../../redux/search/search-selectors";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSearchParams } from "react-router-dom";
+import Loader from "../../../Loader/Loader";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const ProductsList = () => {
   const filter = useSelector(getFilter);
   const scrollPosition = useRef(null);
   const search = useSelector(getSearch);
+  const isLoading = useSelector(selectIsLoading);
 
   function getObjectKeysString(obj) {
     let keys = Object.keys(obj);
@@ -56,6 +59,7 @@ const ProductsList = () => {
 
   return (
     <>
+    {isLoading && <Loader />}
     <FilterPanel getObjectKeysString={getObjectKeysString} />
       <ListWrapper>
         {product.length < 1 && (

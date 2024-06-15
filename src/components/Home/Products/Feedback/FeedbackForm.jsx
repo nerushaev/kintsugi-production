@@ -12,6 +12,8 @@ import { useParams } from "react-router";
 import { addFeedback } from "../../../../redux/feedback/feedback-operations";
 import ScoreInput from "./ScoreInput";
 import styled from 'styled-components';
+import ErrorMessage from "../../../Errors/ErrorMessage";
+import { useAuth } from "../../../../hooks/useAuth";
 
 const ScoreWrapper = styled.div`
   display: flex;
@@ -22,6 +24,8 @@ const ScoreWrapper = styled.div`
 
 export default function FeedbackForm() {
   const user = useSelector(selectUser);
+  const {isLoggedIn} = useAuth();
+
   const dispatch = useDispatch();
   const { name, email } = user;
   const productId = useParams();
@@ -63,7 +67,8 @@ export default function FeedbackForm() {
         <Label htmlFor="comment">Ваш комментар:</Label>
         <Input name="comment" value={comment} onChange={handleChange} />
       </FieldWrapper>
-      <Button type="submit">Відправити</Button>
+      {!isLoggedIn && <ErrorMessage message="Коментувати можуть лише зареєстровані користувачі!"/>}
+      <Button disabled={!isLoggedIn} type="submit">Відправити</Button>
     </Form>
   );
 }

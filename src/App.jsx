@@ -24,20 +24,22 @@ import BusketPage from './pages/BusketPage';
 import Payment from "./components/Busket/CheckoutPage/Payment";
 import PublicOfferPage from "./pages/PublicOfferPage";
 import Politic from "./pages/Politic";
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const dispatch = useDispatch();
+  const {isRefreshing} = useAuth();
 
   const { token} = useAuth();
 
   useEffect(() => {
       if(token) {
         dispatch(current());
-      }
+      } 
   }, [dispatch, token]);
 
   return (
-    <>
+    <>{isRefreshing ? <Loader /> : 
       <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
@@ -79,6 +81,7 @@ function App() {
         <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
+    }
       </>
   );
   

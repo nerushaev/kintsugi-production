@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Label } from '../../Admin/Fields';
-import { ProductsItemImage, ProductsItemTextWrapper, ProductsList, Text } from '../../Fields/Fields.styled';
+import { Text } from '../../Fields/Fields.styled';
 import { Navigate } from 'react-router';
 import { theme } from '../../../styles/theme';
 
