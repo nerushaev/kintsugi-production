@@ -9,7 +9,6 @@ export const BusketList = styled.ul`
   margin-left: -5px;
   margin-bottom: 30px;
   min-height: 300px;
-  gap:40px;
 `;
 
 export const Item = styled.li`
@@ -18,6 +17,10 @@ export const Item = styled.li`
   flex-basis: calc((100% - 30px) / 3);
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
+  @media (min-width: 767px) {
+  flex-basis: calc((100% - 50px) / 5);
+  }
+
 `;
 
 export const TextWrapper = styled.div`

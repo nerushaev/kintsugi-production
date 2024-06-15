@@ -10,6 +10,11 @@ import { getBusket } from '../../../../redux/products/products-selectors';
 import CountButton from '../ProductsItem/CountButton';
 import { Select } from '../ProductsItem/ProductsItem';
 import { SlArrowLeftCircle } from "react-icons/sl";
+import Score from '../Feedback/Score';
+
+const ScoreWrapper = styled.div`
+  margin-bottom: 20px;
+`;
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -108,7 +113,7 @@ const ButtonWrapper = styled.div`
 `;
 
 export default function ProductsDetails({ data }) {
-  const { name, image, description, price, size, _id, amount, category } = data;
+  const { name, image, description, price, size, _id, amount, category, score } = data;
   const sizes = size && size.join(", ");
   const sizeRef = useRef();
   const dispatch = useDispatch();
@@ -136,6 +141,9 @@ export default function ProductsDetails({ data }) {
       </ImageWrapper>
       <DetailsWrapper>
       <ProductName>{name}</ProductName>
+      <ScoreWrapper>
+      <Score score={score} />
+      </ScoreWrapper>
       <DetailsCategory>Опис</DetailsCategory>
       <DetailsText>{description}</DetailsText>
       <DetailsCategory>Розміри</DetailsCategory>

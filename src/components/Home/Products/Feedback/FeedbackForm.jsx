@@ -10,6 +10,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../../redux/auth/auth-selectors";
 import { useParams } from "react-router";
 import { addFeedback } from "../../../../redux/feedback/feedback-operations";
+import ScoreInput from "./ScoreInput";
+import styled from 'styled-components';
+
+const ScoreWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
 
 export default function FeedbackForm() {
   const user = useSelector(selectUser);
@@ -18,7 +27,7 @@ export default function FeedbackForm() {
   const productId = useParams();
 
   const [comment, setComment] = useState("");
-  const [score, setScore] = useState(5);
+  const [score, setScore] = useState(0);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,9 +56,10 @@ export default function FeedbackForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <FieldWrapper>
+        <ScoreWrapper>
         <Label htmlFor="score">Ваша оцінка:</Label>
-        <p>{score}</p>
-        <Input name="score" type="range" min="1" max="5" value={score} onChange={handleChange} />
+        <ScoreInput setScore={setScore} />
+        </ScoreWrapper>
         <Label htmlFor="comment">Ваш комментар:</Label>
         <Input name="comment" value={comment} onChange={handleChange} />
       </FieldWrapper>

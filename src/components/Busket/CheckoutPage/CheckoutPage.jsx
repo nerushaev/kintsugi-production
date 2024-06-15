@@ -3,30 +3,29 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../redux/products/products-operation";
 import { ButtonWrapper, Button } from "../../Buttons/Buttons";
-import {
-  OrderWrapper,
-  Form,
-  Text,
-} from "../../Fields/Fields.styled";
-import {
-  checkoutPageValidation,
-} from "../../../helpers/checkoutPageValidation";
+import { OrderWrapper, Form, Text } from "../../Fields/Fields.styled";
+import { checkoutPageValidation } from "../../../helpers/checkoutPageValidation";
 import { Notify } from "notiflix";
 import { Inputt } from "./Input";
 import { SelectInput } from "./SelectInput";
 import CheckoutModal, { CheckoutWrapper } from "./CheckoutModal";
 import { notifyOptions } from "../../../helpers/notifyConfig";
-import { selectIsUserLoading, selectUser } from "../../../redux/auth/auth-selectors";
+import {
+  selectIsUserLoading,
+  selectUser,
+} from "../../../redux/auth/auth-selectors";
 import { useAuth } from "../../../hooks/useAuth";
 import DeliveryData from "../../Auth/UserPage/UserData/DeliveryData";
 import { deliveryDataValidation } from "../../../helpers/deliveryDataValidation";
 import { selectNovaState } from "../../../redux/nova/nova-selectors";
-import PreOrderBusketList from "./PreOrderBusketList";
-import { getBusket, getLiqpay, selectIsLoading } from "../../../redux/products/products-selectors";
+import {
+  getBusket,
+  getLiqpay,
+  selectIsLoading,
+} from "../../../redux/products/products-selectors";
 import { useNavigate } from "react-router";
 import { register } from "../../../redux/auth/auth-operations";
 import Loader from "../../Loader/Loader";
-
 
 export default function CheckoutPage() {
   const user = useSelector(selectUser);
@@ -55,10 +54,10 @@ export default function CheckoutPage() {
   // const [buttonActive, setButtonActive] = useState(false);
 
   useEffect(() => {
-    if(isLiqpay === true) {
-      navigate('/payment');
+    if (isLiqpay === true) {
+      navigate("/payment");
     } else if (isLiqpay === false) {
-      navigate('/');
+      navigate("/");
     }
 
     if (user.name && user.email && user.phone) {
@@ -69,7 +68,15 @@ export default function CheckoutPage() {
         phone: user.phone || "",
       }));
     }
-  }, [user.name, user.email, user.phone, orderData.liqpay, orderData.products, isLiqpay, navigate]);
+  }, [
+    user.name,
+    user.email,
+    user.phone,
+    orderData.liqpay,
+    orderData.products,
+    isLiqpay,
+    navigate,
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,20 +139,24 @@ export default function CheckoutPage() {
           user.name !== newOrder.name ||
           user.phone !== newOrder.phone
         ) {
-          await dispatch(register({
-            name: orderData.name,
-            email: orderData.email,
-            phone: orderData.phone,
-            password: orderData.password,
-          }));
+          await dispatch(
+            register({
+              name: orderData.name,
+              email: orderData.email,
+              phone: orderData.phone,
+              password: orderData.password,
+            })
+          );
           dispatch(orderProducts(newOrder));
         } else {
-          await dispatch(register({
-            name: orderData.name,
-            email: orderData.email,
-            phone: orderData.phone,
-            password: orderData.password,
-          }));
+          await dispatch(
+            register({
+              name: orderData.name,
+              email: orderData.email,
+              phone: orderData.phone,
+              password: orderData.password,
+            })
+          );
           dispatch(
             orderProducts({
               ...newOrder,
@@ -210,11 +221,8 @@ export default function CheckoutPage() {
 
   return (
     <>
-    <>
-    {(isUserLoading || isProductsLoading) && <Loader />}
-    </>
+      <>{(isUserLoading || isProductsLoading) && <Loader />}</>
       <OrderWrapper>
-        <PreOrderBusketList busket={busket} />
         <Form $checkout onSubmit={handleSubmit}>
           <Inputt
             name="email"
@@ -248,7 +256,7 @@ export default function CheckoutPage() {
             value={[orderData.nova, orderData.afina]}
             label={["Нова Пошта", "Самовівіз м.Одеса, ТЦ Афіна 4-й поверх"]}
           />
-          <DeliveryData user={user}/>
+          <DeliveryData user={user} />
           <SelectInput
             text="Оплата:"
             names={["cash", "liqpay"]}
@@ -259,19 +267,22 @@ export default function CheckoutPage() {
           />
           {!isLoggedIn && (
             <CheckoutWrapper>
-            <Text>Щоб завершити замовлення, введіть пароль від вашого особистого кабінету:</Text>
+              <Text>
+                Щоб завершити замовлення, введіть пароль від вашого особистого
+                кабінету:
+              </Text>
               <CheckoutModal
                 orderData={orderData}
                 setOrderData={setOrderData}
               />
             </CheckoutWrapper>
           )}
+          <ButtonWrapper>
+            <Button type="submit" onClick={handleSubmit}>
+              {orderData.liqpay ? "Перейти до оплати" : "Замовити"}
+            </Button>
+          </ButtonWrapper>
         </Form>
-        <ButtonWrapper>
-          <Button type="submit" onClick={handleSubmit}>
-            {orderData.liqpay ? "Перейти до оплати" : "Замовити"}
-          </Button>
-        </ButtonWrapper>
       </OrderWrapper>
     </>
   );

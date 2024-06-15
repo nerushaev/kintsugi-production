@@ -27,7 +27,14 @@ import {
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
 import { SmallLoader } from "../../../SmallLoader/SmallLoader";
-// import { selectUser } from "../../../../redux/auth/auth-selectors";
+import styled from 'styled-components';
+
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
 
 
 export default function DeliveryData({user}) {
@@ -146,7 +153,6 @@ export default function DeliveryData({user}) {
 
   return (
     <>
-      {/* <Form onSubmit={handleSubmit}> */}
       <Inputt
         name="city"
         type="text"

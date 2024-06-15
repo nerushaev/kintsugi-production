@@ -3,36 +3,25 @@ import { theme } from "../../styles/theme";
 
 export const OrderWrapper = styled.div`
   margin: 0 auto;
-  max-width: 450px;
-  @media (min-width: 1199px) {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 100%;
-  }
+  max-width: 650px;
 `;
 
 export const Form = styled.form`
-  display: inline-block;
-  width: 100%;
-  max-width: 450px;
+  max-width: 100%;
+  margin: 0 auto;
   margin-bottom: 20px;
-  @media (min-width: 768px) {
-    margin-right: ${(props) => (props.$checkout ? "30px" : "0")};
-  }
-  @media (min-width: 1199px) {
-    max-width: 100%
-    margin-right: ${(props) => (props.$checkout ? "50px" : "0")};
-  }
 `;
 
 export const ProductsList = styled.ul`
   margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 `;
 
 export const ProductsItem = styled.li`
   display: flex;
+  align-items: center;
   &:not(:last-child) {
     margin-bottom: 20px;
   }
@@ -47,7 +36,7 @@ export const ProductsItemTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 100%;
+  // width: 100%;
 `;
 
 export const ProductsItemImage = styled.img`
@@ -65,36 +54,37 @@ export const ProductsItemImage = styled.img`
 `;
 
 export const FieldWrapper = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display: ${(props) => (props.$select ? "flex" : "")};
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 
   @media (min-width: 768px) {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   @media (min-width: 1200px) {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
   }
 `;
 
 export const Label = styled.label`
   display: block;
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   font-family: "Montserrat";
   font-weight: 500;
   line-height: 30px;
-  max-width: 80%;
+  max-width: 100%;
   margin-bottom: ${(props) => (props.$noMargin ? "0" : "10px")};
   margin: ${(props) => (props.$position === "center" ? "0 auto" : "0")};
 
   @media (min-width: 768px) {
-    font-size: ${theme.fontSizes.large};
+    font-size: ${theme.fontSizes.medium};
     margin-bottom: ${(props) => (props.$noMargin ? "0" : "15px")};
   }
   @media (min-width: 1200px) {
-    font-size: ${theme.fontSizes.extraLarge};
-    margin-bottom: ${(props) => (props.$noMargin ? "0" : "20px")};
+    font-size: ${theme.fontSizes.medium};
+    margin-bottom: ${(props) => (props.$noMargin ? "0" : "15px")};
   }
 `;
 
@@ -156,12 +146,11 @@ export const Input = styled.input`
   line-height: 20px;
 
   @media (min-width: 768px) {
-    height: 50px;
-    font-size: 18px;
+    font-size: ${theme.fontSizes.medium};
   }
 
   @media (min-width: 1200px) {
-    font-size: ${theme.fontSizes.medium};
+    font-size: ${theme.fontSizes.large};
   }
 `;
 

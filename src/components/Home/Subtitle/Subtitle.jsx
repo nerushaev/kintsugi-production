@@ -8,6 +8,9 @@ const Text = styled.p`
   font-weight: ${props => props.$accent ? '500' : '400'};
   margin-bottom: 10px;
   text-align: ${props => props.$center ? "center" : "right"};
+  @media (min-width: 767px) {
+    font-size: ${props => props.$accent ? `${theme.fontSizes.extraLarge}` : `${theme.fontSizes.large}`};
+  }
 `;
 
 export default function Subtitle(props) {

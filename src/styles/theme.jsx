@@ -11,6 +11,7 @@ export const theme = Object.freeze({
     red: "rgb(237, 41, 57, 0.6)",
     redAccent: "rgb(237, 41, 57, 0.7)",
     mainBackground: "#FDF7F2",
+    ligthGray: "#F2F2F2",
   },
   fontSizes: {
     small: "14px",

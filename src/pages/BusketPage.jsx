@@ -13,6 +13,7 @@ const StyledNavLink = styled(NavLink)`
   font-weight: 500;
   line-height: 20px;
   padding: 10px 30px;
+  margin-left: auto;
   background-color: rgba(162, 210, 255, 1);
   &:not(:last-child) {
     margin-right: 15px;

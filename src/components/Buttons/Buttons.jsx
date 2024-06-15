@@ -5,6 +5,7 @@ export const ButtonWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+  width: 100%;
   margin-bottom: ${props => props.$noMargin ? "0" : "30px"};
 `;
 
@@ -32,12 +33,11 @@ export const Button = styled.button`
     margin-right: 15px;
   }
   @media (min-width: 768px) {
-    font-size: ${theme.fontSizes.large};
-    padding: 15px 40px;
+    font-size: ${theme.fontSizes.medium};
+    padding: 10px 20px;
   }
   @media (min-width: 1200px) {
     font-size: ${theme.fontSizes.large};
-    padding: 20px 50px;
   }
 `;
 

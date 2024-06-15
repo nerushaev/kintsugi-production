@@ -9,6 +9,14 @@ import UserInfo from "./UserInfo";
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
+  @media (min-width: 1199px) {
+    display: flex;
+    gap: 20px;
+  }
+`;
+
+const FormWrapper = styled.div`
+  width: 100%;
 `;
 
 const DataWrapper = styled.div`
@@ -57,13 +65,22 @@ export default function UserData({ user }) {
   };
 
   return (
+    <>
     <Wrapper>
+      <FormWrapper>
       <UserInfo user={user}/>
+      </FormWrapper>
+      <FormWrapper>
       <PasswordChangeForm />
+      </FormWrapper>
+      <FormWrapper>
       <Form>
         <DeliveryData user={user} />
       </Form>
-      {<DataWrapper $marginBottom={isShowOrders ? true : false}>
+      </FormWrapper>
+    </Wrapper>
+    <>
+    {<DataWrapper $marginBottom={isShowOrders ? true : false}>
         <DataTitle>Історія замовлень</DataTitle>
         <button data-name="delivery" onClick={handleClick}>
           <Logo
@@ -75,6 +92,7 @@ export default function UserData({ user }) {
         </button>
       </DataWrapper>}
       {isShowOrders && <OrderHistory orders={orders} userPhone={user.phone} />}
-    </Wrapper>
+      </>
+    </>
   );
 }

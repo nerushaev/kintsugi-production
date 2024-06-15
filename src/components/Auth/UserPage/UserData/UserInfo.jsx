@@ -66,6 +66,7 @@ export default function UserInfo({ user }) {
     });
     setUserEdit(false);
   };
+  console.log(!userEdit);
 
   return (
     <Form>
@@ -74,21 +75,24 @@ export default function UserInfo({ user }) {
         name="name"
         value={userData.name}
         onChange={handleChange}
-        $disabled={!userEdit}
+        $disable={!userEdit}
+        disabled={!userEdit}
       />
       <Inputt
         label="Пошта"
         name="email"
         value={userData.email}
         onChange={handleChange}
-        $disabled={!userEdit}
+        $disable={!userEdit}
+        disabled={!userEdit}
       />
       <Inputt
         label="Номер телефону"
         name="phone"
         value={userData.phone}
         onChange={handleChange}
-        $disabled={!userEdit}
+        $disable={!userEdit}
+        disabled={!userEdit}
       />
       {userEdit ? (
         <ButtonWrapper>

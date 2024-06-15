@@ -11,8 +11,7 @@ import {
 import OrderStatusBar from "./OrderStatusBar";
 
 const Wrapper = styled.div`
-  margin-top: 30px;
-  text-align: center;
+
 `;
 
 export default function OrderHistory({ orders, userPhone }) {
@@ -24,7 +23,7 @@ export default function OrderHistory({ orders, userPhone }) {
     const keyId = nanoid();
     return (
       <Wrapper key={keyId}>
-        <Text $accent={true}>{item.date}</Text>
+        <Text $left $accent={true}>{item.date}</Text>
         <ProductsList key={item.orderRef}>
           {item.products.map((item) => {
             console.log(item);
