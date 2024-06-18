@@ -5,7 +5,7 @@ import { theme } from "../../../styles/theme";
 const TitleText = styled.h2`
   text-align: center;
   font-size: ${theme.fontSizes.title};
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
   margin-bottom: 30px;
 `;

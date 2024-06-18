@@ -1,10 +1,6 @@
 import * as Yup from "yup";
 
-export const loginSchema = Yup.object({
-  password: Yup.string()
-    .required("Обов'язкове поле!")
-    .min(7, "Мінімум 7 символів")
-    .max(32, "Максимум 32 символи"),
+export const restorePasswordSchema = Yup.object({
   email: Yup.string()
     .required("Обов'язкове поле!")
     .matches(

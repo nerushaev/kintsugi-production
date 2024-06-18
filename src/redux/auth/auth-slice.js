@@ -14,12 +14,13 @@ const initialState = {
   user: {
     busket: [],
     delivery: {},
-    role: "admin",
+    role: "",
   },
   token: "",
-  isLogin: true,
-  loading: false,
+  isLogin: false,
+  isLoading: false,
   error: null,
+  response: null,
 };
 
 const handlePending = (state) => {
@@ -44,89 +45,81 @@ const authSlice = createSlice({
     builder.addCase(refreshToken.fulfilled, (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-      state.loading = false;
+      state.isLoading = false;
       state.isLogin = true;
     });
 
-    builder.addCase(refreshToken.rejected, (state, { error }) => {
-      state.loading = false;
-      state.error = error;
-      state.isLogin = false;
-      state.user = "user";
-    });
+    builder.addCase(refreshToken.rejected, handleRejected);
 
     builder.addCase(register.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(register.fulfilled, (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-      state.loading = false;
+      state.isLoading = false;
       state.isLogin = true;
     });
 
-    builder.addCase(register.rejected, (state, { error }) => {
-      state.loading = false;
-      state.error = error;
-    });
+    builder.addCase(register.rejected, handleRejected);
 
     builder.addCase(login.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(login.fulfilled, (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-      state.loading = false;
+      state.isLoading = false;
       state.isLogin = true;
     });
 
-    builder.addCase(login.rejected, (state, { error }) => {
-      state.loading = false;
-      state.error = error;
+    builder.addCase(login.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
       state.user = "user";
     });
 
     builder.addCase(logout.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(logout.fulfilled, (state, { payload }) => {
       state.user = {};
       state.token = "";
-      state.loading = false;
+      state.isLoading = false;
       state.isLogin = false;
     });
 
     builder.addCase(logout.rejected, (state, { payload }) => {
-      state.loading = false;
+      state.isLoading = false;
       state.error = payload;
     });
 
     builder.addCase(current.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(current.fulfilled, (state, { payload }) => {
       state.user = payload;
-      state.loading = false;
+      state.isLoading = false;
       state.isLogin = true;
     });
 
     builder.addCase(current.rejected, (state, { error }) => {
-      state.loading = false;
+      state.isLoading = false;
       state.error = error;
     });
 
     builder.addCase(updateUserDelivery.pending, handlePending);
 
     builder.addCase(updateUserDelivery.fulfilled, (state, { payload }) => {
-      state.loading = false;
+      state.isLoading = false;
       state.user.delivery = payload;
     });
 
@@ -134,7 +127,7 @@ const authSlice = createSlice({
     builder.addCase(updateUserInfo.pending, handlePending);
 
     builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
-      state.loading = false;
+      state.isLoading = false;
       state.user.name = payload.name;
       state.user.email = payload.email;
       state.user.phone = payload.phone;
@@ -143,16 +136,17 @@ const authSlice = createSlice({
     builder.addCase(updateUserInfo.rejected, handleRejected);
 
     builder.addCase(restorePassword.pending, (store) => {
-      store.loading = true;
+      store.isLoading = true;
       store.error = null;
     });
 
-    builder.addCase(restorePassword.fulfilled, (store, _) => {
-      store.loading = false;
+    builder.addCase(restorePassword.fulfilled, (store, {payload}) => {
+      store.isLoading = false;
+      store.response = payload;
     });
 
     builder.addCase(restorePassword.rejected, (store, { error }) => {
-      store.loading = false;
+      store.isLoading = false;
       store.error = error;
     });
   }

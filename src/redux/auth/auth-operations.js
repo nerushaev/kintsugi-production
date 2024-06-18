@@ -16,16 +16,15 @@ export const register = createAsyncThunk(
       api.setToken(result.data.token);
       return result.data;
     } catch (error) {
-      console.log(error);
-      if (error) {
-        setTimeout(
-          Notify.failure(error.data.message, {
-            borderRadius: "0px",
-          }),
-          20000
-        );
-      }
-      return rejectWithValue(error.data);
+      // if (error) {
+      //   setTimeout(
+      //     Notify.failure(error.data.message, {
+      //       borderRadius: "0px",
+      //     }),
+      //     20000
+      //   );
+      // }
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -33,6 +32,7 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue, getState }) => {
+    console.log(data);
     try {
       const result = await api.AuthInstance.post("/api/auth/login", data);
       setTimeout(
@@ -45,8 +45,8 @@ export const login = createAsyncThunk(
       api.setToken(result.data.token);
       return result.data;
     } catch ({data}) {
-      Notify.failure(data.message);
-      return rejectWithValue(data.statusText);
+      console.log(data);
+      return rejectWithValue(data);
     }
   }
 );

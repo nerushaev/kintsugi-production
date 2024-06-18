@@ -4,7 +4,7 @@ import { changePassword } from "../../../../redux/auth/auth-operations";
 import { Inputt } from "../../../Busket/CheckoutPage/Input";
 import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
 import { Form } from "../../../Fields/Fields.styled";
-import { changePasswordValidation } from "../../../../helpers/changePasswordValidation";
+import { changePasswordSchema } from "../../../../helpers/changePasswordSchema";
 import { Notify } from "notiflix";
 
 export default function PasswordChangeForm() {
@@ -35,7 +35,7 @@ export default function PasswordChangeForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    changePasswordValidation
+    changePasswordSchema
       .validate(passState)
       .then((res) => {
         dispatch(changePassword(passState));

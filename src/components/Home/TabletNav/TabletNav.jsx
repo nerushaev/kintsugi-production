@@ -6,11 +6,11 @@ import { theme } from "../../../styles/theme";
 import Logo from "../Logo/Logo";
 
 const Header = styled.header`
-  padding: 20px 0;
+  padding: 10px 0;
   margin-bottom: 50px;
   border-bottom: 2px solid rgba(255, 200, 221, 1);
   @media (min-width: 769px) {
-    padding: 20px 0;
+    padding: 10px 0;
   }
 `;
 
@@ -53,7 +53,7 @@ export default function TabletNav() {
         <Logo className={"nav-logo"} />
         <NavigationList>
           <NavigationItem>
-            <StyledLink to="/">Головна</StyledLink>
+            <StyledLink to="/">Каталог</StyledLink>
           </NavigationItem>
           <NavigationItem>
             <Link to="/info">Інформація</Link>

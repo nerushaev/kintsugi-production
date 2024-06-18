@@ -28,6 +28,9 @@ const GoBackLink = styled(NavLink)`
       }
 `;
 const GoBackWrapper = styled.div`
+  position: absolute;
+  left: 30px;
+  top: -40px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -46,6 +49,7 @@ const ProductName = styled.p`
 `;
 
 const ProductWrapper = styled.div`
+position: relative;
   margin-bottom: 50px;
   @media (min-width: 767px) {
     display: flex;
@@ -137,14 +141,13 @@ export default function ProductsDetails({ data }) {
   return (
     
     <>
+      <ProductWrapper>
       <GoBackWrapper>
       <SlArrowLeftCircle size="32"/>
       <GoBackLink id="scroll" to="/">
           Назад
       </GoBackLink>
     </GoBackWrapper>
-      
-      <ProductWrapper>
         <ImageWrapper>
         {image ? <Slider images={image} /> : ""}
       </ImageWrapper>

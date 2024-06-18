@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import HeaderAuth from "../components/Auth/HeaderAuth/HeaderAuth";
+import LoginForm from "../components/Auth/LoginForm/LoginForm";
+import Title from "../components/Home/Title/Title";
 import Loader from "../components/Loader/Loader";
 import { useAuth } from "../hooks/useAuth";
 
 const Wrapper = styled.div`
-  width: 280px;
-  height: 100%;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 100px 0;
 `;
 
 export default function LoginPage() {
@@ -16,8 +15,9 @@ export default function LoginPage() {
 
   return (
     <Wrapper>
+      <Title text="Авторизація" />
       {isRefreshing && <Loader />}
-      <HeaderAuth />
+      <LoginForm />
     </Wrapper>
   );
 }

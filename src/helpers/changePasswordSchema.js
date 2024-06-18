@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const changePasswordValidation = Yup.object({
+export const changePasswordSchema = Yup.object({
   confirmNewPass: Yup.string()
     .oneOf([Yup.ref("newPass"), ""], "Паролі повинні співпадати!")
     .required("Введіть пароль повторно для підтвердження"),

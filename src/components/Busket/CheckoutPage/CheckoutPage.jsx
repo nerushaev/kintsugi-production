@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderProducts } from "../../../redux/products/products-operation";
 import { ButtonWrapper, Button } from "../../Buttons/Buttons";
 import { OrderWrapper, Form, Text } from "../../Fields/Fields.styled";
-import { checkoutPageValidation } from "../../../helpers/checkoutPageValidation";
+import { checkoutPageValidation, checkoutPageValidationReg } from "../../../helpers/checkoutPageValidation";
 import { Notify } from "notiflix";
 import { Inputt } from "./Input";
 import { SelectInput } from "./SelectInput";
@@ -133,7 +133,7 @@ export default function CheckoutPage() {
         warehouseAddress,
       };
       try {
-        await checkoutPageValidation.validate(newOrder);
+        await checkoutPageValidationReg.validate(newOrder);
         if (
           user.email !== newOrder.email ||
           user.name !== newOrder.name ||

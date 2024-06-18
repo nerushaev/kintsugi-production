@@ -5,7 +5,7 @@ import AddProductsPage from "./pages/Admin/AddProductsPage";
 import Product from "./pages/Product";
 import CheckoutPage from "./components/Busket/CheckoutPage/CheckoutPage";
 import UserPage from "./pages/UserPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import RegisterPage from "./pages/RegisterPage";
 import { useAuth } from "./hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { current } from "./redux/auth/auth-operations";
@@ -17,7 +17,7 @@ import InfoPage from "./pages/InfoPage";
 import RestorePasswordPage from "./pages/RestorePasswordPage";
 import BanersPage from "./pages/Admin/BanersPage";
 import AdminRoute from "./components/AdminRoute/AdminRoute";
-import RestorePass from "./components/Auth/RestorePass";
+import RestorePass from "./components/Auth/RestorePassForm/RestorePassForm";
 import AdminPage from "./pages/Admin/AdminPage";
 import OrdersPage from "./pages/Admin/OrdersPage";
 import BusketPage from './pages/BusketPage';
@@ -39,7 +39,8 @@ function App() {
   }, [dispatch, token]);
 
   return (
-    <>{isRefreshing ? <Loader /> : 
+    <>
+      {isRefreshing && <Loader />}
       <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
@@ -81,7 +82,6 @@ function App() {
         <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
-    }
       </>
   );
   

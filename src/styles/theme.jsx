@@ -12,13 +12,14 @@ export const theme = Object.freeze({
     redAccent: "rgb(237, 41, 57, 0.7)",
     mainBackground: "#FDF7F2",
     ligthGray: "#F2F2F2",
+    darkBlue: "#1C0047",
   },
   fontSizes: {
     small: "14px",
     medium: "16px",
     large: "18px",
-    extraLarge: "22px",
-    title: "24px",
+    extraLarge: "20px",
+    title: "20px",
   },
   shadows: {
     small: "0 5px 7px -1px rgba(51, 51, 51, 0.23)",
