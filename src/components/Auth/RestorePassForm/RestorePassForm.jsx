@@ -34,6 +34,7 @@ export default function RestorePassForm() {
         </InputsWrapper>
         <ButtonWrapper>
         {response && <ErrorMessage>{response.message}</ErrorMessage>}
+        {error && <ErrorMessage>{error.message}</ErrorMessage>}
           <Button onClick={onSubmit}>
             <GrMail />
             Відновити пароль

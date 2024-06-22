@@ -19,7 +19,6 @@ export const getWarehouses = createAsyncThunk(
           },
         }
       );
-      console.log(data.data);
       return data.data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
@@ -30,6 +29,7 @@ export const getWarehouses = createAsyncThunk(
 export const getCities = createAsyncThunk(
   "/cities/get",
   async (city, ThunkAPI) => {
+    console.log(city);
     try {
       const { data } = await novaInstance.post(
         "https://api.novaposhta.ua/v2.0/json/",
@@ -44,7 +44,6 @@ export const getCities = createAsyncThunk(
           },
         }
       );
-      console.log(data.data);
       return data.data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);

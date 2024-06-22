@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const NOVA_API_KEY = "44778101b1ca9f8a228dc93309baef8b";
+export const NOVA_API_KEY = "c076a7b32754af8d2f070f2558b3f81e";
 
 export const novaInstance = axios.create({
 

@@ -23,6 +23,16 @@ export const getLiqpay = (state) => state.products.liqpay;
 
 export const selectOrderId = (state) => state.products.orderId;
 
+export const totalBusketPrice = ({products}) => {
+  const {busket} = products;
+
+  let sum = 0;
+  busket.map((item) => {
+    return sum += (item.price * item.amount);
+  });
+  return sum;
+}
+
 export const selectBusketAmount = ({ products }) => {
   const busket = products.busket;
 

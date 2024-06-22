@@ -1,83 +1,84 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { Input } from "../../../Input/Input";
+import { FormProvider, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../../../../redux/auth/auth-operations";
-import { Inputt } from "../../../Busket/CheckoutPage/Input";
-import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
-import { Form } from "../../../Fields/Fields.styled";
-import { changePasswordSchema } from "../../../../helpers/changePasswordSchema";
-import { Notify } from "notiflix";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { passwordChangeSchema } from "../../../../helpers/passwordChangeSchema";
+import {
+  selectResponse,
+  selectError,
+} from "../../../../redux/auth/auth-selectors";
+import {
+  CustomForm,
+  InputsWrapper,
+  ButtonWrapper,
+  Button,
+  ErrorMessage,
+} from "../../../Form/Form.styled";
+import { FaExchangeAlt } from "react-icons/fa";
+import { useEffect } from "react";
 
 export default function PasswordChangeForm() {
-  const [passState, setPassState] = useState({
-    oldPass: "",
-    newPass: "",
-    confirmNewPass: "",
-  });
-  const { oldPass, newPass, confirmNewPass } = passState;
+  const methods = useForm({ resolver: yupResolver(passwordChangeSchema) });
+  const {
+    reset,
+    formState: { isSubmitSuccessful },
+  } = methods;
+  const error = useSelector(selectError);
+  const response = useSelector(selectResponse);
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const onSubmit = methods.handleSubmit(async (data, e) => {
+    dispatch(changePassword(data));
+  });
 
-    switch (name) {
-      case name:
-        setPassState((prev) => {
-          return {
-            ...prev,
-            [name]: value,
-          };
-        });
-        break;
-      default:
-        break;
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
     }
+  }, [isSubmitSuccessful, reset]);
+
+  const oldPassword_input = {
+    name: "oldPass",
+    label: "Старий пароль",
+    type: "password",
+    id: "oldPass",
+    placeholder: "Введіть старий пароль...",
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    changePasswordSchema
-      .validate(passState)
-      .then((res) => {
-        dispatch(changePassword(passState));
-        setPassState({
-          oldPass: "",
-          newPass: "",
-          confirmNewPass: "",
-        });
-      })
-      .catch((e) => {
-        Notify.failure(e.message);
-      });
+  const newPassword_input = {
+    name: "newPass",
+    label: "Новий пароль",
+    type: "password",
+    id: "newPass",
+    placeholder: "Введіть новий пароль...",
+  };
+
+  const newConfirmPassword_input = {
+    name: "newConfirmPass",
+    label: "Підтвердіть пароль",
+    type: "password",
+    id: "password",
+    placeholder: "Підтвердіть новий пароль...",
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Inputt
-        name="oldPass"
-        type="password"
-        value={oldPass}
-        label="Cтарий пароль"
-        onChange={handleChange}
-      />
-      <Inputt
-        name="newPass"
-        type="password"
-        value={newPass}
-        label="Новий пароль"
-        onChange={handleChange}
-      />
-      <Inputt
-        name="confirmNewPass"
-        type="password"
-        value={confirmNewPass}
-        label="Повторіть новий пароль"
-        onChange={handleChange}
-      />
-      <ButtonWrapper>
-        <Button type="submit" onSubmit={handleSubmit}>
-          Змінити
-        </Button>
-      </ButtonWrapper>
-    </Form>
+    <FormProvider {...methods}>
+      <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
+        <InputsWrapper>
+          <Input {...oldPassword_input} />
+          <Input {...newPassword_input} />
+          <Input {...newConfirmPassword_input} />
+        </InputsWrapper>
+        <ButtonWrapper>
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
+          {response && <ErrorMessage>Пароль успішно змінено!</ErrorMessage>}
+          <Button onClick={onSubmit}>
+            <FaExchangeAlt />
+            Змінити пароль
+          </Button>
+        </ButtonWrapper>
+      </CustomForm>
+    </FormProvider>
   );
 }

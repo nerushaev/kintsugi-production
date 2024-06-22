@@ -93,7 +93,7 @@ export const ProductsItem = ({ data, id }) => {
             {isFromBusket ? (
               <ButtonWrapper $noMargin>
                 <AddButton>
-                  <CountButton quantity={item.amount} _id={_id} />
+                  <CountButton amount={item.amount} _id={_id} />
                 </AddButton>
               </ButtonWrapper>
             ) : (

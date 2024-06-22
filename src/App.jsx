@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import AddProductsPage from "./pages/Admin/AddProductsPage";
 import Product from "./pages/Product";
-import CheckoutPage from "./components/Busket/CheckoutPage/CheckoutPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import UserPage from "./pages/UserPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useAuth } from "./hooks/useAuth";

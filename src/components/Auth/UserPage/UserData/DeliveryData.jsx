@@ -1,245 +1,201 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import {
-  CityItem,
-  CityList,
-} from "../../../Busket/CheckoutPage/DropdownMenu.styled";
-import { Inputt } from "../../../Busket/CheckoutPage/Input";
-import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
-import { updateUserDelivery } from "../../../../redux/auth/auth-operations";
+import { Input } from "../../../Input/Input";
+import { FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { deliveryDataValidation } from "../../../../helpers/deliveryDataValidation";
-import { Notify } from "notiflix";
+import { updateUserDelivery } from "../../../../redux/auth/auth-operations";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { deliveryDataSchema } from "../../../../helpers/deliveryDataSchema";
+import {
+  selectResponse,
+  selectError,
+} from "../../../../redux/auth/auth-selectors";
+import {
+  CustomForm,
+  InputsWrapper,
+  ButtonWrapper,
+  Button,
+  ErrorMessage,
+} from "../../../Form/Form.styled";
+import { FaExchangeAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
+
 import {
   getCities,
   getWarehouses,
 } from "../../../../redux/nova/nova-operation";
+
+import { selectNovaState } from "../../../../redux/nova/nova-selectors";
+import styled from "styled-components";
+import { theme } from "../../../../styles/theme";
 import {
-  selectCitiesLoading,
-  selectNovaState,
-  selectWarehousesLoading,
-} from "../../../../redux/nova/nova-selectors";
-import {
-  clearDeliveryInfo,
   removeCitiesList,
   removeWarehousesList,
   selectCity,
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
-import { SmallLoader } from "../../../SmallLoader/SmallLoader";
-// import styled from 'styled-components';
+import {useAuth} from '../../../../hooks/useAuth';
+import useDebounce from "../../../../hooks/useDebounce";
 
+const Options = styled.p`
+  padding: 5px 0px;
+  width: 100%;
+  border: 1px solid ${theme.colors.darkBlue};
+  border-radius: 6px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+`;
 
-// const Wrapper = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: space-between;
-// `;
-
-
-export default function DeliveryData({user}) {
+export default function DeliveryData({ user }) {
   const dispatch = useDispatch();
   const { delivery } = user;
-  //SELECTORS
   const nova = useSelector(selectNovaState);
-  const {warehouses, cities} = nova;
-  const citiesLoading = useSelector(selectCitiesLoading);
-  const warehousesLoading = useSelector(selectWarehousesLoading);
-  //STATE
-  const [city, setCity] = useState("");
-  const [warehouse, setWarehouse] = useState("");
-  const [cityInputDisabled, setCityInputDisabled] = useState(false);
-  const [warehouseInputDisabled, setWarehouseInputDisabled] = useState(false);
-  const [userEdit, setUserEdit] = useState(false);
-  const [buttonActive, setButtonActive] = useState(false);
+  const error = useSelector(selectError);
+  const response = useSelector(selectResponse);
+  const {isLoggedIn} = useAuth();
+  const methods = useForm({
+    mode: 'all',
+    resolver: yupResolver(deliveryDataSchema),
+    defaultValues: {
+      city: delivery.city,
+      warehouse: delivery.warehouse,
+    },
+  });
 
-  useEffect(() => {
+  const { watch, setValue } = methods;
 
-    if (user.email) {
-      if (!delivery) {
-        setButtonActive(true);
-      }
 
-      if (!delivery || userEdit) {
-        if (city.length >= 2 && !cityInputDisabled) {
-          dispatch(getCities(city));
-        }
+  const cityInput = useDebounce(watch("city"), 800);
+  const warehouseInput = useDebounce(watch("warehouse"), 800);
 
-        if (warehouse.length >= 1 && !warehouseInputDisabled) {
-          dispatch(getWarehouses({ warehouse, city }));
-        }
-      } else if (delivery && !userEdit) {
-        deliveryDataValidation
-          .validate(delivery)
-          .then(() => {
-            setCity(delivery.city);
-            setWarehouse(delivery.warehouse);
-            setCityInputDisabled(true);
-            setWarehouseInputDisabled(true);
-            setUserEdit(false);
-          })
-          .catch((e) => console.log(e.message));
-      }
-    } else {
-      if (city.length >= 2 && !cityInputDisabled) {
-        dispatch(getCities(city));
-      }
-      if (warehouse.length >= 1 && !warehouseInputDisabled) {
-        dispatch(getWarehouses({ warehouse, city }));
-      }
-    }
-  }, [
-    city,
-    warehouse,
-    cityInputDisabled,
-    delivery,
-    dispatch,
-    userEdit,
-    warehouseInputDisabled,
-    user.email
-  ]);
+  const [userEdit, setUserEdit] = useState(
+    cityInput && warehouseInput ? false : true
+  );
 
-  const handleWarehouse = (ShortAddress, Ref, WarehouseIndex, Description) => {
+  const [showCities, setShowCities] = useState(delivery.city ? false : true);
+
+  const [showWarehouses, setShowWarehouses] = useState(
+    delivery.warehouse ? false : true
+  );
+
+  const { warehouses, cities } = nova;
+
+  const onSubmit = methods.handleSubmit(async (data) => {
+    setUserEdit(false);
+    dispatch(updateUserDelivery(nova));
+  });
+
+  const handleClickCity = (data) => {
+    const { Description, Ref } = data;
+    dispatch(selectCity({ city: Description, cityRef: Ref }));
+    setValue("city", Description);
+    setValue("warehouse", '');
+    dispatch(removeCitiesList([]));
+    setShowCities(false);
+  };
+
+  const handleClickWarehouse = (data) => {
+    const { ShortAddress, Ref, WarehouseIndex, Description } = data;
     dispatch(
       selectWarehouse({ ShortAddress, Ref, WarehouseIndex, Description })
     );
-    dispatch(removeWarehousesList());
-    setWarehouseInputDisabled(true);
-    setWarehouse(Description);
+    setValue("warehouse", Description);
+    dispatch(removeWarehousesList([]));
+    setShowWarehouses(false);
   };
 
-  const handleCity = (city, cityRef) => {
-    dispatch(selectCity({ city, cityRef }));
-    dispatch(removeCitiesList());
-    setCityInputDisabled(true);
-    setCity(city);
-  };
+  useEffect(() => {
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "city":
-          return setCity(value);
-      case "warehouse":
-        return setWarehouse(value);
-      default:
-        break;
+    if (cityInput && cityInput.length > 2) {
+      dispatch(getCities(cityInput));
+    } else {
+      dispatch(removeCitiesList([]));
     }
+
+    if (warehouseInput && warehouseInput.length >= 1) {
+      dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
+    } else {
+      dispatch(removeWarehousesList([]));
+    }
+
+  }, [cityInput, warehouseInput, dispatch]);
+
+  const city_input = {
+    name: "city",
+    label: "Назва міста або селища",
+    type: "text",
+    id: "city",
+    placeholder: "Ведіть назву міста або селища...",
+    disabled: !userEdit,
   };
 
-  const handleSubmit = (e) => {
-    deliveryDataValidation
-      .validate(nova)
-      .then(() => {
-        console.log(nova);
-        dispatch(updateUserDelivery(nova));
-        setButtonActive(false);
-      })
-      .catch((e) => {
-        Notify.failure(e.message);
-      });
+  const warehouse_input = {
+    name: "warehouse",
+    label: "Номер відділення",
+    type: "text",
+    id: "warehouse",
+    placeholder: "Введіть номер відділення...",
+    disabled: !userEdit,
   };
-
-  const clearInputs = async () => {
-    setUserEdit(true);
-    setCityInputDisabled(false);
-    setWarehouseInputDisabled(false);
-    setCity("");
-    setWarehouse("");
-    setButtonActive(true);
-    dispatch(clearDeliveryInfo());
-  };
-
 
   return (
-    <>
-      <Inputt
-        name="city"
-        type="text"
-        label="Ваше місто:"
-        placeholder="Назва міста або селища"
-        onChange={handleChange}
-        value={city}
-        disabled={cityInputDisabled}
-      />
-      {cities.length !== 0 && !citiesLoading && (
-        <CityList $disable={false}>
-          {cities.map((item) => {
-            const city = item.Description;
-            const cityRef = item.Ref;
-            return (
-              <CityItem
-                data-city-ref={item.Ref}
-                key={item.Description}
-                onClick={() => handleCity(city, cityRef)}
-              >
-                {item.Description}
-              </CityItem>
-            );
-          })}
-        </CityList>
-      )}
-      {citiesLoading && <SmallLoader />}
-      <Inputt
-        name="warehouse"
-        type="text"
-        label="Відділення:"
-        placeholder="Номер відділення"
-        onChange={handleChange}
-        value={warehouse}
-        disabled={warehouseInputDisabled}
-      />
-      {warehouses.length !== 0 && !warehousesLoading && (
-        <CityList $disable={false}>
-          {warehouses.map((item) => {
-            const { ShortAddress, Ref, WarehouseIndex, Description } = item;
-            return (
-              <CityItem
-                key={item.Description}
-                onClick={() =>
-                  handleWarehouse(
-                    ShortAddress,
-                    Ref,
-                    WarehouseIndex,
-                    Description
-                  )
-                }
-              >
-                {item.Description}
-              </CityItem>
-            );
-          })}
-        </CityList>
-      )}
-      {warehousesLoading && <SmallLoader />}
-      {buttonActive && user.email && (
+    <FormProvider {...methods}>
+      <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
+        <InputsWrapper>
+          <div>
+            <Input {...city_input} />
+            {cities &&
+              userEdit &&
+              showCities &&
+              cities.map((item) => {
+                const { Description, Ref } = item;
+                return (
+                  <Options key={Ref} onClick={() => handleClickCity(item)}>
+                    {Description}
+                  </Options>
+                );
+              })}
+          </div>
+          <div>
+            <Input {...warehouse_input} />
+            {warehouses &&
+              userEdit &&
+              showWarehouses &&
+              warehouses.map((item) => {
+                const { Description, Ref } = item;
+                return (
+                  <Options key={Ref} onClick={() => handleClickWarehouse(item)}>
+                    {Description}
+                  </Options>
+                );
+              })}
+          </div>
+        </InputsWrapper>
+        {isLoggedIn &&
         <ButtonWrapper>
-          <Button type="button" onClick={handleSubmit}>
-            Зберегти
+        {error && <ErrorMessage>{error.message}</ErrorMessage>}
+        {response && <ErrorMessage>Пароль успішно змінено!</ErrorMessage>}
+        {userEdit ? (
+          <Button onClick={onSubmit}>
+            <FaExchangeAlt />
+            Зберегти зміни
           </Button>
-        </ButtonWrapper>
-      )}
-      {!buttonActive && user.email && (
-        <ButtonWrapper>
-          <Button
-            $delete={true}
-            type="button"
-            onClick={clearInputs}
-            $disabled={false}
+        ) : (
+          <Button $accent
+            onClick={(e) => {
+              setUserEdit(true);
+              setShowCities(true);
+              setShowWarehouses(true);
+              setValue('city', '')
+              setValue('warehouse', '')
+            }}
           >
-            Змінити місто та відділення
+            <FaExchangeAlt />
+            Змінити відділення
           </Button>
-        </ButtonWrapper>
-      )}
-      {!user.email && cityInputDisabled && warehouseInputDisabled && 
-      <ButtonWrapper>
-        <Button
-        $delete
-        type="button"
-        onClick={clearInputs}
-        >Змінити</Button>
+        )}
       </ButtonWrapper>
-      }
-    </>
+        }
+        
+      </CustomForm>
+    </FormProvider>
   );
 }

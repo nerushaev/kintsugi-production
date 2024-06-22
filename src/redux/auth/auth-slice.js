@@ -8,6 +8,7 @@ import {
   restorePassword,
   updateUserDelivery,
   updateUserInfo,
+  changePassword,
 } from "./auth-operations";
 
 const initialState = {
@@ -24,7 +25,9 @@ const initialState = {
 };
 
 const handlePending = (state) => {
+  state.error = null;
   state.isLoading = true;
+  state.success = false;
 };
 
 const handleRejected = (state, action) => {
@@ -35,7 +38,12 @@ const handleRejected = (state, action) => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-
+  reducers: {
+    clearErrorAndResponse(state, action) {
+      state.error = null
+      state.response = null
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(refreshToken.pending, (state) => {
       state.loading = true;
@@ -128,9 +136,10 @@ const authSlice = createSlice({
 
     builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.user.name = payload.name;
-      state.user.email = payload.email;
-      state.user.phone = payload.phone;
+      state.user.name = payload.user.name;
+      state.user.email = payload.user.email;
+      state.user.phone = payload.user.phone;
+      state.response = payload.message;
     });
 
     builder.addCase(updateUserInfo.rejected, handleRejected);
@@ -145,37 +154,22 @@ const authSlice = createSlice({
       store.response = payload;
     });
 
-    builder.addCase(restorePassword.rejected, (store, { error }) => {
+    builder.addCase(restorePassword.rejected, handleRejected);
+
+    builder.addCase(changePassword.pending, handlePending);
+
+    builder.addCase(changePassword.fulfilled, (store, {payload}) => {
       store.isLoading = false;
-      store.error = error;
+      store.response = payload.message;
+    });
+
+    builder.addCase(changePassword.rejected, (store, {payload}) => {
+      store.isLoading = false;
+      store.error = payload;
     });
   }
 });
 
-// [refreshToken.pending]: store => {
-//   store.loading = true;
-//   store.error = null;
-// },
-// [refreshToken.fulfilled]: (store, { payload }) => {
-//   store.user = payload.user;
-//   store.token = payload.token;
-//   store.loading = false;
-//   store.isLogin = true;
-// },
-// [refreshToken.rejected]: (store, { error }) => {
-//   store.loading = false;
-//   store.error = error;
-// },
-// [restorePassword.pending]: store => {
-//   store.loading = true;
-//   store.error = null;
-// },
-// [restorePassword.fulfilled]: (store, _) => {
-//   store.loading = false;
-// },
-// [restorePassword.rejected]: (store, { error }) => {
-//   store.loading = false;
-//   store.error = error;
-// },
-
+export const { clearErrorAndResponse } =
+  authSlice.actions;
 export default authSlice.reducer;

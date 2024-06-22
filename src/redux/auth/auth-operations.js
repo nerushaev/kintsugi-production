@@ -165,14 +165,8 @@ export const changePassword = createAsyncThunk(
         `/api/auth/changePassword`,
         newPass
       );
-      Notify.success("Пароль успішно змінено!");
       return data;
-    } catch ({ responce }) {
-      Notify.success("Щось пішло не так...", responce.data.message);
-      const error = {
-        status: responce.status,
-        message: responce.data.message,
-      };
+    } catch (error) {
       return rejectWithValue(error);
     }
   }
@@ -187,7 +181,8 @@ export const updateUserInfo = createAsyncThunk(
         newData
       );
       Notify.success("Ваші данні було зміненно!");
-      return data.user;
+      console.log(data);
+      return data;
     } catch ({ data }) {
       Notify.failure(data.message);
       const error = {

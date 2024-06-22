@@ -1,9 +1,16 @@
 import styled from 'styled-components'
 import { theme } from '../../styles/theme';
 
+export const FormWrapper = styled.div`
+  max-width: 450px;
+  @media (min-width: 767px) {
+    max-width: 650px;
+  }
+`;
+
 export const CustomForm = styled.form`
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 30px;
   text-align: center;
 `;
 
@@ -23,16 +30,16 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Button = styled.button`
-margin-left: auto;
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 4px;
   font-weight: 500;
   padding: 20px;
-  background-color: ${theme.colors.formButton};
+  background-color: ${props => props.$accent ? `${theme.colors.red}` : `${theme.colors.formButton}`};
   border-radius: 6px;
   &:hover {
-    background-color: ${theme.colors.formButtonAccent};
+    background-color: ${props => props.$accent ? `${theme.colors.redAccent}` : `${theme.colors.formButtonAccent}`};
   }
 `;
 

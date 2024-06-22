@@ -13,7 +13,6 @@ export default function Busket() {
   useEffect(() => {
     let sum = 0;
     products.map((item) => {
-      console.log(item);
       return sum += (item.price * item.amount);
     });
     setTotalCost(sum);

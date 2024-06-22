@@ -8,14 +8,15 @@ import Loader from "../../Loader/Loader";
 import React, { Suspense } from "react";
 import TabletNav from "../TabletNav/TabletNav";
 import ScrollButton from "../../Buttons/ScrollButton";
+import useScreenSize from "../../../hooks/useScreenSize";
 
 export default function SharedLayout() {
-  let isTablet = window.screen.width > "768" ? true : false;
+  const screenSize = useScreenSize();
 
   return (
     <>
     <Suspense fallback={<Loader />}>
-      {isTablet ? (
+      {screenSize.width > 767 ? (
         <TabletNav />
       ) : (
         <NavState>

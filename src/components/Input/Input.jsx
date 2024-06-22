@@ -8,12 +8,12 @@ import { findInputError, isFormInvalid } from "./utils";
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: ${props => props.$checkbox ? "space-between" : ""};
+  align-items: ${props => props.$checkbox ? "center" : ""};
+  padding-bottom: ${props => props.$checkbox ? "10px" : ""};
   gap: 8px;
   width: 100%;
   margin-bottom: 20px;
-  @media (min-width: 767px) {
-    margin-bottom: 0;
-  }
   grid-column-end: ${props => props.$grid ? "3" : ""};
 `;
 
@@ -47,7 +47,7 @@ const AnimatedP = styled(motion.p)`
   color: ${theme.colors.red};
 `;
 
-export const Input = ({ label, type, id, validation, name, placeholder }) => {
+export const Input = ({ label, type, id, validation, name, placeholder, disabled = false }) => {
   const {
     register,
     formState: { errors },
@@ -57,7 +57,7 @@ export const Input = ({ label, type, id, validation, name, placeholder }) => {
   const isInvalid = isFormInvalid(inputError);
 
   return (
-    <InputWrapper $grid={name === "confirmPassword"}>
+    <InputWrapper $checkbox={type === "checkbox"} $grid={name === "confirmPassword"}>
       <LabelWrapper>
         <Label htmlFor={id}>{label}</Label>
         <AnimatePresence mode="wait" initial={false}>
@@ -73,6 +73,7 @@ export const Input = ({ label, type, id, validation, name, placeholder }) => {
         id={id}
         type={type}
         placeholder={placeholder}
+        disabled={disabled}
         {...register(name, validation)}
       />
     </InputWrapper>

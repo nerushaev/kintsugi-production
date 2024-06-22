@@ -17,3 +17,7 @@ export const selectIsAvatarLoading = ({ auth }) => auth.loadingAvatar;
 export const selectRole = ({ auth }) => auth.user.role;
 
 export const selectResponse = ({ auth }) => auth.response;
+
+export const selectChangePassResponse = ({ auth }) => auth.changePassResponse;
+
+export const selectIsSuccess = ({auth}) => auth.success;
