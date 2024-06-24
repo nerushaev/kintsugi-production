@@ -49,10 +49,7 @@ const ProductsList = () => {
     }
   }, [page, filter, search, dispatch]);
 
-  const handlePagination = (e) => {
-    e.preventDefault();
-    const { textContent } = e.target;
-    const page = parseInt(textContent);
+  const handlePagination = (page) => {
     searchParams.set('page', page);
     setSearchParams(searchParams);
   };

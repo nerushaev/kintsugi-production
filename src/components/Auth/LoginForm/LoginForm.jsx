@@ -10,6 +10,7 @@ import {CustomForm, InputsWrapper, ButtonWrapper, Button, ErrorMessage} from "..
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const LoginLinkButtonWrapper = styled.div`
   display: flex;
@@ -18,9 +19,24 @@ const LoginLinkButtonWrapper = styled.div`
   margin-left: auto;
 `;
 
+const LinkWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 6px;
+color: ${theme.colors.gray};
+`;
+
 const StyledLink = styled(Link)`
-  color: ${theme.colors.cardButtonAccent};
-  text-decoration: underline black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: ${theme.fontSizes.medium};
+  cursor: pointer;
+  &:hover {
+    color: black;
+  }
 `;
 
 
@@ -59,7 +75,11 @@ export default function LoginForm() {
         <ButtonWrapper>
         {error && <ErrorMessage>{error.message}</ErrorMessage>}
         <LoginLinkButtonWrapper>
-        <StyledLink to="/restore">Забули пароль?</StyledLink>
+          <LinkWrapper>
+        <StyledLink to="/restore">Забули пароль?
+        <RiLockPasswordLine/>
+        </StyledLink>
+        </LinkWrapper>
           <Button onClick={onSubmit}>
             <GrMail />
             Увійти

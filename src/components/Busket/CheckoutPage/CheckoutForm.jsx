@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { GrMail } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../../redux/auth/auth-selectors";
 import {
   Button,
   ButtonWrapper,
@@ -115,7 +114,7 @@ export default function CheckoutForm({ user }) {
     resolver: yupResolver(checkoutPageValidation),
   });
 
-  const { watch, setValue, reset } = methods;
+  const { watch, setValue } = methods;
   const deliverySelect = watch("delivery");
   const city = useDebounce(watch("city"), 800);
   const warehouse = useDebounce(watch("warehouse"), 800);

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../../../styles/theme";
 
@@ -9,9 +10,20 @@ export const CardInfoWrapper = styled.div`
 `;
 
 export const Item = styled.li`
+  flex:0 0 50%;
+  max-width: 50%;
+  @media (min-width: 479px) {
+    flex:0 0 33.33%;
+  max-width: 33.33%;
+  }
+  @media (min-width: 767px) {
+    flex:0 0 25%;
+    max-width: 25%;
+  }
   position: relative;
-  font-family: "Montserrat";
   text-align: left;
+  width: 100%;
+  padding: 0 10px;
   margin-bottom: 15px;
   
   transform: scale(1);
@@ -36,16 +48,37 @@ export const ItemBody = styled.div`
   justify-content: space-between
 `;
 
-export const Image = styled.img`
+export const StyledLink = styled(Link)`
+  position: relative;
+  display: block;
+  padding-top: 100%;
   margin-bottom: 15px;
 `;
 
+export const ImageWrapper = styled.span`
+  background-size: contain;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+`;
+
+export const Image = styled.img`
+  object-fit: contain;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 export const Title = styled.p`
-  font-weight: 600;
+  font-weight: 500;
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
   overflow: hidden;
-  min-height: 40px;
+  height: 40px;
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.large};
     min-height: 50px;

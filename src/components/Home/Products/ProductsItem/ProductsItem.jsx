@@ -8,11 +8,12 @@ import {
   CardInfoWrapper,
   ItemBody,
   Sizes,
+  StyledLink,
+  ImageWrapper
 } from "../ListItem.styled";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
-import { Link } from "react-router-dom";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
 import React, { useRef } from "react";
@@ -54,51 +55,48 @@ export const ProductsItem = ({ data, id }) => {
 
   return data.map(
     ({
-      name,
+      product_name,
       description,
-      _id,
-      image,
+      product_id,
+      photo,
       price,
       amount,
-      category,
+      category_name,
       size,
       score,
     }) => {
-      const isFromBusket = busket.find((item) => item._id === _id);
-      const item = busket.find((item) => item._id === _id);
+      const isFromBusket = busket.find((item) => item._id === product_id);
+      const item = busket.find((item) => item._id === product_id);
       const itemId = nanoid();
       const sizes = size ? size.join(", ") : "";
-
       return (
         <Item key={itemId}>
           <ItemBody>
-            {id === _id ? (
-              <Image src={image[0] ? image[0] : image} alt="" />
-            ) : (
-              <Link to={`/products/${_id}`}>
-                <Image src={image[0] ? image[0] : image} alt="" />
-              </Link>
-            )}
+              <StyledLink to={`/products/${product_id}`}>
+                <ImageWrapper>
+                <Image src={photo ? `https://kintsugi.joinposter.com${photo}` : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"} alt="" />
+                </ImageWrapper>
+              </StyledLink>
             <ScoreWrapper>
               <Score score={score} />
             </ScoreWrapper>
 
-            <Title>{name}</Title>
+            <Title>{product_name}</Title>
 
-            <Description>{description}</Description>
+            {/* <Description>{description}</Description> */}
             <CardInfoWrapper>
-              <Price>{price} грн.</Price>
+              <Price>{price[1] / 100} грн.</Price>
               <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes>
             </CardInfoWrapper>
             {isFromBusket ? (
               <ButtonWrapper $noMargin>
                 <AddButton>
-                  <CountButton amount={item.amount} _id={_id} />
+                  <CountButton amount={item.amount} _id={product_id} />
                 </AddButton>
               </ButtonWrapper>
             ) : (
               <ButtonWrapper $noMargin>
-                {sizes === "-" ? (
+                {/* {sizes === "-" ? (
                   ""
                 ) : (
                   <Select
@@ -111,18 +109,18 @@ export const ProductsItem = ({ data, id }) => {
                       return <option key={item}>{item}</option>;
                     })}
                   </Select>
-                )}
-                {sizes === "-" ? (
+                )} */}
+                {"-" === "-" ? (
                   <AddButton
                     onClick={() => {
                       handleClick({
-                        _id,
-                        name,
+                        product_id,
+                        product_name,
                         description,
-                        image,
+                        photo,
                         price,
                         amount,
-                        category,
+                        category_name,
                       });
                     }}
                   >
@@ -135,13 +133,13 @@ export const ProductsItem = ({ data, id }) => {
                   <AddButton
                     onClick={() => {
                       handleClick({
-                        _id,
-                        name,
+                        product_id,
+                        product_name,
                         description,
-                        image,
+                        photo,
                         price,
                         amount,
-                        category,
+                        category_name,
                         size: sizeRef.current.value,
                       });
                     }}

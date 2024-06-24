@@ -9,24 +9,25 @@ export default function Pagination({
   function makeArray(n) {
     return Array.from({ length: n }, (_, i) => i + 1);
   }
+
   const paginationAmount = makeArray(totalPages);
 
   return (
     <PaginationWrapper>
       {currentPage >=3 && 
       <>
-      <PaginationItem>1</PaginationItem>
+      <PaginationItem onClick={() => handlePagePrev(1)}>1</PaginationItem>
       <PaginationItem>...</PaginationItem>
       </>
       }
       {paginationAmount.map((item) => {
         return (
           <PaginationItem
-            onClick={handlePagePrev}
+            onClick={() => handlePagePrev(item)}
             key={item}
             $active={item === Number(currentPage)}
             $disable={
-              item > currentPage + 2 || item < currentPage - 1 ? true : false
+              item + 1 < Number(currentPage) || item - 1 > Number(currentPage) ? true : false
             }
           >
             {item}
@@ -36,7 +37,7 @@ export default function Pagination({
       {currentPage < totalPages - 2 && 
       <>
       <PaginationItem>...</PaginationItem>
-      <PaginationItem>{totalPages}</PaginationItem>
+      <PaginationItem onClick={() => handlePagePrev(totalPages)}>{totalPages}</PaginationItem>
       </>
       }
     </PaginationWrapper>

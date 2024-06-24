@@ -85,7 +85,7 @@ const NotificationWrapper = styled.div`
   color: ${theme.colors.gray};
 `;
 
-const NotificationMessage = styled.p`
+export const NotificationMessage = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
