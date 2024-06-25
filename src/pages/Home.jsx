@@ -1,7 +1,6 @@
 import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import Slider from "../components/Home/Swiper/Swiper";
 import Title from "../components/Home/Title/Title";
-import Search from "../components/Home/Search/Search";
 import React, { useEffect } from "react";
 import { Element, animateScroll as scroller } from 'react-scroll'
 import { useSelector } from "react-redux";
@@ -35,7 +34,6 @@ export default function Home() {
     </Element>
     <Container>
       <Title text="Каталог" />
-      <Search />
       <ProductsList />
       </Container>
     </>

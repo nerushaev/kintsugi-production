@@ -16,6 +16,7 @@ import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../../../Loader/Loader";
+import Search from "../../Search/Search";
 
 const ProductsList = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ProductsList = () => {
 
   const product = useSelector(selectFilteredProducts);
   const page = searchParams.get('page') || 1;
+  const pageNum = Number(page);
   const totalPages = useSelector(getTotalPages);
   const filter = useSelector(getFilter);
   const scrollPosition = useRef(null);
@@ -42,12 +44,12 @@ const ProductsList = () => {
 
   useEffect(() => {
     if (!search && !Object.values(filter).includes(true) && page) {
-      dispatch(getProducts({ page }));
+      dispatch(getProducts({ page: pageNum }));
     } else if (search || filter) {
       const result = getObjectKeysString(filter);
       dispatch(getProducts({ page, search: search, filter: result }));
     }
-  }, [page, filter, search, dispatch]);
+  }, [page, filter, search, dispatch, pageNum]);
 
   const handlePagination = (page) => {
     searchParams.set('page', page);
@@ -57,6 +59,7 @@ const ProductsList = () => {
   return (
     <>
     {isLoading && <Loader />}
+    <Search setSearchParams={setSearchParams} />
     <FilterPanel getObjectKeysString={getObjectKeysString} />
         {product.length < 1 && (
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
@@ -67,7 +70,7 @@ const ProductsList = () => {
       <Pagination
         handlePagePrev={handlePagination}
         totalPages={totalPages}
-        currentPage={page}
+        currentPage={pageNum}
       />
     </>
   );
