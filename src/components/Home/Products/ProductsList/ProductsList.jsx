@@ -8,7 +8,7 @@ import {
   selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import { getFilter } from "../../../../redux/filter/filter-selectors";
-import { List, ListWrapper } from "../List.styled";
+import { List } from "../List.styled";
 import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
 import { getSearch } from "../../../../redux/search/search-selectors";
@@ -58,14 +58,12 @@ const ProductsList = () => {
     <>
     {isLoading && <Loader />}
     <FilterPanel getObjectKeysString={getObjectKeysString} />
-      <ListWrapper>
         {product.length < 1 && (
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
         )}
         <List ref={scrollPosition}>
           <ProductsItem key={nanoid()} data={product} />
         </List>
-      </ListWrapper>
       <Pagination
         handlePagePrev={handlePagination}
         totalPages={totalPages}

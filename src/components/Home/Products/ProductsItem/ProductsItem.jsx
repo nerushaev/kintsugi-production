@@ -44,7 +44,7 @@ const ScoreWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const ProductsItem = ({ data, id }) => {
+export const ProductsItem = ({ data, product_id }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const sizeRef = useRef();
@@ -65,8 +65,8 @@ export const ProductsItem = ({ data, id }) => {
       size,
       score,
     }) => {
-      const isFromBusket = busket.find((item) => item._id === product_id);
-      const item = busket.find((item) => item._id === product_id);
+      const isFromBusket = busket.find((item) => item.product_id === product_id);
+      const item = busket.find((item) => item.product_id === product_id);
       const itemId = nanoid();
       const sizes = size ? size.join(", ") : "";
       return (
@@ -85,13 +85,13 @@ export const ProductsItem = ({ data, id }) => {
 
             {/* <Description>{description}</Description> */}
             <CardInfoWrapper>
-              <Price>{price[1] / 100} грн.</Price>
+              <Price>{price / 100} грн.</Price>
               <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes>
             </CardInfoWrapper>
             {isFromBusket ? (
               <ButtonWrapper $noMargin>
                 <AddButton>
-                  <CountButton amount={item.amount} _id={product_id} />
+                  <CountButton amount={item.amount} product_id={product_id} />
                 </AddButton>
               </ButtonWrapper>
             ) : (

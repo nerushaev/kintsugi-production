@@ -44,7 +44,7 @@ const productsSlice = createSlice({
   reducers: {
     addToBusket(state, action) {
       const itemInCart = state.busket.find(
-        (item) => item._id === action.payload
+        (item) => item.product_id === action.payload
       );
       if (itemInCart) {
         itemInCart.amount++;
@@ -53,16 +53,16 @@ const productsSlice = createSlice({
       }
     },
     incrementAmount: (state, action) => {
-      const item = state.busket.find((item) => item._id === action.payload);
+      const item = state.busket.find((item) => item.product_id === action.payload);
       if (item.amount) {
         item.amount++;
       }
     },
     decrementAmount: (state, action) => {
-      const item = state.busket.find((item) => item._id === action.payload);
+      const item = state.busket.find((item) => item.product_id === action.payload);
       if (item.amount === 1) {
         const removeItem = state.busket.filter(
-          (item) => item._id !== action.payload
+          (item) => item.product_id !== action.payload
         );
         state.busket = removeItem;
       } else {

@@ -10,13 +10,13 @@ export const List = styled.ul`
 export const ListWrapper = styled.div`
   margin: 0 auto;
   padding: 0 10px;
-  @media (max-width: 479px) {
+  @media (min-width: 479px) {
     max-width: 440px;
   }
-  @media (max-width: 767px) {
+  @media (min-width: 767px) {
     max-width: 720px;
   }
-  @media (max-width: 1199px) {
+  @media (min-width: 1199px) {
     max-width: 960px;
   }
 `;

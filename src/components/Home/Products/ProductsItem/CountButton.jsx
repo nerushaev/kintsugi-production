@@ -18,22 +18,22 @@ const CountText = styled.p`
   font-weight: 600;
 `;
 
-export default function CountButton({ amount, _id }) {
+export default function CountButton({ amount, product_id }) {
   const dispatch = useDispatch();
   
-  const handleIncrement = (_id) => {
-    dispatch(incrementAmount(_id))
+  const handleIncrement = (product_id) => {
+    dispatch(incrementAmount(product_id))
   }
   
-  const handleDecrement = (_id) => {
-    dispatch(decrementAmount(_id))
+  const handleDecrement = (product_id) => {
+    dispatch(decrementAmount(product_id))
   }
 
   return (
     <CountWrapper>
-      <FaPlus onClick={() => handleIncrement(_id)} />
+      <FaPlus onClick={() => handleIncrement(product_id)} />
       <CountText>{amount}</CountText>
-      <FaMinus onClick={() => handleDecrement(_id)} />
+      <FaMinus onClick={() => handleDecrement(product_id)} />
     </CountWrapper>
   )
 }

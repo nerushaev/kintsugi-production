@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { Element, animateScroll as scroller } from 'react-scroll'
 import { useSelector } from "react-redux";
 import { getCurrentPage } from "../redux/products/products-selectors";
+import { Container } from "../components/Container/Container.styled";
 
 const homePageSlider = [
   "https://res.cloudinary.com/dzjmswzgp/image/upload/v1689970137/Banner_vmn4ex.jpg",
@@ -32,9 +33,11 @@ export default function Home() {
       <Element name="scroll">
       <Slider images={homePageSlider} />
     </Element>
+    <Container>
       <Title text="Каталог" />
       <Search />
       <ProductsList />
+      </Container>
     </>
   );
 }
