@@ -28,7 +28,7 @@ export const totalBusketPrice = ({products}) => {
 
   let sum = 0;
   busket.map((item) => {
-    return sum += (item.price * item.amount);
+    return sum += ((item.price / 100) * item.amount);
   });
   return sum;
 }

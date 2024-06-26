@@ -13,10 +13,11 @@ import { List } from "../components/Home/Products/List.styled";
 import { ProductsItem } from "../components/Home/Products/ProductsItem/ProductsItem";
 import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls/MoreInfoControlls";
 import Title from "../components/Home/Title/Title";
+import { Container } from "../components/Container/Container.styled";
 
 export default function Product() {
   const dispatch = useDispatch();
-  const _id = useParams();
+  const product_id = useParams();
   const isLoading = useSelector(selectIsLoading);
   const products = useSelector(selectSimilarProducts);
   const product = useSelector(getDetails);
@@ -26,14 +27,14 @@ export default function Product() {
   }, [product])
 
   useEffect(() => {
-      dispatch(getProductsById(...Object.values(_id)));
+      dispatch(getProductsById(...Object.values(product_id)));
       if(productCategory) {
         dispatch(getSimilarProducts({category: productCategory}));
       }
-  }, [dispatch, _id, productCategory]);
+  }, [dispatch, product_id, productCategory]);
 
   return (
-    <>
+      <Container>
       {(isLoading) && <Loader />}
       <>
       {(!isLoading && product.length !== 0) && 
@@ -45,6 +46,6 @@ export default function Product() {
         <ProductsItem data={products} id={product._id} />
       </List>
       </>
-      </>
+      </Container>
   );
 }

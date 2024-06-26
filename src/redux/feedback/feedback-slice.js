@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addFeedback, getFeedback } from "./feedback-operations";
+import { addFeedback, getFeedback, removeFeedback } from "./feedback-operations";
 
 const initialState = {
   isLoading: false,
@@ -34,6 +34,13 @@ const feedbackSlice = createSlice({
       state.feedback = action.payload;
     });
     builder.addCase(getFeedback.rejected, handleRejected);
+    builder.addCase(removeFeedback.pending, handlePending);
+    builder.addCase(removeFeedback.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.error = null;
+      state.feedback = state.feedback.filter(item => item._id !== payload._id)
+    });
+    builder.addCase(removeFeedback.rejected, handleRejected);
   }
 });
 

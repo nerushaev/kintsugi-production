@@ -63,7 +63,9 @@ export default function ScoreInput({setScore}) {
   };
 
   return (
+    <>
     <Wrapper>
+      
       <IconContext.Provider
         value={{ color: `${star1 ? "gold" : "gray"}`, size: "2em" }}
       >
@@ -89,6 +91,8 @@ export default function ScoreInput({setScore}) {
       >
         <FaStar id="star5" onClick={handleClick} />
       </IconContext.Provider>
+      
     </Wrapper>
+    </>
   );
 }

@@ -44,9 +44,9 @@ function App() {
       <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
-        <Route path="/products/:_id" element={<Product />} />
+        <Route path="/products/:product_id" element={<Product />} />
         <Route path="/info" element={<InfoPage />} />
-        <Route path="/busket" element={<BusketPage />} />
+        {/* <Route path="/busket" element={<BusketPage />} /> */}
         <Route path="/checkout" element={<CheckoutPage />}/>
         <Route path="/payment" element={<Payment />}/>
         <Route path="/restore" element={<RestorePasswordPage />} />

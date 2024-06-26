@@ -96,6 +96,20 @@ const DeliveryInfoWrapper = styled.div`
 
 `;
 
+const FeedbackWrapper = styled.div`
+display: flex;
+flex-direction: column;
+  @media (min-width: 767px) {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
+`;
+
+const FeedbackItemWrapper = styled.div`
+  flex: 0 0 50%;
+`;
+
 export default function MoreInfoControlls({ data }) {
   const { description, sizeInformation, category } = data;
 
@@ -179,10 +193,14 @@ export default function MoreInfoControlls({ data }) {
       </>
       }
       {feedback && 
-      <>
+      <FeedbackWrapper>
+        <FeedbackItemWrapper>
         <FeedbackForm />
+        </FeedbackItemWrapper>
+        <FeedbackItemWrapper>
         <FeedbackList />
-        </>
+        </FeedbackItemWrapper>
+        </FeedbackWrapper>
       }
     </MoreInfoControllsWrapper>
   );

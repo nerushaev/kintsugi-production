@@ -11,28 +11,43 @@ import CountButton from "../components/Home/Products/ProductsItem/CountButton";
 import { useAuth } from "../hooks/useAuth";
 import useModal from "../hooks/modal";
 import { CgProfile } from "react-icons/cg";
-import Modal from '../components/Modal';
-import LoginForm from '../components/Auth/LoginForm/LoginForm';
+import Modal from "../components/Modal";
+import LoginForm from "../components/Auth/LoginForm/LoginForm";
 import { FormWrapper } from "../components/Form/Form.styled";
 import { SlClose } from "react-icons/sl";
 import { selectUser } from "../redux/auth/auth-selectors";
+import { Container } from "../components/Container/Container.styled";
 
 const BusketWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 10px 10px;
+const ImageTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
+const ItemImageWrapper = styled.div`
+  display: block;
+  position: relative;
+`;
+
+const ItemWrapper = styled.div``;
+
 const ImageWrapper = styled.div`
-  overflow: hidden;
+position: relative;
+display: block;
+padding-top: 100%;
+margin-bottom: 10px;
 `;
 
 const Image = styled.img`
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
 `;
 
 const DetailsWrapper = styled.div`
@@ -50,8 +65,7 @@ const PriceWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 10px 20px;
-  margin: 0 20px;
+  padding: 10px 0;
   border-bottom: 1px solid rgb(0, 0, 0, 0.1);
   padding-bottom: 10px;
 `;
@@ -64,12 +78,24 @@ const Price = styled.p`
 
 const BusketItem = styled.li`
   margin-bottom: 20px;
+  @media (min-width: 767px) {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px;
+  }
+  @media (min-width: 767px) {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+`;
+
+const BusketItemContainer = styled.div`
+  height: 100%;
 `;
 
 const BusketList = styled.ul`
   @media (min-width: 767px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
   }
 `;
 
@@ -114,34 +140,60 @@ export default function CheckoutPage() {
   const totalPrice = useSelector(totalBusketPrice);
   const user = useSelector(selectUser);
   const { isLoggedIn } = useAuth();
-  const {openModal, isModalOpen, closeModal} = useModal();
-
+  const { openModal, isModalOpen, closeModal } = useModal();
 
   return (
-    <>
+    <Container>
       <BusketWrapper>
         <BusketList>
           {busket.map((item) => {
-            const { image, name, description, amount, price, _id } = item;
+            const {
+              product_name,
+              description,
+              product_id,
+              photo,
+              price,
+              amount,
+              category_name,
+              size,
+              score,
+            } = item;
+            console.log(photo);
             return (
-              <BusketItem key={item.name}>
-                <Wrapper>
-                  <ImageWrapper>
-                    <Image alt="" src={image[0]} />
-                  </ImageWrapper>
-                  <DetailsWrapper>
-                    <Text>{name}</Text>
-                    <Text>{description}</Text>
-                  </DetailsWrapper>
-                </Wrapper>
-                <PriceWrapper>
-                  <Price>
-                    {amount} x {price * amount}грн
-                  </Price>
-                  {/* {screenSize.width > 767 && */}
-                  <CountButton amount={amount} _id={_id} />
-                  {/* } */}
-                </PriceWrapper>
+              <BusketItem key={product_name}>
+                <BusketItemContainer>
+                  <ImageTitleWrapper>
+                    <ItemImageWrapper>
+                      <ImageWrapper>
+                        {photo ? (
+                          <Image
+                            alt=""
+                            src={`https://kintsugi.joinposter.com${photo}`}
+                          />
+                        ) : (
+                          <Image
+                            alt=""
+                            src={`https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg`}
+                          />
+                        )}
+                      </ImageWrapper>
+                    </ItemImageWrapper>
+                    <ItemWrapper>
+                      <DetailsWrapper>
+                        <Text>{product_name}</Text>
+                        <Text>{description}</Text>
+                      </DetailsWrapper>
+                    </ItemWrapper>
+                  </ImageTitleWrapper>
+                  <PriceWrapper>
+                    <Price>
+                      {amount} x {(price / 100) * amount}грн
+                    </Price>
+                    {/* {screenSize.width > 767 && */}
+                    <CountButton amount={amount} _id={product_id} />
+                    {/* } */}
+                  </PriceWrapper>
+                </BusketItemContainer>
               </BusketItem>
             );
           })}
@@ -155,23 +207,23 @@ export default function CheckoutPage() {
         <NotificationWrapper>
           <NotificationMessage onClick={openModal}>
             Маєте аккаунт?
-              <CgProfile />
+            <CgProfile />
           </NotificationMessage>
         </NotificationWrapper>
       )}
       <CheckoutForm user={user} />
-      {isModalOpen && !isLoggedIn && 
-      <Modal onCloseModal={closeModal}>
-        <FormWrapper>
-          <StyledModal>
-          <CloseWrapper>
-        <SlClose onClick={closeModal} />
-        </CloseWrapper>
-        <LoginForm />
-        </StyledModal>
-        </FormWrapper>
-      </Modal>
-      }
-    </>
+      {isModalOpen && !isLoggedIn && (
+        <Modal onCloseModal={closeModal}>
+          <FormWrapper>
+            <StyledModal>
+              <CloseWrapper>
+                <SlClose onClick={closeModal} />
+              </CloseWrapper>
+              <LoginForm />
+            </StyledModal>
+          </FormWrapper>
+        </Modal>
+      )}
+    </Container>
   );
 }

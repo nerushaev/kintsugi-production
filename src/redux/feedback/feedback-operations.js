@@ -4,6 +4,7 @@ import { AuthInstance } from "../../API/api";
 export const addFeedback = createAsyncThunk(
   "/feedback/add",
   async (newData, ThunkAPI) => {
+    console.log(newData);
     try {
       const {data} = await AuthInstance.post(`/api/feedback/add`, newData);
       console.log(data.result);
@@ -16,13 +17,25 @@ export const addFeedback = createAsyncThunk(
 
 export const getFeedback = createAsyncThunk(
   "/feedback/get",
-  async (productId, ThunkAPI) => {
-    const {_id} = productId;
+  async (product_id, ThunkAPI) => {
     try {
-      const {data} = await AuthInstance.get(`/api/feedback/${_id}`);
+      const {data} = await AuthInstance.get(`/api/feedback/${product_id.product_id}`);
       return data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.statusText);
     }
   }
 );
+
+export const removeFeedback = createAsyncThunk(
+  "/feedback/remove",
+  async (product_id, ThunkAPI) => {
+    try {
+      const {data} = await AuthInstance.delete(`/api/feedback/remove/${product_id._id}`);
+      console.log(data);
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.statusText);
+    }
+  }
+)

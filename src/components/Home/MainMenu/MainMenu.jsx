@@ -67,7 +67,7 @@ const MainMenu = () => {
             </Link>
             </IconWrapper>
           )}
-          <Link to="/busket">
+          <Link to="/checkout">
               <svg width="42" height="50">
                 <use xlinkHref={`${svg}#icon-shopping-cart`} />
               </svg>

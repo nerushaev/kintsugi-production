@@ -29,7 +29,7 @@ const BusketAmount = styled.p`
 export default function Busket() {
   const busketAmount = useSelector(selectBusketAmount);
   return (
-    <Link to="/busket">
+    <Link to="/checkout">
       <BusketContainer>
         <BusketAmount>{busketAmount}</BusketAmount>
         <svg width="40" height="40">

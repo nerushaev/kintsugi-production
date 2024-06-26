@@ -8,15 +8,7 @@ export const List = styled.ul`
 `;
 
 export const ListWrapper = styled.div`
-  margin: 0 auto;
+  width: 100%;
   padding: 0 10px;
-  @media (min-width: 479px) {
-    max-width: 440px;
-  }
-  @media (min-width: 767px) {
-    max-width: 720px;
-  }
-  @media (min-width: 1199px) {
-    max-width: 960px;
-  }
+  margin: 0 auto;
 `;
