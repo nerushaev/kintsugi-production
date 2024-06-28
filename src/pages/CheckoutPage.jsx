@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CheckoutForm from "../components/Busket/CheckoutPage/CheckoutForm";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import LoginForm from "../components/Auth/LoginForm/LoginForm";
 import { FormWrapper } from "../components/Form/Form.styled";
 import { SlClose } from "react-icons/sl";
 import { selectUser } from "../redux/auth/auth-selectors";
-import { Container } from "../components/Container/Container.styled";
+import { useNavigate } from "react-router";
 
 const BusketWrapper = styled.div`
   margin-bottom: 30px;
@@ -96,6 +96,7 @@ const BusketItemContainer = styled.div`
 const BusketList = styled.ul`
   @media (min-width: 767px) {
     display: flex;
+    flex-wrap: wrap;
   }
 `;
 
@@ -141,9 +142,16 @@ export default function CheckoutPage() {
   const user = useSelector(selectUser);
   const { isLoggedIn } = useAuth();
   const { openModal, isModalOpen, closeModal } = useModal();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(busket.length === 0) {
+      navigate('/')
+    }
+  }, [busket, navigate])
 
   return (
-    <Container>
+    <>
       <BusketWrapper>
         <BusketList>
           {busket.map((item) => {
@@ -154,11 +162,7 @@ export default function CheckoutPage() {
               photo,
               price,
               amount,
-              category_name,
-              size,
-              score,
             } = item;
-            console.log(photo);
             return (
               <BusketItem key={product_name}>
                 <BusketItemContainer>
@@ -190,7 +194,7 @@ export default function CheckoutPage() {
                       {amount} x {(price / 100) * amount}грн
                     </Price>
                     {/* {screenSize.width > 767 && */}
-                    <CountButton amount={amount} _id={product_id} />
+                    <CountButton amount={amount} product_id={product_id} />
                     {/* } */}
                   </PriceWrapper>
                 </BusketItemContainer>
@@ -224,6 +228,6 @@ export default function CheckoutPage() {
           </FormWrapper>
         </Modal>
       )}
-    </Container>
+      </>
   );
 }

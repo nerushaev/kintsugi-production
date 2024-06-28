@@ -13,7 +13,6 @@ import { List } from "../components/Home/Products/List.styled";
 import { ProductsItem } from "../components/Home/Products/ProductsItem/ProductsItem";
 import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls/MoreInfoControlls";
 import Title from "../components/Home/Title/Title";
-import { Container } from "../components/Container/Container.styled";
 
 export default function Product() {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ export default function Product() {
   }, [dispatch, product_id, productCategory]);
 
   return (
-      <Container>
+      <>
       {(isLoading) && <Loader />}
       <>
       {(!isLoading && product.length !== 0) && 
@@ -46,6 +45,6 @@ export default function Product() {
         <ProductsItem data={products} id={product._id} />
       </List>
       </>
-      </Container>
+      </>
   );
 }

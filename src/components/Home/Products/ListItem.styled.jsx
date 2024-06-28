@@ -82,6 +82,8 @@ export const Title = styled.p`
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.large};
     min-height: 50px;
+    height: 80px;
+
   }
 `;
 

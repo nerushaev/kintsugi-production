@@ -11,4 +11,5 @@ export const ListWrapper = styled.div`
   width: 100%;
   padding: 0 10px;
   margin: 0 auto;
+  margin-bottom: 30px;
 `;

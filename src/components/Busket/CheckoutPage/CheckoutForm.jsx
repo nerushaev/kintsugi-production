@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { GrMail } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,68 +29,7 @@ import {
 } from "../../../redux/products/products-selectors";
 import useDebounce from "../../../hooks/useDebounce";
 import { useAuth } from "../../../hooks/useAuth";
-
-const email_input = {
-  name: "email",
-  label: "Пошта",
-  type: "text",
-  id: "email",
-  placeholder: "Введіть вашу пошту",
-};
-
-const phone_input = {
-  name: "phone",
-  label: "Мобільний номер",
-  type: "phone",
-  id: "phone",
-  placeholder: "Введіть ваш мобільний номер...",
-};
-
-const name_input = {
-  name: "name",
-  label: "Ім'я та прізвище",
-  type: "text",
-  id: "name",
-  placeholder: "Введіть ваше ім'я та прізвище...",
-};
-
-const delivery_select = {
-  name: "delivery",
-  label: "Спосіб доставки",
-  data: [
-    { label: "Оберіть спосіб доставки", value: "" },
-    { label: "Доставка у відділення Нової Пошти", value: "nova" },
-    { label: "Самовивіз м. Одеса ТЦ Афіна Грецька пл. 3/4 ", value: "afina" },
-  ],
-  id: "delivery",
-};
-
-const city_input = {
-  name: "city",
-  label: "Назва міста або селища",
-  type: "text",
-  id: "city",
-  placeholder: "Введіть назву міста або селища...",
-};
-
-const warehouse_input = {
-  name: "warehouse",
-  label: "Номер відділення",
-  type: "text",
-  id: "warehouse",
-  placeholder: "Введіть номер відділення...",
-};
-
-const payments_select = {
-  name: "payments",
-  label: "Спосіб оплати",
-  data: [
-    { label: "Оберіть спосіб оплати", value: "" },
-    { label: "Накладений платіж", value: "cash" },
-    { label: "Онлайн оплата Liqpay", value: "liqpay" },
-  ],
-  id: "payments",
-};
+import { updateUserDelivery } from "../../../redux/auth/auth-operations";
 
 export default function CheckoutForm({ user }) {
   const dispatch = useDispatch();
@@ -98,7 +37,66 @@ export default function CheckoutForm({ user }) {
   const { cities, warehouses } = nova;
   const busket = useSelector(getBusket);
   const error = useSelector(selectError);
+  const [userEditDelivery, setUserEditDelivery] = useState(false);
   const { delivery } = user;
+
+  const email_input = {
+    name: "email",
+    label: "Пошта",
+    type: "text",
+    id: "email",
+    placeholder: "Введіть вашу пошту",
+  };
+  const phone_input = {
+    name: "phone",
+    label: "Мобільний номер",
+    type: "phone",
+    id: "phone",
+    placeholder: "Введіть ваш мобільний номер...",
+  };
+  const name_input = {
+    name: "name",
+    label: "Ім'я та прізвище",
+    type: "text",
+    id: "name",
+    placeholder: "Введіть ваше ім'я та прізвище...",
+  };
+  const delivery_select = {
+    name: "delivery",
+    label: "Спосіб доставки",
+    data: [
+      { label: "Оберіть спосіб доставки", value: "" },
+      { label: "Доставка у відділення Нової Пошти", value: "nova" },
+      { label: "Самовивіз м. Одеса ТЦ Афіна Грецька пл. 3/4 ", value: "afina" },
+    ],
+    id: "delivery",
+  };
+  const city_input = {
+    name: "city",
+    label: "Назва міста або селища",
+    type: "text",
+    id: "city",
+    placeholder: "Введіть назву міста або селища...",
+    disabled: !userEditDelivery,
+  };
+  const warehouse_input = {
+    name: "warehouse",
+    label: "Номер відділення",
+    type: "text",
+    id: "warehouse",
+    placeholder: "Введіть номер відділення...",
+    disabled: !userEditDelivery,
+  };
+  const payments_select = {
+    name: "payments",
+    label: "Спосіб оплати",
+    data: [
+      { label: "Оберіть спосіб оплати", value: "" },
+      { label: "Накладений платіж", value: "cash" },
+      { label: "Онлайн оплата Liqpay", value: "liqpay" },
+    ],
+    id: "payments",
+  };
 
   const methods = useForm({
     mode: "all",
@@ -144,7 +142,7 @@ export default function CheckoutForm({ user }) {
       dispatch(removeWarehousesList([]));
     }
 
-    if (isLoggedIn) {
+    if (isLoggedIn && !userEditDelivery) {
       const { name, email, phone } = user;
       const { city, warehouse } = user.delivery;
       setValue("name", name);
@@ -162,6 +160,7 @@ export default function CheckoutForm({ user }) {
     sameNovaWarehouse,
     sameDeliveryWarehouse,
     isLoggedIn,
+    userEditDelivery,
     user,
     setValue,
   ]);
@@ -180,24 +179,39 @@ export default function CheckoutForm({ user }) {
   };
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    const newData = {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      afina: data.delivery,
-      city: data.city,
-      cityRef: delivery.cityRef || nova.cityRef,
-      warehouse: data.warehouse,
-      warehouseRef: delivery.warehouseRef || nova.warehouseRef,
-      recipientWarehouseIndex:
-        delivery.recipientWarehouseIndex || nova.recipientWarehouseIndex,
-      payments: data.payments,
-      products: busket,
-    };
-
-    console.log(newData);
-
-    dispatch(orderProducts(newData));
+    if (isLoggedIn) {
+      const newData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        afina: data.delivery,
+        city: data.city,
+        cityRef: delivery.cityRef,
+        warehouse: data.warehouse,
+        warehouseRef: delivery.warehouseRef,
+        recipientWarehouseIndex: delivery.recipientWarehouseIndex,
+        warehouseAddress: delivery.warehouseAddress,
+        payments: data.payments,
+        products: busket,
+      };
+      dispatch(orderProducts(newData));
+    } else if (!isLoggedIn) {
+      const newData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        afina: data.delivery,
+        city: data.city,
+        cityRef: nova.cityRef,
+        warehouse: data.warehouse,
+        warehouseRef: nova.warehouseRef,
+        recipientWarehouseIndex: nova.recipientWarehouseIndex,
+        warehouseAddress: nova.warehouseAddress,
+        payments: data.payments,
+        products: busket,
+      };
+      dispatch(orderProducts(newData));
+    }
   });
 
   return (
@@ -209,8 +223,10 @@ export default function CheckoutForm({ user }) {
             <Input {...email_input} />
             <Input {...phone_input} />
             <SelectInput {...delivery_select} />
+            <SelectInput {...payments_select} />
+
             {deliverySelect === "nova" && (
-              <>
+              <div>
                 <div>
                   <Input {...city_input} />
                   {cities &&
@@ -258,9 +274,31 @@ export default function CheckoutForm({ user }) {
                       );
                     })}
                 </div>
-              </>
+                {isLoggedIn && (
+                  <>
+                    {userEditDelivery ? (
+                      <Button
+                        $small
+                        onClick={() => {
+                          setUserEditDelivery(false);
+                          dispatch(updateUserDelivery(nova));
+                        }}
+                      >
+                        Зберегти адресу доставки
+                      </Button>
+                    ) : (
+                      <Button
+                        $small
+                        $accent
+                        onClick={() => setUserEditDelivery(true)}
+                      >
+                        Змінити адресу доставки
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
             )}
-            <SelectInput {...payments_select} />
           </InputsWrapper>
           <ButtonWrapper>
             {error && <ErrorMessage>{error.message}</ErrorMessage>}

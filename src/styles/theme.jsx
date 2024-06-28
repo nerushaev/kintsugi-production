@@ -19,7 +19,7 @@ export const theme = Object.freeze({
     medium: "16px",
     large: "18px",
     extraLarge: "20px",
-    title: "20px",
+    title: "26px",
   },
   shadows: {
     small: "0 5px 7px -1px rgba(51, 51, 51, 0.23)",

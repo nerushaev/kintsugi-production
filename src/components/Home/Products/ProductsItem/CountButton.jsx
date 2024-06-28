@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { decrementAmount, incrementAmount } from '../../../../redux/products/products-slice';
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
+import { theme } from '../../../../styles/theme';
 
 const CountWrapper = styled.div`
   display: flex;
@@ -14,13 +15,11 @@ const CountWrapper = styled.div`
 const CountText = styled.p`
   font-size: 16px;
   margin: 0 20px;
-  padding: 5px;
   font-weight: 600;
 `;
 
 export default function CountButton({ amount, product_id }) {
   const dispatch = useDispatch();
-  
   const handleIncrement = (product_id) => {
     dispatch(incrementAmount(product_id))
   }

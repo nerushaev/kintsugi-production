@@ -9,47 +9,15 @@ export const ButtonWrapper = styled.div`
   margin-bottom: ${props => props.$noMargin ? "0" : "30px"};
 `;
 
-
-/*
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 500;
-  padding: 20px;
-  background-color: ${props => props.$accent ? `${theme.colors.red}` : `${theme.colors.formButton}`};
-  border-radius: 6px;
-  &:hover {
-    background-color: ${props => props.$accent ? `${theme.colors.redAccent}` : `${theme.colors.formButtonAccent}`};
-  }
-*/
-
 export const Button = styled.button`
-  font-size: ${theme.fontSizes.small};
-  font-family: "Montserrat";
-  font-weight: 500;
-  line-height: 20px;
-  padding: 20px;
+  display: flex;
+  gap: 6px;
+  padding: 15px;
   border-radius: 6px;
-  background-color: ${(props) =>
-    props.$delete ? theme.colors.red : theme.colors.formButton};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  &:hover,
-  &:focus {
-    background-color: ${(props) =>
-      props.$delete ? theme.colors.redAccent : theme.colors.formButtonAccent};
-    transition: background-color ${theme.animation.cubicBezier};
-  }
-  &:not(:last-child) {
-    margin-right: 15px;
-  }
-  @media (min-width: 768px) {
-    font-size: ${theme.fontSizes.medium};
-    padding: 10px 20px;
-  }
-  @media (min-width: 1200px) {
-    font-size: ${theme.fontSizes.large};
+  font-weight: 500;
+  background-color: ${props => props.$active ? `${theme.colors.formButtonAccent}` : `${theme.colors.formButton}`};
+  &:hover {
+  background-color: ${theme.colors.formButtonAccent};
   }
 `;
 
@@ -58,7 +26,9 @@ export const AddButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 6px;
   width: 100%;
+  border-radius: 6px;
   min-height: 60px;
   font-size: ${theme.fontSizes.small};
   padding: 10px 10px;

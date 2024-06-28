@@ -6,6 +6,7 @@ import afinaLogo from '../../../../../assets/afina-image.jpg';
 import liqpayLogo from '../../../../../assets/liqpay-logo.jpg';
 import FeedbackForm from "../../Feedback/FeedbackForm";
 import FeedbackList from "../../Feedback/FeedbackList";
+import { Button } from "../../../../Buttons/Buttons";
 
 const Title = styled.h2`
   font-size: ${theme.fontSizes.medium};
@@ -34,35 +35,11 @@ const SubTitle = styled.p`
 const ControllsButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+  gap: 10px;
   @media (min-width: 767px) {
     justify-content: center;
   }
-`;
-
-const ControllsButton = styled.button`
-  font-size: ${theme.fontSizes.medium};
-  font-weight: 500;
-  padding: 12px 10px;
-  background-color: ${(props) =>
-    props.$active
-      ? `${theme.colors.formButton}`
-      : `${theme.colors.formButtonDisabled}`};
-  &:not(:last-child) {
-    margin-right: 10px;
-  }
-  margin-bottom: 10px;
-
-  @media (min-width: 767px) {
-    padding: 14px 20px;
-    font-size: ${theme.fontSizes.large};
-    &:not(:last-child) {
-      margin-right: 40px;
-    }
-  }
-  @media (min-width: 1199px) {
-    font-size: ${theme.fontSizes.extraLarge};
-    }
 `;
 
 const Image = styled.img`
@@ -72,7 +49,6 @@ const Image = styled.img`
     margin-right: 30px;
     ${props => props.$payment ?  
       `margin: 0 auto;` : ""}
-    margin-bottom: 20px;
   }
 `;
 
@@ -143,12 +119,12 @@ export default function MoreInfoControlls({ data }) {
   return (
     <MoreInfoControllsWrapper>
       <ControllsButtonWrapper>
-        <ControllsButton onClick={handleClick} id="moreInfo" $active={moreInfo}>
+        <Button onClick={handleClick} id="moreInfo" $active={moreInfo}>
           Характеристики
-        </ControllsButton>
-        <ControllsButton onClick={handleClick} id="delivery" $active={delivery}>Доставка</ControllsButton>
-        <ControllsButton onClick={handleClick} id="payment" $active={payment}>Оплата</ControllsButton>
-        <ControllsButton onClick={handleClick} id="feedback" $active={feedback}>Відгуки</ControllsButton>
+        </Button>
+        <Button onClick={handleClick} id="delivery" $active={delivery}>Доставка</Button>
+        <Button onClick={handleClick} id="payment" $active={payment}>Оплата</Button>
+        <Button onClick={handleClick} id="feedback" $active={feedback}>Відгуки</Button>
       </ControllsButtonWrapper>
       {moreInfo && (
         <>

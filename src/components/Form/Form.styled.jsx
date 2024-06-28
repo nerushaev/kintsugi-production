@@ -20,7 +20,7 @@ export const InputsWrapper = styled.div`
     gap: 20px;
     grid-template-columns: ${props => props.$oneInput ? "1fr" : "repeat(2, minmax(0, 1fr))"};
   }
-
+  margin-bottom: 40px;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -35,7 +35,7 @@ export const Button = styled.button`
   align-items: center;
   gap: 4px;
   font-weight: 500;
-  padding: 20px;
+  padding: ${props => props.$small ? "10px" : "20px"};
   background-color: ${props => props.$accent ? `${theme.colors.red}` : `${theme.colors.formButton}`};
   border-radius: 6px;
   &:hover {

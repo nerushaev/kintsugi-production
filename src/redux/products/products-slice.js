@@ -26,6 +26,7 @@ const productsInitialState = {
   orderId: '',
   liqpay: null,
   feedback: [],
+  response: null,
 };
 
 const handlePending = (state) => {
@@ -177,7 +178,7 @@ const productsSlice = createSlice({
       state.error = null;
       state.orderId = action.payload.orderId;
       state.liqpay = action.payload.liqpay;
-      // state.busket = [];
+      state.busket = [];
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);

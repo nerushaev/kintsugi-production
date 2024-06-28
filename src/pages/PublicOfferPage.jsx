@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { theme } from "../styles/theme";
 
 export const Text = styled.p`
+  text-align: center;
   margin-bottom: 20px;
   font-size: ${(props) =>
     props.accent ? `${theme.fontSizes.large}` : `${theme.fontSizes.medium}`};
@@ -20,7 +21,7 @@ export default function PublicOfferPage() {
   return (
     <>
       <Title text={"Публічна оферта"} />
-      <Subtitle $accent $center>
+      <Subtitle accent center>
         ПУБЛІЧНИЙ ДОГОВІР КУПІВЛІ-ПРОДАЖУ ТОВАРУ
       </Subtitle>
       <Text>

@@ -2,7 +2,7 @@ import MainMenu from "../MainMenu/MainMenu";
 import NavState from "../../../context/navState";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router";
-import Container from "../Container/Container";
+import {Container} from "../../Container/Container.styled";
 import Busket from "../../Busket/BusketIcon/BusketIcon";
 import Loader from "../../Loader/Loader";
 import React, { Suspense } from "react";
@@ -24,11 +24,11 @@ export default function SharedLayout() {
         </NavState>
       )}
       <main>
-        <Container>
           <Busket />
+          <Container>
           <Outlet />
+          </Container>
           <ScrollButton />
-        </Container>
       </main>
       <Footer />
     </Suspense>

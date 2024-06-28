@@ -4,31 +4,23 @@ import {
   Image,
   Title,
   Price,
-  Description,
   CardInfoWrapper,
   ItemBody,
-  Sizes,
   StyledLink,
   ImageWrapper
 } from "../ListItem.styled";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
-import React, { useRef } from "react";
 import { AddButton, ButtonWrapper } from "../../../Buttons/Buttons";
 import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
-
-export const IconWrapper = styled.div`
-  margin-left: 10px;
-  display: flex;
-`;
+import { LuShoppingBasket } from "react-icons/lu";
 
 export const Select = styled.select`
-  // height: 100%;
   width: 40px;
   text-align-last: center;
   background: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-20.png)
@@ -44,10 +36,9 @@ const ScoreWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const ProductsItem = ({ data, product_id }) => {
+export const ProductsItem = ({ data }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
-  const sizeRef = useRef();
 
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
@@ -62,13 +53,13 @@ export const ProductsItem = ({ data, product_id }) => {
       price,
       amount,
       category_name,
-      size,
+      // size,
       score,
     }) => {
       const isFromBusket = busket.find((item) => item.product_id === product_id);
       const item = busket.find((item) => item.product_id === product_id);
       const itemId = nanoid();
-      const sizes = size ? size.join(", ") : "";
+      // const sizes = size ? size.join(", ") : "";
       return (
         <Item key={itemId}>
           <ItemBody>
@@ -82,11 +73,9 @@ export const ProductsItem = ({ data, product_id }) => {
             </ScoreWrapper>
 
             <Title>{product_name}</Title>
-
-            {/* <Description>{description}</Description> */}
             <CardInfoWrapper>
               <Price>{price / 100} грн.</Price>
-              <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes>
+              {/* <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes> */}
             </CardInfoWrapper>
             {isFromBusket ? (
               <ButtonWrapper $noMargin>
@@ -96,21 +85,6 @@ export const ProductsItem = ({ data, product_id }) => {
               </ButtonWrapper>
             ) : (
               <ButtonWrapper $noMargin>
-                {/* {sizes === "-" ? (
-                  ""
-                ) : (
-                  <Select
-                    onChange={(e) => (sizeRef.current.value = e.target.value)}
-                    ref={sizeRef}
-                    name="size"
-                    id="size"
-                  >
-                    {size.map((item) => {
-                      return <option key={item}>{item}</option>;
-                    })}
-                  </Select>
-                )} */}
-                {"-" === "-" ? (
                   <AddButton
                     onClick={() => {
                       handleClick({
@@ -121,35 +95,13 @@ export const ProductsItem = ({ data, product_id }) => {
                         price,
                         amount,
                         category_name,
+                        // size: sizeRef.current.value,
                       });
                     }}
                   >
                     Додати у кошик
-                    <IconWrapper>
-                      <ShoppingCartOutlinedIcon />
-                    </IconWrapper>
+                    <LuShoppingBasket style={{fontSize: `16px`}}/>
                   </AddButton>
-                ) : (
-                  <AddButton
-                    onClick={() => {
-                      handleClick({
-                        product_id,
-                        product_name,
-                        description,
-                        photo,
-                        price,
-                        amount,
-                        category_name,
-                        size: sizeRef.current.value,
-                      });
-                    }}
-                  >
-                    Додати у кошик
-                    <IconWrapper>
-                      <ShoppingCartOutlinedIcon />
-                    </IconWrapper>
-                  </AddButton>
-                )}
               </ButtonWrapper>
             )}
           </ItemBody>
