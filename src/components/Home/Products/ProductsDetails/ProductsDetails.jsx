@@ -32,17 +32,6 @@ const GoBackWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const ProductName = styled.p`
-  font-size: ${theme.fontSizes.small};
-  margin-bottom: 20px;
-  @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.medium};
-  }
-  @media (min-width: 1199px) {
-    font-size: ${theme.fontSizes.large};
-  }
-`;
-
 const ProductWrapper = styled.div`
   position: relative;
   margin-bottom: 50px;

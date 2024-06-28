@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
-import { Button } from "../../../Buttons/Buttons";
-import CountButton from "../ProductsItem/CountButton";
 
 const Wrapper = styled.div``;
 
@@ -18,13 +16,6 @@ const SizeButton = styled.button`
   background-color: ${theme.colors.ligthGray};
 `;
 
-const StyledButton = styled(Button)`
-  // margin: 0 auto;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-`;
 // const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 export default function SizeButtons({

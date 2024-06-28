@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { decrementAmount, incrementAmount } from '../../../../redux/products/products-slice';
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
-import { theme } from '../../../../styles/theme';
 
 const CountWrapper = styled.div`
   display: flex;
