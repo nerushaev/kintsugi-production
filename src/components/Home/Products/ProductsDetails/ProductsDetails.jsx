@@ -1,14 +1,13 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AddButton, Button } from "../../../Buttons/Buttons";
-import React, { useEffect, useState } from "react";
+import { AddButton } from "../../../Buttons/Buttons";
+import React, { useState } from "react";
 import { theme } from "../../../../styles/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "../ProductsItem/CountButton";
 import Score from "../Feedback/Score";
-import { scroller } from "react-scroll";
 import { SlArrowLeftCircle } from "react-icons/sl";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { LuShoppingBasket } from "react-icons/lu";
@@ -87,7 +86,6 @@ const ImageWrapper = styled.span`
 `;
 
 const Image = styled.img`
-max-height: 320px;
 object-fit: contain;
 margin-bottom: 20px;
 @media (min-width: 767px) {
@@ -150,14 +148,6 @@ export default function ProductsDetails({ data }) {
     console.log(newData);
     dispatch(addToBusket(newData));
   };
-
-  useEffect(() => {
-    scroller.scrollTo("scroll", {
-      duration: 800,
-      delay: 0,
-      smooth: "easeInOutQuart",
-    });
-  }, []);
 
   const isFromBusket = busket.find((item) => item.product_id === product_id);
   const item = busket.find((item) => item.product_id === product_id);

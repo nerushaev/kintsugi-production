@@ -24,6 +24,9 @@ import Payment from "./components/Busket/CheckoutPage/Payment";
 import PublicOfferPage from "./pages/PublicOfferPage";
 import Politic from "./pages/Politic";
 import Loader from "./components/Loader/Loader";
+import DeliveryInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/DeliveryInfo";
+import PaymentInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/PaymentInfo";
+import Feedback from "./components/Home/Products/ProductsDetails/MoreInfoControlls/Feedback";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,7 +46,11 @@ function App() {
       <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
-        <Route path="/products/:product_id" element={<Product />} />
+        <Route path="/products/:product_id" element={<Product />}>
+          <Route path="delivery" element={<DeliveryInfo />}/>
+          <Route path="payment" element={<PaymentInfo />}/>
+          <Route path="feedback" element={<Feedback />}/>
+        </Route>
         <Route path="/info" element={<InfoPage />} />
         {/* <Route path="/busket" element={<BusketPage />} /> */}
         <Route path="/checkout" element={<CheckoutPage />}/>

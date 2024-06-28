@@ -20,7 +20,6 @@ export const InputsWrapper = styled.div`
     gap: 20px;
     grid-template-columns: ${props => props.$oneInput ? "1fr" : "repeat(2, minmax(0, 1fr))"};
   }
-  margin-bottom: 40px;
 `;
 
 export const ButtonWrapper = styled.div`

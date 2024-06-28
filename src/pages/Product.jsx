@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Outlet, useParams } from "react-router";
 import { getProductsById, getSimilarProducts } from "../redux/products/products-operation";
 import ProductsDetails from "../components/Home/Products/ProductsDetails/ProductsDetails";
 import {
@@ -21,29 +21,22 @@ export default function Product() {
   const products = useSelector(selectSimilarProducts);
   const product = useSelector(getDetails);
 
-  const productCategory = useMemo(() => {
-    return product.category;
-  }, [product])
-
-  useEffect(() => {
-      dispatch(getProductsById(...Object.values(product_id)));
-      if(productCategory) {
-        dispatch(getSimilarProducts({category: productCategory}));
-      }
-  }, [dispatch, product_id, productCategory]);
+  // useEffect(() => {
+  //     dispatch(getProductsById(...Object.values(product_id)));
+  //     if(productCategory) {
+  //       dispatch(getSimilarProducts({category: productCategory}));
+  //     }
+  // }, [dispatch, product_id, productCategory]);
 
   return (
       <>
-      {(isLoading) && <Loader />}
+      {/* {(isLoading) && <Loader />} */}
       <>
       {(!isLoading && product.length !== 0) && 
         <ProductsDetails data={product} />
       }
-      <MoreInfoControlls data={product} />
-      <Title text="Схожі товари" />
-      <List>
-        <ProductsItem data={products} id={product._id} />
-      </List>
+      <MoreInfoControlls/>
+      <Outlet/>
       </>
       </>
   );
