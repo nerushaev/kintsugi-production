@@ -65,14 +65,16 @@ const ProductsList = () => {
       searchParams.set('category', '');
       setSearchParams(searchParams)
     }
+
     if(!price) {
       searchParams.set('price', '');
       setSearchParams(searchParams)
     }
-    if (!search && !category && page) {
+
+    if (!search && !category && !price && page) {
       dispatch(getProducts({ page: pageNum }));
     } else if (search || category || price) {
-      dispatch(getProducts({ page, search: search, category, price }));
+      dispatch(getProducts({ page, search: search, category: category, price: price }));
     }
   }, [page, category, search, dispatch, pageNum, searchParams, setSearchParams, price]);
 

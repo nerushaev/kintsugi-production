@@ -23,7 +23,7 @@ import {
   getWarehouses,
 } from "../../../../redux/nova/nova-operation";
 
-import { selectNovaState } from "../../../../redux/nova/nova-selectors";
+import { selectCitiesLoading, selectNovaState, selectWarehousesLoading } from "../../../../redux/nova/nova-selectors";
 import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 import {
@@ -32,16 +32,24 @@ import {
   selectCity,
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
-import {useAuth} from '../../../../hooks/useAuth';
+import { useAuth } from "../../../../hooks/useAuth";
 import useDebounce from "../../../../hooks/useDebounce";
+import { SmallLoader } from "../../../SmallLoader/SmallLoader";
 
-const Options = styled.p`
+export const OptionsWrapper = styled.div`
+  margin-bottom: 15px;
+`;
+
+export const Options = styled.p`
   padding: 5px 0px;
   width: 100%;
   border: 1px solid ${theme.colors.darkBlue};
-  border-radius: 6px;
+  // border-radius: 6px;
   margin-bottom: 5px;
-  margin-top: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${theme.colors.ligthGray};
+  }
 `;
 
 export default function DeliveryData({ user }) {
@@ -50,18 +58,20 @@ export default function DeliveryData({ user }) {
   const nova = useSelector(selectNovaState);
   const error = useSelector(selectError);
   const response = useSelector(selectResponse);
-  const {isLoggedIn} = useAuth();
+  const loadingCities = useSelector(selectCitiesLoading);
+  const loadingWarehouses = useSelector(selectWarehousesLoading);
+  const { isLoggedIn } = useAuth();
+
   const methods = useForm({
-    mode: 'all',
+    mode: "all",
     resolver: yupResolver(deliveryDataSchema),
     defaultValues: {
-      city: delivery.city,
-      warehouse: delivery.warehouse,
+      city: delivery ? delivery.city : "",
+      warehouse: delivery ? delivery.warehouse : "",
     },
   });
 
   const { watch, setValue } = methods;
-
 
   const cityInput = useDebounce(watch("city"), 800);
   const warehouseInput = useDebounce(watch("warehouse"), 800);
@@ -70,10 +80,12 @@ export default function DeliveryData({ user }) {
     cityInput && warehouseInput ? false : true
   );
 
-  const [showCities, setShowCities] = useState(delivery.city ? false : true);
+  const [showCities, setShowCities] = useState(
+    delivery && delivery.city ? false : true
+  );
 
   const [showWarehouses, setShowWarehouses] = useState(
-    delivery.warehouse ? false : true
+    delivery && delivery.warehouse ? false : true
   );
 
   const { warehouses, cities } = nova;
@@ -87,7 +99,7 @@ export default function DeliveryData({ user }) {
     const { Description, Ref } = data;
     dispatch(selectCity({ city: Description, cityRef: Ref }));
     setValue("city", Description);
-    setValue("warehouse", '');
+    setValue("warehouse", "");
     dispatch(removeCitiesList([]));
     setShowCities(false);
   };
@@ -103,24 +115,32 @@ export default function DeliveryData({ user }) {
   };
 
   useEffect(() => {
-
-    if (cityInput && cityInput.length > 2) {
+    if (cityInput && cityInput.length > 2 && showCities) {
       dispatch(getCities(cityInput));
     } else {
       dispatch(removeCitiesList([]));
     }
 
-    if (warehouseInput && warehouseInput.length >= 1) {
+    if (warehouseInput && warehouseInput.length >= 1 && showWarehouses) {
       dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
     } else {
       dispatch(removeWarehousesList([]));
     }
+  }, [cityInput, warehouseInput, dispatch, showCities, showWarehouses]);
 
-  }, [cityInput, warehouseInput, dispatch]);
+  const handleEditButton = () => {
+    setUserEdit(true);
+    setShowCities(true);
+    setShowWarehouses(true);
+    setValue("city", "");
+    setValue("warehouse", "");
+    dispatch(removeCitiesList([]));
+    dispatch(removeWarehousesList([]));
+  };
 
   const city_input = {
     name: "city",
-    label: "Назва міста або селища",
+    label: "Місто або селище",
     type: "text",
     id: "city",
     placeholder: "Ведіть назву міста або селища...",
@@ -140,8 +160,10 @@ export default function DeliveryData({ user }) {
     <FormProvider {...methods}>
       <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
-          <div>
+        
             <Input {...city_input} />
+            <OptionsWrapper>
+              {loadingCities && <SmallLoader />}
             {cities &&
               userEdit &&
               showCities &&
@@ -153,9 +175,11 @@ export default function DeliveryData({ user }) {
                   </Options>
                 );
               })}
-          </div>
-          <div>
+          </OptionsWrapper>
+          
             <Input {...warehouse_input} />
+            <OptionsWrapper>
+            {loadingWarehouses && <SmallLoader />}
             {warehouses &&
               userEdit &&
               showWarehouses &&
@@ -167,34 +191,27 @@ export default function DeliveryData({ user }) {
                   </Options>
                 );
               })}
-          </div>
+          </OptionsWrapper>
         </InputsWrapper>
-        {isLoggedIn &&
-        <ButtonWrapper>
-        {error && <ErrorMessage>{error.message}</ErrorMessage>}
-        {response && <ErrorMessage>Пароль успішно змінено!</ErrorMessage>}
-        {userEdit ? (
-          <Button onClick={onSubmit}>
-            <FaExchangeAlt />
-            Зберегти зміни
-          </Button>
-        ) : (
-          <Button $accent
-            onClick={(e) => {
-              setUserEdit(true);
-              setShowCities(true);
-              setShowWarehouses(true);
-              setValue('city', '')
-              setValue('warehouse', '')
-            }}
-          >
-            <FaExchangeAlt />
-            Змінити відділення
-          </Button>
+        {isLoggedIn && (
+          <ButtonWrapper>
+            {error && <ErrorMessage>{error.message}</ErrorMessage>}
+            {response && <ErrorMessage>Пароль успішно змінено!</ErrorMessage>}
+            {userEdit ? (
+              <Button onClick={onSubmit}>
+                <FaExchangeAlt />
+                Зберегти зміни
+              </Button>
+            ) : (
+              <Button
+                $accent
+                onClick={handleEditButton}>
+                <FaExchangeAlt />
+                Змінити відділення
+              </Button>
+            )}
+          </ButtonWrapper>
         )}
-      </ButtonWrapper>
-        }
-        
       </CustomForm>
     </FormProvider>
   );

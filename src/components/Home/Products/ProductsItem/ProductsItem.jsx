@@ -53,13 +53,11 @@ export const ProductsItem = ({ data }) => {
       price,
       amount,
       category_name,
-      // size,
       score,
     }) => {
       const isFromBusket = busket.find((item) => item.product_id === product_id);
       const item = busket.find((item) => item.product_id === product_id);
       const itemId = nanoid();
-      // const sizes = size ? size.join(", ") : "";
       return (
         <Item key={itemId}>
           <ItemBody>

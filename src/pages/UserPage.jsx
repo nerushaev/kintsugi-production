@@ -13,6 +13,7 @@ import { MdOutlineSignpost } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { clearErrorAndResponse } from "../redux/auth/auth-slice";
 import { Button } from "../components/Buttons/Buttons";
+import { LuShoppingBasket } from "react-icons/lu";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ export default function UserPage() {
   const [userData, setUserData] = useState(true);
   const [changePass, setChangePass] = useState(false);
   const [deliveryData, setDeliveryData] = useState(false);
+  const [orderHistory, setOrderHistory] = useState(false);
 
   const user = useSelector(selectUser);
 
@@ -56,6 +58,13 @@ export default function UserPage() {
         setChangePass(false);
         setDeliveryData(true);
         break;
+        case "orderHistory":
+        dispatch(clearErrorAndResponse());
+        setUserData(false);
+        setChangePass(false);
+        setDeliveryData(false);
+        setOrderHistory(false);
+        break;
       default:
         break;
     }
@@ -74,6 +83,9 @@ export default function UserPage() {
         <Button $active={deliveryData} id="deliveryData" onClick={handleClickBtn}>
           <MdOutlineSignpost />
           Зміна адреси відділення</Button>
+          <Button $active={orderHistory} id="orderHistory" onClick={handleClickBtn}>
+          <LuShoppingBasket />
+          Історія замовлень</Button>
       </ButtonWrapper>
       <>
       {userData && <UserInfo user={user} />}

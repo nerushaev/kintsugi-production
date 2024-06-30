@@ -30,15 +30,45 @@ import {
 import useDebounce from "../../../hooks/useDebounce";
 import { useAuth } from "../../../hooks/useAuth";
 import { updateUserDelivery } from "../../../redux/auth/auth-operations";
+import { Options, OptionsWrapper } from "../../Auth/UserPage/UserData/DeliveryData";
 
 export default function CheckoutForm({ user }) {
+  const { delivery } = user;
+  const methods = useForm({
+    mode: "all",
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      delivery: "",
+      city: delivery ? delivery.city : "",
+      warehouse: delivery ? delivery.warehouse : "",
+      payments: "",
+    },
+    resolver: yupResolver(checkoutPageValidation),
+  });
   const dispatch = useDispatch();
   const nova = useSelector(selectNovaState);
   const { cities, warehouses } = nova;
   const busket = useSelector(getBusket);
   const error = useSelector(selectError);
-  const [userEditDelivery, setUserEditDelivery] = useState(false);
-  const { delivery } = user;
+  const { watch, setValue } = methods;
+  const deliverySelect = watch("delivery");
+  const cityInput = useDebounce(watch("city"), 800);
+  const warehouseInput = useDebounce(watch("warehouse"), 800);
+  const sameNovaCity = nova.city === cityInput;
+  const sameNovaWarehouse = nova.warehouse === warehouseInput;
+  const sameDeliveryCity = delivery?.city === cityInput;
+  const sameDeliveryWarehouse = delivery?.warehouse === warehouseInput;
+  const { isLoggedIn } = useAuth();
+  const [userEditDelivery, setUserEditDelivery] = useState(isLoggedIn && delivery.city ? false : true);
+  const [showCities, setShowCities] = useState(
+    delivery && delivery.city ? false : true
+  );
+
+  const [showWarehouses, setShowWarehouses] = useState(
+    delivery && delivery.warehouse ? false : true
+  );
 
   const email_input = {
     name: "email",
@@ -73,7 +103,7 @@ export default function CheckoutForm({ user }) {
   };
   const city_input = {
     name: "city",
-    label: "Назва міста або селища",
+    label: "Місто або селище",
     type: "text",
     id: "city",
     placeholder: "Введіть назву міста або селища...",
@@ -98,46 +128,19 @@ export default function CheckoutForm({ user }) {
     id: "payments",
   };
 
-  const methods = useForm({
-    mode: "all",
-    defaultValues: {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      delivery: "",
-      city: delivery ? delivery.city : "",
-      warehouse: delivery ? delivery.warehouse : "",
-      payments: "",
-    },
-    resolver: yupResolver(checkoutPageValidation),
-  });
 
-  const { watch, setValue } = methods;
-  const deliverySelect = watch("delivery");
-  const city = useDebounce(watch("city"), 800);
-  const warehouse = useDebounce(watch("warehouse"), 800);
-  const sameNovaCity = nova.city === city;
-  const sameNovaWarehouse = nova.warehouse === warehouse;
-  const sameDeliveryCity = delivery?.city === city;
-  const sameDeliveryWarehouse = delivery?.warehouse === warehouse;
-  const { isLoggedIn } = useAuth();
+
 
   useEffect(() => {
-    if (city) {
-      if (city.length >= 3 && !(sameNovaCity || sameDeliveryCity)) {
-        dispatch(getCities(city));
-      }
+
+    if (cityInput && cityInput.length > 2 && userEditDelivery) {
+      dispatch(getCities(cityInput));
     } else {
       dispatch(removeCitiesList([]));
     }
 
-    if (warehouse) {
-      if (
-        warehouse.length >= 1 &&
-        !(sameNovaWarehouse || sameDeliveryWarehouse)
-      ) {
-        dispatch(getWarehouses({ city, warehouse }));
-      }
+    if (warehouseInput && warehouseInput.length >= 1 && userEditDelivery) {
+      dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
     } else {
       dispatch(removeWarehousesList([]));
     }
@@ -150,10 +153,14 @@ export default function CheckoutForm({ user }) {
       setValue("phone", phone);
       setValue("city", city);
       setValue("warehouse", warehouse);
+      dispatch(removeWarehousesList([]));
+      dispatch(removeCitiesList([]));
+      setShowCities(false);
+      setShowWarehouses(false);
     }
   }, [
-    city,
-    warehouse,
+    cityInput,
+    warehouseInput,
     dispatch,
     sameNovaCity,
     sameDeliveryCity,
@@ -163,12 +170,16 @@ export default function CheckoutForm({ user }) {
     userEditDelivery,
     user,
     setValue,
+    delivery,
   ]);
+
 
   const handleClickCity = (data) => {
     setValue("city", data.city);
+    setValue("warehouse", "");
     dispatch(removeCitiesList([]));
     dispatch(selectCity(data));
+    setShowCities(false);
   };
 
   const handleClickWarehouse = (data) => {
@@ -176,10 +187,11 @@ export default function CheckoutForm({ user }) {
     setValue("warehouse", data.Description);
     dispatch(removeWarehousesList([]));
     dispatch(selectWarehouse(data));
+    setShowWarehouses(false);
   };
 
   const onSubmit = methods.handleSubmit(async (data) => {
-    if (isLoggedIn) {
+    if (isLoggedIn && delivery) {
       const newData = {
         name: data.name,
         email: data.email,
@@ -195,7 +207,7 @@ export default function CheckoutForm({ user }) {
         products: busket,
       };
       dispatch(orderProducts(newData));
-    } else if (!isLoggedIn) {
+    } else {
       const newData = {
         name: data.name,
         email: data.email,
@@ -214,6 +226,17 @@ export default function CheckoutForm({ user }) {
     }
   });
 
+  const handleEditButton = () => {
+    setUserEditDelivery(true);
+    setShowCities(true);
+    setShowWarehouses(true);
+    setValue("city", "");
+    setValue("warehouse", "");
+    dispatch(removeCitiesList([]));
+    dispatch(removeWarehousesList([]));
+  };
+  console.log("userEditDelivery", userEditDelivery);
+
   return (
     <>
       <FormProvider {...methods}>
@@ -222,20 +245,20 @@ export default function CheckoutForm({ user }) {
             <Input {...name_input} />
             <Input {...email_input} />
             <Input {...phone_input} />
-            <SelectInput {...delivery_select} />
             <SelectInput {...payments_select} />
-
+            <SelectInput {...delivery_select} />
             {deliverySelect === "nova" && (
               <div>
                 <div>
-                  <Input {...city_input} />
-                  {cities &&
-                    cities.map((item) => {
-                      const { Ref, Description } = item;
-                      const key = nanoid();
-                      return (
-                        <div key={key}>
-                          <p
+                    <Input {...city_input} />
+                    <OptionsWrapper>
+                    {cities && userEditDelivery && showCities &&
+                      cities.map((item) => {
+                        const { Ref, Description } = item;
+                        const key = nanoid();
+                        return (
+                          <Options
+                            key={key}
                             onClick={() =>
                               handleClickCity({
                                 cityRef: Ref,
@@ -244,21 +267,26 @@ export default function CheckoutForm({ user }) {
                             }
                           >
                             {item.Description}
-                          </p>
-                        </div>
-                      );
-                    })}
+                          </Options>
+                        );
+                      })}
+                  </OptionsWrapper>
                 </div>
                 <div>
-                  <Input {...warehouse_input} />
-                  {warehouse &&
-                    warehouses.map((item) => {
-                      const { ShortAddress, Ref, WarehouseIndex, Description } =
-                        item;
-                      const key = nanoid();
-                      return (
-                        <div key={key}>
-                          <p
+                    <Input {...warehouse_input} />
+                    <OptionsWrapper>
+                    {warehouses && userEditDelivery && showWarehouses &&
+                      warehouses.map((item) => {
+                        const {
+                          ShortAddress,
+                          Ref,
+                          WarehouseIndex,
+                          Description,
+                        } = item;
+                        const key = nanoid();
+                        return (
+                          <Options
+                            key={key}
                             onClick={() =>
                               handleClickWarehouse({
                                 ShortAddress,
@@ -269,10 +297,10 @@ export default function CheckoutForm({ user }) {
                             }
                           >
                             {Description}
-                          </p>
-                        </div>
-                      );
-                    })}
+                          </Options>
+                        );
+                      })}
+                  </OptionsWrapper>
                 </div>
                 {isLoggedIn && (
                   <>
@@ -290,7 +318,7 @@ export default function CheckoutForm({ user }) {
                       <Button
                         $small
                         $accent
-                        onClick={() => setUserEditDelivery(true)}
+                        onClick={handleEditButton}
                       >
                         Змінити адресу доставки
                       </Button>
