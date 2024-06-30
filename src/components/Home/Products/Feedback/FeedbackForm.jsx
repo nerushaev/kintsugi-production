@@ -78,7 +78,7 @@ export default function FeedbackForm() {
       <ButtonWrapper>
         {scoreError && <ErrorMessage>{scoreError}</ErrorMessage>}
         
-      {!isLoggedIn && <ErrorMessage message="Коментувати можуть лише зареєстровані користувачі!"/>}
+      {!isLoggedIn && <ErrorMessage>Коментувати можуть лише зареєстровані користувачі!</ErrorMessage>}
       <Button disabled={!isLoggedIn} onClick={onSubmit}>Відправити</Button> 
       </ButtonWrapper>
     </CustomForm>

@@ -1,15 +1,7 @@
 import React from "react";
-import styled from "styled-components";
-import { theme } from "../../../styles/theme";
+import {Title,TitleWrapper} from '../../Text/Text.styled';
 
-const TitleText = styled.h2`
-  text-align: center;
-  font-size: ${theme.fontSizes.title};
-  font-weight: 600;
-  width: 100%;
-  margin-bottom: 30px;
-`;
 
-export default function Title({ text }) {
-  return <TitleText>{text}</TitleText>;
+export default function MainTitle({ text }) {
+  return <TitleWrapper><Title>{text}</Title></TitleWrapper>;
 }

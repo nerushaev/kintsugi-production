@@ -5,13 +5,14 @@ import { AuthInstance, instance } from "../../API/api";
 export const getProducts = createAsyncThunk(
   "/products/get",
   async (requestData, ThunkAPI) => {
-    const { page, filter, search } = requestData;
-    if (filter || search || page) {
+    const { page, category, search, price } = requestData;
+    if (category || search || page) {
+      console.log(category);
       try {
         const { data } = await instance.get(
-          `/api/products?page=${page}${filter ? `&category=${filter}` : ""}${
+          `/api/products?page=${page}${category ? `&category=${category}` : ""}${
             search ? `&search=${search}` : ""
-          }`
+          }${price ? `&price=${price}` : ""}`
         );
         return data;
       } catch (error) {

@@ -1,6 +1,6 @@
 import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import Slider from "../components/Home/Swiper/Swiper";
-import Title from "../components/Home/Title/Title";
+import MainTitle from "../components/Home/Title/Title";
 import React, { useEffect } from "react";
 import { Element, animateScroll as scroller } from 'react-scroll'
 import { useSelector } from "react-redux";
@@ -27,11 +27,11 @@ export default function Home() {
 
   return (
     <>
-      <Title text="Картини по номерам в наявності" />
+      <MainTitle text="Картини по номерам в наявності" />
       <Element name="scroll">
       <Slider images={homePageSlider} />
     </Element>
-      <Title text="Каталог" />
+      <MainTitle text="Каталог" />
       <ProductsList />
     </>
   );

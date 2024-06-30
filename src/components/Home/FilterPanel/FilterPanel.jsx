@@ -177,7 +177,7 @@ export default function FilterPanel({getObjectKeysString}) {
   } else if (allFilter) {
     Child = (
       <PriceFilterWrapper $allFilter onClick={handleAllFilter}>
-        <PriceBtn $active={filters.wigs} id="wigs">
+        <PriceBtn $active={filters.wigs} id="Перуки">
           Перука
         </PriceBtn>
         <PriceBtn $active={filters.costume} id="costume">

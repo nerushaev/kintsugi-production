@@ -12,16 +12,12 @@ import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreI
 
 export default function Product() {
   const dispatch = useDispatch();
-  const product_id = useParams();
+  const { product_id } = useParams();
   const isLoading = useSelector(selectIsLoading);
   const product = useSelector(getDetails);
-
   useEffect(() => {
-    if (product.length !== 0) {
-      return;
-    }
-      dispatch(getProductsById(...Object.values(product_id)));
-  }, [dispatch, product_id, product]);
+      dispatch(getProductsById(product_id));
+  }, [dispatch, product_id]);
 
   return (
       <>

@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-const Select = styled.select`
+export const Select = styled.select`
   width: 100%;
   padding: 20px 0;
   padding-right: 15%;

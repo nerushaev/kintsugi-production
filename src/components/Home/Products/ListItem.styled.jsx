@@ -75,13 +75,12 @@ export const Image = styled.img`
 
 export const Title = styled.p`
   font-weight: 500;
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   margin-bottom: 10px;
   overflow: hidden;
-  height: 40px;
+  height: 60px;
   @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.large};
-    min-height: 50px;
+    font-size: ${theme.fontSizes.medium};
     height: 80px;
 
   }
