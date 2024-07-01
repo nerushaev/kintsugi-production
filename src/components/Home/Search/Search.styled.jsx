@@ -8,6 +8,7 @@ export const SearchForm = styled.form`
 
 export const SearchInput = styled.input`
   box-sizing: border-box;
+  border-radius: 6px;
   width: 100%;
   padding: 10px 10px;
   border: 1px solid black;

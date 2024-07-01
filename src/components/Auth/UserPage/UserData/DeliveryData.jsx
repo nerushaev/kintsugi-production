@@ -73,9 +73,9 @@ export default function DeliveryData({ user }) {
 
   const { watch, setValue } = methods;
 
-  const cityInput = useDebounce(watch("city"), 800);
-  const warehouseInput = useDebounce(watch("warehouse"), 800);
-
+  const cityInput = useDebounce(watch("city"), 500);
+  const warehouseInput = useDebounce(watch("warehouse"), 500);
+  const cityInputt = watch('city');
   const [userEdit, setUserEdit] = useState(
     cityInput && warehouseInput ? false : true
   );
@@ -93,6 +93,8 @@ export default function DeliveryData({ user }) {
   const onSubmit = methods.handleSubmit(async (data) => {
     setUserEdit(false);
     dispatch(updateUserDelivery(nova));
+    dispatch(removeCitiesList([]));
+    dispatch(removeWarehousesList([]));
   });
 
   const handleClickCity = (data) => {
@@ -114,29 +116,37 @@ export default function DeliveryData({ user }) {
     setShowWarehouses(false);
   };
 
+  const handleEditButton = () => {
+    setValue("city", "");
+    setValue("warehouse", "");
+    setUserEdit(true);
+    setShowCities(true);
+    setShowWarehouses(true);
+    dispatch(removeCitiesList([]));
+    dispatch(removeWarehousesList([]));
+  };
+
   useEffect(() => {
-    if (cityInput && cityInput.length > 2 && showCities) {
+
+    if(cityInputt.length === 0) {
+      return;
+    }
+
+    if (cityInput.length > 2 && showCities) {
       dispatch(getCities(cityInput));
     } else {
       dispatch(removeCitiesList([]));
     }
 
-    if (warehouseInput && warehouseInput.length >= 1 && showWarehouses) {
+    if (warehouseInput.length >= 1 && showWarehouses) {
       dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
     } else {
       dispatch(removeWarehousesList([]));
     }
-  }, [cityInput, warehouseInput, dispatch, showCities, showWarehouses]);
 
-  const handleEditButton = () => {
-    setUserEdit(true);
-    setShowCities(true);
-    setShowWarehouses(true);
-    setValue("city", "");
-    setValue("warehouse", "");
-    dispatch(removeCitiesList([]));
-    dispatch(removeWarehousesList([]));
-  };
+  }, [cityInput, warehouseInput, dispatch, showCities, showWarehouses, delivery, cityInputt]);
+
+
 
   const city_input = {
     name: "city",
@@ -161,7 +171,7 @@ export default function DeliveryData({ user }) {
       <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
         
-            <Input {...city_input} />
+            <Input {...city_input}/>
             <OptionsWrapper>
               {loadingCities && <SmallLoader />}
             {cities &&

@@ -13,7 +13,7 @@ import { Input } from "../../Input/Input";
 import { SelectInput } from "./SelectInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { checkoutPageValidation } from "../../../helpers/checkoutPageValidation";
-import { selectNovaState } from "../../../redux/nova/nova-selectors";
+import { selectCitiesLoading, selectNovaState, selectWarehousesLoading } from "../../../redux/nova/nova-selectors";
 import { getCities, getWarehouses } from "../../../redux/nova/nova-operation";
 import { nanoid } from "@reduxjs/toolkit";
 import {
@@ -31,6 +31,7 @@ import useDebounce from "../../../hooks/useDebounce";
 import { useAuth } from "../../../hooks/useAuth";
 import { updateUserDelivery } from "../../../redux/auth/auth-operations";
 import { Options, OptionsWrapper } from "../../Auth/UserPage/UserData/DeliveryData";
+import { SmallLoader } from "../../SmallLoader/SmallLoader";
 
 export default function CheckoutForm({ user }) {
   const { delivery } = user;
@@ -56,10 +57,9 @@ export default function CheckoutForm({ user }) {
   const deliverySelect = watch("delivery");
   const cityInput = useDebounce(watch("city"), 800);
   const warehouseInput = useDebounce(watch("warehouse"), 800);
-  const sameNovaCity = nova.city === cityInput;
-  const sameNovaWarehouse = nova.warehouse === warehouseInput;
-  const sameDeliveryCity = delivery?.city === cityInput;
-  const sameDeliveryWarehouse = delivery?.warehouse === warehouseInput;
+  const cityInputt = watch('city');
+  const warehouseLoading = useSelector(selectWarehousesLoading);
+  const citiesLoading = useSelector(selectCitiesLoading);
   const { isLoggedIn } = useAuth();
   const [userEditDelivery, setUserEditDelivery] = useState(isLoggedIn && delivery.city ? false : true);
   const [showCities, setShowCities] = useState(
@@ -132,45 +132,47 @@ export default function CheckoutForm({ user }) {
 
 
   useEffect(() => {
+    if(cityInputt.length === 0) {
+      return;
+    }
 
-    if (cityInput && cityInput.length > 2 && userEditDelivery) {
+    if (cityInput.length > 2 && showCities) {
       dispatch(getCities(cityInput));
     } else {
       dispatch(removeCitiesList([]));
     }
 
-    if (warehouseInput && warehouseInput.length >= 1 && userEditDelivery) {
+    if (warehouseInput.length >= 1 && showWarehouses) {
       dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
     } else {
       dispatch(removeWarehousesList([]));
     }
 
-    if (isLoggedIn && !userEditDelivery) {
-      const { name, email, phone } = user;
-      const { city, warehouse } = user.delivery;
-      setValue("name", name);
-      setValue("email", email);
-      setValue("phone", phone);
-      setValue("city", city);
-      setValue("warehouse", warehouse);
-      dispatch(removeWarehousesList([]));
-      dispatch(removeCitiesList([]));
-      setShowCities(false);
-      setShowWarehouses(false);
-    }
+    // if (isLoggedIn && !userEditDelivery) {
+    //   const { name, email, phone } = user;
+    //   const { city, warehouse } = user.delivery;
+    //   setValue("name", name);
+    //   setValue("email", email);
+    //   setValue("phone", phone);
+    //   setValue("city", city);
+    //   setValue("warehouse", warehouse);
+    //   dispatch(removeWarehousesList([]));
+    //   dispatch(removeCitiesList([]));
+    //   setShowCities(false);
+    //   setShowWarehouses(false);
+    // }
   }, [
     cityInput,
     warehouseInput,
     dispatch,
-    sameNovaCity,
-    sameDeliveryCity,
-    sameNovaWarehouse,
-    sameDeliveryWarehouse,
-    isLoggedIn,
-    userEditDelivery,
-    user,
-    setValue,
-    delivery,
+    showCities,
+    showWarehouses,
+    // isLoggedIn,
+    // userEditDelivery,
+    // user,
+    // setValue,
+    // delivery,
+    cityInputt.length
   ]);
 
 
@@ -235,7 +237,6 @@ export default function CheckoutForm({ user }) {
     dispatch(removeCitiesList([]));
     dispatch(removeWarehousesList([]));
   };
-  console.log("userEditDelivery", userEditDelivery);
 
   return (
     <>
@@ -252,6 +253,7 @@ export default function CheckoutForm({ user }) {
                 <div>
                     <Input {...city_input} />
                     <OptionsWrapper>
+                      {citiesLoading && <SmallLoader />}
                     {cities && userEditDelivery && showCities &&
                       cities.map((item) => {
                         const { Ref, Description } = item;
@@ -275,6 +277,7 @@ export default function CheckoutForm({ user }) {
                 <div>
                     <Input {...warehouse_input} />
                     <OptionsWrapper>
+                      {warehouseLoading && <SmallLoader />}
                     {warehouses && userEditDelivery && showWarehouses &&
                       warehouses.map((item) => {
                         const {

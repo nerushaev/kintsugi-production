@@ -1,17 +1,14 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../../redux/products/products-operation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   getTotalPages,
   selectFilteredProducts,
   selectIsLoading,
 } from "../../../../redux/products/products-selectors";
-import { getFilter } from "../../../../redux/filter/filter-selectors";
 import { List, ListWrapper } from "../List.styled";
-import FilterPanel from "../../FilterPanel/FilterPanel";
 import Pagination from "../../Pagination/Pagination";
-import { getSearch } from "../../../../redux/search/search-selectors";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSearchParams } from "react-router-dom";
@@ -20,6 +17,8 @@ import Search from "../../Search/Search";
 import styled from 'styled-components';
 import { theme } from "../../../../styles/theme";
 import { Select } from "../../../Busket/CheckoutPage/SelectInput";
+import { FaPlusCircle } from "react-icons/fa";
+import { Element, animateScroll as scroller } from "react-scroll";
 
 const categories = ["Косплей","Перуки","Аксесуари","Мерч","Lolita fashion","Катани, мечі, зброя","K-pop","Фігурки","Акрилові стенди",]
 
@@ -30,6 +29,9 @@ const CategoryWrapper = styled.div`
   margin-bottom: 20px;
 `;
 const CategoryItem = styled.p`
+display: flex;
+align-items: center;
+gap: 5px;
 padding: 5px 10px;
 border-radius: 6px;
 background-color: ${props => props.$active ? `lightgray` : `${theme.colors.ligthGray}`};
@@ -54,10 +56,10 @@ const ProductsList = () => {
   const pageNum = Number(page);
   const totalPages = useSelector(getTotalPages);
   const scrollPosition = useRef(null);
-  const search = useSelector(getSearch);
   const isLoading = useSelector(selectIsLoading);
   const category = searchParams.get('category');
   const price = searchParams.get('price');
+  const search = searchParams.get('search');
 
   useEffect(() => {
 
@@ -113,21 +115,28 @@ const ProductsList = () => {
       setSearchParams(searchParams);
       searchParams.set('price', value);
       setSearchParams(searchParams);
-      // setFilter([e.target.textContent]);
     }
+  }
+
+  const resetFilters = (e) => {
+    searchParams.set('page', 1);
+    searchParams.set('price', "none");
+    searchParams.set('category', "");
+    searchParams.set('search', "");
+    setSearchParams(searchParams);
   }
 
   return (
     <>
-    {isLoading && <Loader />}
-    <Search setSearchParams={setSearchParams} />
-    {/* <FilterPanel getObjectKeysString={getObjectKeysString} /> */}
+    {/* {isLoading && <Loader />} */}
+    <Search setSearchParams={setSearchParams} searchParams={searchParams} />
     <CategoryWrapper>
     {categories.map(item => {
       return <CategoryItem onClick={handleFilter} $active={item === category} key={item}>{item}</CategoryItem>
     })}
+    <CategoryItem onClick={resetFilters}>Скинути фільтри<FaPlusCircle style={{rotate: "45deg", fontSize: "14px"}}/></CategoryItem>
     </CategoryWrapper>
-    <StyledSelect onChange={handlePriceFilter}>
+    <StyledSelect value={price ? "none" : price} onChange={handlePriceFilter}>
     <option value="none">Сортувати
       </option>
       <option value="low">По-зростанню

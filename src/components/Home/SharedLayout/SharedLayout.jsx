@@ -23,8 +23,10 @@ export default function SharedLayout() {
           <MainMenu />
         </NavState>
       )}
+    
       <main>
           <Busket />
+
           <Container>
           <Outlet />
           </Container>

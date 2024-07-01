@@ -7,7 +7,6 @@ export const getProducts = createAsyncThunk(
   async (requestData, ThunkAPI) => {
     const { page, category, search, price } = requestData;
     if (category || search || page || price) {
-      console.log(price);
       try {
         const { data } = await instance.get(
           `/api/products?page=${page}${category ? `&category=${category}` : ""}${
@@ -41,8 +40,7 @@ export const getBaners = createAsyncThunk(
   "products/getBanners",
   async (requestData, ThunkApi) => {
     try {
-      const { data } = await instance.get(`api/products/banners`);
-      console.log(data);
+      await instance.get(`api/products/banners`);
     } catch (error) {
       return ThunkApi.rejectWithValue(error.message);
     }
@@ -61,7 +59,6 @@ export const getProductsByName = createAsyncThunk(
         if (data.length < 1) {
           return ThunkAPI.rejectWithValue("empty");
         }
-        console.log(data);
         return data;
       } catch (error) {
         return ThunkAPI.rejectWithValue(error.message);
@@ -113,9 +110,7 @@ export const addProducts = createAsyncThunk(
       const { data } = await instance.post("/api/products/", newProduct);
       return data;
     } catch (error) {
-      console.log(error);
       Notify.failure(error.response.data)
-      console.log(error);
       return ThunkAPI.rejectWithValue(error.message);
     }
   }
