@@ -1,10 +1,11 @@
 import React from "react";
+import { Container } from "../components/Container/Container.styled";
 import Title from "../components/Home/Title/Title";
 import { Link, Text } from "./PublicOfferPage";
 
 export default function Politic() {
   return (
-    <>
+    <Container>
       <Title text={"Політика приватності"} />
       <Text $accent>
         1. Персональні дані Покупця, що використовуються на Сайті{" "}
@@ -113,6 +114,6 @@ export default function Politic() {
         зв'язку з реалізацією Товарів/наданням послуг на території України
         виключно і відповідно до чинного законодавства України.
       </Text>
-    </>
+    </Container>
   );
 }

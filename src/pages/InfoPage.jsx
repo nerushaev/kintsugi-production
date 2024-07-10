@@ -1,5 +1,6 @@
 import React from "react";
+import { Container } from "../components/Container/Container.styled";
 
 export default function InfoPage() {
-  return <div>В процессі розробки...</div>;
+  return <Container>В процессі розробки...</Container>;
 }

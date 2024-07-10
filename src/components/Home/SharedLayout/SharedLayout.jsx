@@ -26,10 +26,9 @@ export default function SharedLayout() {
     
       <main>
           <Busket />
-
-          <Container>
+          {/* <Container> */}
           <Outlet />
-          </Container>
+          {/* </Container> */}
           <ScrollButton />
       </main>
       <Footer />

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Button, Element, Events, animateScroll as scroll, scrollSpy } from 'react-scroll';
 import styled from "styled-components";
 import svg from "../../../assets/filterIcons.svg";
 import { selectBusketAmount } from "../../../redux/products/products-selectors";
@@ -28,8 +29,21 @@ const BusketAmount = styled.p`
 
 export default function Busket() {
   const busketAmount = useSelector(selectBusketAmount);
+
+  const handleClick = () => {
+    if(busketAmount === 0) {
+      return;
+    } else {
+      scroll.scrollToTop({
+        duration: 800,
+        delay: 0
+      })
+    }
+  }
+
+
   return (
-    <Link to="/checkout">
+    <Link onClick={handleClick} to={busketAmount.length !== 0 ? "/checkout" : "/"}>
       <BusketContainer>
         <BusketAmount>{busketAmount}</BusketAmount>
         <svg width="40" height="40">

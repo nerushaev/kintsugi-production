@@ -1,24 +1,28 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../../redux/products/products-operation";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   getTotalPages,
   selectFilteredProducts,
-  selectIsLoading,
+  // selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import { List, ListWrapper } from "../List.styled";
 import Pagination from "../../Pagination/Pagination";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSearchParams } from "react-router-dom";
-import Loader from "../../../Loader/Loader";
 import Search from "../../Search/Search";
 import styled from 'styled-components';
 import { theme } from "../../../../styles/theme";
 import { Select } from "../../../Busket/CheckoutPage/SelectInput";
 import { FaPlusCircle } from "react-icons/fa";
-import { Element, animateScroll as scroller } from "react-scroll";
+import { Element, scroller } from "react-scroll";
+import useModal from '../../../../hooks/modal';
+import Modal from '../../../Modal/Modal';
+import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
+import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
+import { addToBusket } from "../../../../redux/products/products-slice";
 
 const categories = ["Косплей","Перуки","Аксесуари","Мерч","Lolita fashion","Катани, мечі, зброя","K-pop","Фігурки","Акрилові стенди",]
 
@@ -35,6 +39,7 @@ gap: 5px;
 padding: 5px 10px;
 border-radius: 6px;
 background-color: ${props => props.$active ? `lightgray` : `${theme.colors.ligthGray}`};
+color: ${props => props.$accent ? `${theme.colors.redAccent}` : "none"};
 cursor: pointer;
 &:hover {
 background-color: lightgray;
@@ -47,19 +52,32 @@ const StyledSelect = styled(Select)`
   margin-bottom: 10px;
 `;
 
+const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 20px 40px;
+  padding-top: 60px;
+`;
+
 const ProductsList = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const {openModal, closeModal, isModalOpen} = useModal();
   const product = useSelector(selectFilteredProducts);
   const page = searchParams.get('page') || 1;
   const pageNum = Number(page);
   const totalPages = useSelector(getTotalPages);
   const scrollPosition = useRef(null);
-  const isLoading = useSelector(selectIsLoading);
+  // const isLoading = useSelector(selectIsLoading);
   const category = searchParams.get('category');
   const price = searchParams.get('price');
   const search = searchParams.get('search');
+  const [modalProduct, setModalProduct] = useState([]);
+  const [activeSize, setActiveSize] = useState();
 
   useEffect(() => {
 
@@ -83,20 +101,27 @@ const ProductsList = () => {
   const handlePagination = (page) => {
     searchParams.set('page', page);
     setSearchParams(searchParams);
+
+    scroller.scrollTo("scroll", {
+      smooth: true,
+      duration: 500,
+      delay: 0,
+  });
   };
 
   const handleFilter = (e) => {
     if(!category) {
       searchParams.set('category', e.currentTarget.textContent);
+      searchParams.set('page', 1);
       setSearchParams(searchParams);
     } else {
       // setFilter([]);
       searchParams.set('category', "");
       setSearchParams(searchParams);
       searchParams.set('category', e.currentTarget.textContent);
+      searchParams.set('page', 1);
       setSearchParams(searchParams);
       // setFilter([e.target.textContent]);
-
     }
   }
 
@@ -126,17 +151,31 @@ const ProductsList = () => {
     setSearchParams(searchParams);
   }
 
+  const handleItemWithSize = (data) => {
+    setActiveSize(data.modifications[0].modificator_name);
+    setModalProduct(data);
+    openModal();
+  }
+
+  const handleClick = (newData) => {
+    dispatch(addToBusket(newData));
+    closeModal();
+  };
+
+
   return (
     <>
     {/* {isLoading && <Loader />} */}
+    <Element name="scroll">
     <Search setSearchParams={setSearchParams} searchParams={searchParams} />
+    </Element>
     <CategoryWrapper>
     {categories.map(item => {
       return <CategoryItem onClick={handleFilter} $active={item === category} key={item}>{item}</CategoryItem>
     })}
-    <CategoryItem onClick={resetFilters}>Скинути фільтри<FaPlusCircle style={{rotate: "45deg", fontSize: "14px"}}/></CategoryItem>
+    <CategoryItem $accent onClick={resetFilters}>Скинути фільтри<FaPlusCircle style={{rotate: "45deg", fontSize: "14px"}}/></CategoryItem>
     </CategoryWrapper>
-    <StyledSelect value={price ? "none" : price} onChange={handlePriceFilter}>
+    <StyledSelect value={!price ? "none" : price} onChange={handlePriceFilter}>
     <option value="none">Сортувати
       </option>
       <option value="low">По-зростанню
@@ -150,7 +189,7 @@ const ProductsList = () => {
         )}
         <ListWrapper>
         <List ref={scrollPosition}>
-          <ProductsItem key={nanoid()} data={product} />
+          <ProductsItem key={nanoid()} data={product} handleItemWithSize={handleItemWithSize}/>
         </List>
         </ListWrapper>
       <Pagination
@@ -158,6 +197,27 @@ const ProductsList = () => {
         totalPages={totalPages}
         currentPage={pageNum}
       />
+      {isModalOpen && 
+      <Modal onCloseModal={closeModal}>
+        <ModalWrapper>
+          <p>Оберіть розмір</p>
+          <AddButtonWithSize activeSize={activeSize} modifications={modalProduct.modifications} setActiveSize={setActiveSize}  />
+          <ButtonWrapper>
+            <Button onClick={() => handleClick({
+              product_id: modalProduct.product_id,
+              product_name: modalProduct.product_name,
+              description: modalProduct.description,
+              photo: modalProduct.photo,
+              price: modalProduct.price,
+              amount: modalProduct.amount,
+              category_name: modalProduct.category_name,
+              size: activeSize
+            })}>Додати у кошик</Button>
+          </ButtonWrapper>
+          </ModalWrapper>
+      </Modal>
+      }
+      
     </>
   );
 };

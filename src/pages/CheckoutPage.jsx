@@ -17,6 +17,7 @@ import { FormWrapper } from "../components/Form/Form.styled";
 import { SlClose } from "react-icons/sl";
 import { selectUser } from "../redux/auth/auth-selectors";
 import { useNavigate } from "react-router";
+import { Container } from "../components/Container/Container.styled";
 
 const BusketWrapper = styled.div`
   margin-bottom: 30px;
@@ -151,7 +152,7 @@ export default function CheckoutPage() {
   }, [busket, navigate])
 
   return (
-    <>
+    <Container>
       <BusketWrapper>
         <BusketList>
           {busket.map((item) => {
@@ -228,6 +229,6 @@ export default function CheckoutPage() {
           </FormWrapper>
         </Modal>
       )}
-      </>
+      </Container>
   );
 }

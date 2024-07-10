@@ -20,6 +20,7 @@ import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
 import { LuShoppingBasket } from "react-icons/lu";
 
+
 export const Select = styled.select`
   width: 40px;
   text-align-last: center;
@@ -36,7 +37,7 @@ const ScoreWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const ProductsItem = ({ data }) => {
+export const ProductsItem = ({ data,handleItemWithSize }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
 
@@ -54,7 +55,9 @@ export const ProductsItem = ({ data }) => {
       amount,
       category_name,
       score,
+      modifications
     }) => {
+
       const isFromBusket = busket.find((item) => item.product_id === product_id);
       const item = busket.find((item) => item.product_id === product_id);
       const itemId = nanoid();
@@ -83,23 +86,45 @@ export const ProductsItem = ({ data }) => {
               </ButtonWrapper>
             ) : (
               <ButtonWrapper $noMargin>
-                  <AddButton
-                    onClick={() => {
-                      handleClick({
-                        product_id,
-                        product_name,
-                        description,
-                        photo,
-                        price,
-                        amount,
-                        category_name,
-                        // size: sizeRef.current.value,
-                      });
-                    }}
-                  >
-                    Додати у кошик
-                    <LuShoppingBasket style={{fontSize: `16px`}}/>
-                  </AddButton>
+                {modifications && modifications.length !== 0 ? 
+                <AddButton
+                onClick={() => {
+                  handleItemWithSize({
+                    product_id,
+                    product_name,
+                    description,
+                    photo,
+                    price,
+                    amount,
+                    category_name,
+                    modifications
+                    // size: sizeRef.current.value,
+                  });
+                }}
+              >
+                Додати у кошик
+                <LuShoppingBasket style={{fontSize: `16px`}}/>
+              </AddButton>
+                :
+                <AddButton
+                onClick={() => {
+                  handleClick({
+                    product_id,
+                    product_name,
+                    description,
+                    photo,
+                    price,
+                    amount,
+                    category_name,
+                    // size: sizeRef.current.value,
+                  });
+                }}
+              >
+                Додати у кошик
+                <LuShoppingBasket style={{fontSize: `16px`}}/>
+              </AddButton>
+              }
+                
               </ButtonWrapper>
             )}
           </ItemBody>

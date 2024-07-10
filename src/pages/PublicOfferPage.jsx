@@ -3,6 +3,7 @@ import Subtitle from "../components/Home/Subtitle/Subtitle";
 import Title from "../components/Home/Title/Title";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
+import { Container } from "../components/Container/Container.styled";
 
 export const Text = styled.p`
   text-align: center;
@@ -19,7 +20,7 @@ export const Link = styled.a`
 
 export default function PublicOfferPage() {
   return (
-    <>
+    <Container>
       <Title text={"Публічна оферта"} />
       <Subtitle accent center>
         ПУБЛІЧНИЙ ДОГОВІР КУПІВЛІ-ПРОДАЖУ ТОВАРУ
@@ -389,6 +390,6 @@ export default function PublicOfferPage() {
         оформлення останнього замовлення на сайті.
       </Text>
       <Text>5.8. Користувач ознайомлений і згоден з умовами даної угоди.</Text>
-    </>
+    </Container>
   );
 };

@@ -168,7 +168,7 @@ export default function ProductsDetails({ data }) {
           <Text>Код товару: {`${product_id}`}</Text>
           <Subtitle>{price / 100}грн</Subtitle>
             <Score score={score} />
-              <Subtitle>Розмір: {activeSize}</Subtitle>
+              <Subtitle>Розмір: {activeSize ? activeSize : "One size"}</Subtitle>
               {modifications.length > 0 &&
           <AddButtonWithSize activeSize={activeSize} setActiveSize={setActiveSize} modifications={modifications}  />
               }

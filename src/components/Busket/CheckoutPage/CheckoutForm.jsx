@@ -132,21 +132,25 @@ export default function CheckoutForm({ user }) {
 
 
   useEffect(() => {
-    if(cityInputt.length === 0) {
-      return;
+    if (cityInput) {
+      if(cityInputt.length === 0) {
+        return;
+      }
+
+      if (cityInput.length > 2 && showCities) {
+        dispatch(getCities(cityInput));
+      } else {
+        dispatch(removeCitiesList([]));
+      }
+  
+      if (warehouseInput.length >= 1 && showWarehouses) {
+        dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
+      } else {
+        dispatch(removeWarehousesList([]));
+      }
     }
 
-    if (cityInput.length > 2 && showCities) {
-      dispatch(getCities(cityInput));
-    } else {
-      dispatch(removeCitiesList([]));
-    }
 
-    if (warehouseInput.length >= 1 && showWarehouses) {
-      dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
-    } else {
-      dispatch(removeWarehousesList([]));
-    }
 
     // if (isLoggedIn && !userEditDelivery) {
     //   const { name, email, phone } = user;
@@ -172,7 +176,7 @@ export default function CheckoutForm({ user }) {
     // user,
     // setValue,
     // delivery,
-    cityInputt.length
+    cityInputt
   ]);
 
 

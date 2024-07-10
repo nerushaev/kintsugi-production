@@ -14,6 +14,7 @@ import { MdLogout } from "react-icons/md";
 import { clearErrorAndResponse } from "../redux/auth/auth-slice";
 import { Button } from "../components/Buttons/Buttons";
 import { LuShoppingBasket } from "react-icons/lu";
+import { Container } from "../components/Container/Container.styled";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -71,7 +72,7 @@ export default function UserPage() {
   };
 
   return (
-    <>
+    <Container>
       <Title text="Особистий кабінет" />
       <ButtonWrapper>
         <Button $active={userData} id="userData" onClick={handleClickBtn}>
@@ -97,6 +98,6 @@ export default function UserPage() {
         <MdLogout />
           Вийти</Button>
       </ButtonWrapper>
-    </>
+    </Container>
   );
 }

@@ -9,6 +9,7 @@ import {
 } from "../redux/products/products-selectors";
 import Loader from "../components/Loader/Loader";
 import MoreInfoControlls from "../components/Home/Products/ProductsDetails/MoreInfoControlls/MoreInfoControlls";
+import { Container } from "../components/Container/Container.styled";
 
 export default function Product() {
   const dispatch = useDispatch();
@@ -20,13 +21,13 @@ export default function Product() {
   }, [dispatch, product_id]);
 
   return (
-      <>
+      <Container>
       {(isLoading) && <Loader />}
       {(!isLoading && product.length !== 0) && 
         <ProductsDetails data={product} />
       }
       <MoreInfoControlls/>
       <Outlet/>
-      </>
+      </Container>
   );
 }

@@ -127,21 +127,22 @@ export default function DeliveryData({ user }) {
   };
 
   useEffect(() => {
-
-    if(cityInputt.length === 0) {
-      return;
-    }
-
-    if (cityInput.length > 2 && showCities) {
-      dispatch(getCities(cityInput));
-    } else {
-      dispatch(removeCitiesList([]));
-    }
-
-    if (warehouseInput.length >= 1 && showWarehouses) {
-      dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
-    } else {
-      dispatch(removeWarehousesList([]));
+    if(cityInput) {
+      if(cityInputt.length === 0) {
+        return;
+      }
+  
+      if (cityInput.length > 2 && showCities) {
+        dispatch(getCities(cityInput));
+      } else {
+        dispatch(removeCitiesList([]));
+      }
+  
+      if (warehouseInput.length >= 1 && showWarehouses) {
+        dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
+      } else {
+        dispatch(removeWarehousesList([]));
+      }
     }
 
   }, [cityInput, warehouseInput, dispatch, showCities, showWarehouses, delivery, cityInputt]);
@@ -170,7 +171,7 @@ export default function DeliveryData({ user }) {
     <FormProvider {...methods}>
       <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
-        
+        <div>
             <Input {...city_input}/>
             <OptionsWrapper>
               {loadingCities && <SmallLoader />}
@@ -186,7 +187,8 @@ export default function DeliveryData({ user }) {
                 );
               })}
           </OptionsWrapper>
-          
+          </div>
+          <div>
             <Input {...warehouse_input} />
             <OptionsWrapper>
             {loadingWarehouses && <SmallLoader />}
@@ -202,6 +204,7 @@ export default function DeliveryData({ user }) {
                 );
               })}
           </OptionsWrapper>
+          </div>
         </InputsWrapper>
         {isLoggedIn && (
           <ButtonWrapper>
