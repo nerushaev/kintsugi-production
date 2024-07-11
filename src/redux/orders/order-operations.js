@@ -3,12 +3,10 @@ import * as api from '../../API/api';
 
 export const getOrders = createAsyncThunk(
   "/orders/get",
-  async (_, {getState,rejectWithValue}) => {
+  async (ordersId, {getState,rejectWithValue}) => {
     try {
-      const { auth } = getState();
-      api.setToken(auth.token);
-      const {data} = await api.AuthInstance.get('/api/orders/');
-      return data.orders;
+      const {data} = await api.AuthInstance.post('/api/orders/get', ordersId);
+      return data.order;
     } catch (error) {
       return rejectWithValue(error.message);
     }

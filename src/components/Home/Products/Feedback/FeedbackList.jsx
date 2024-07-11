@@ -80,12 +80,13 @@ export default function FeedbackList() {
         <ErrorMessage message="Ваш відгук буде першим!" />
       )}
       {comments.map((item) => {
-        const { name, score, comment, _id, product_id } = item;
+        const { name, score, comment, _id, product_id, date } = item;
         console.log(product_id);
         const randomId = nanoid();
         const isMyComment = user.email === item.email;
         return (
           <FeedbackItem key={randomId}>
+            <p>{date}</p>
             <TopWrapper>
               <NameWrapper>
                 <Score score={score} />

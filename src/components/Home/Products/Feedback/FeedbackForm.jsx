@@ -35,14 +35,18 @@ export default function FeedbackForm() {
     if(score === 0) {
       setScoreError("Оцініть товар!")
     } else {
-      console.log(data);
+
+      let D = new Date();
+      const DateFormat = ('0' + D.getDate()).slice(-2) + '.' + ('0' + (D.getMonth() + 1)).slice(-2) + '.' + D.getFullYear();
+      
       dispatch(addFeedback(
         {
           name,
           email,
           product_id,
           score,
-          comment: data.comment
+          comment: data.comment,
+          date: DateFormat
         }
       ))
     }

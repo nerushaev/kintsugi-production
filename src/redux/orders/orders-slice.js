@@ -5,7 +5,6 @@ const ordersInitialState = {
   orders: [],
   loading: false,
   error: null,
-  waybill: '',
 }
 
 const handlePending = (state) => {
@@ -26,6 +25,7 @@ const orderSlice = createSlice({
 
     builder.addCase(getOrders.fulfilled, (state, {payload}) => {
       state.orders = payload;
+      state.loading = false;
     });
 
     builder.addCase(getOrders.rejected, handleRejected);

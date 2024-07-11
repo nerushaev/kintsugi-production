@@ -15,6 +15,7 @@ import { clearErrorAndResponse } from "../redux/auth/auth-slice";
 import { Button } from "../components/Buttons/Buttons";
 import { LuShoppingBasket } from "react-icons/lu";
 import { Container } from "../components/Container/Container.styled";
+import OrderHistory from "../components/Auth/UserPage/UserData/OrderHistory";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -43,12 +44,16 @@ export default function UserPage() {
     switch (id) {
       case "userData":
         dispatch(clearErrorAndResponse());
+        setOrderHistory(false);
+
         setUserData(true);
         setChangePass(false);
         setDeliveryData(false);
         break;
       case "changePass":
         dispatch(clearErrorAndResponse());
+        setOrderHistory(false);
+
         setUserData(false);
         setChangePass(true);
         setDeliveryData(false);
@@ -57,14 +62,17 @@ export default function UserPage() {
         dispatch(clearErrorAndResponse());
         setUserData(false);
         setChangePass(false);
+        setOrderHistory(false);
+
         setDeliveryData(true);
+        
         break;
         case "orderHistory":
         dispatch(clearErrorAndResponse());
         setUserData(false);
         setChangePass(false);
         setDeliveryData(false);
-        setOrderHistory(false);
+        setOrderHistory(true);
         break;
       default:
         break;
@@ -92,6 +100,7 @@ export default function UserPage() {
       {userData && <UserInfo user={user} />}
       {changePass && <PasswordChangeForm user={user} />}
       {deliveryData && <DeliveryData user={user} />}
+      {orderHistory && <OrderHistory ordersId={user.orders} />}
       </>
       <ButtonWrapper>
         <Button onClick={handleClick}>

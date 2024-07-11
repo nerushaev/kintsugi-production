@@ -32,6 +32,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { updateUserDelivery } from "../../../redux/auth/auth-operations";
 import { Options, OptionsWrapper } from "../../Auth/UserPage/UserData/DeliveryData";
 import { SmallLoader } from "../../SmallLoader/SmallLoader";
+import { clearBusket } from "../../../redux/products/products-slice";
 
 export default function CheckoutForm({ user }) {
   const { delivery } = user;
@@ -65,6 +66,7 @@ export default function CheckoutForm({ user }) {
   const [showCities, setShowCities] = useState(
     delivery && delivery.city ? false : true
   );
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [showWarehouses, setShowWarehouses] = useState(
     delivery && delivery.warehouse ? false : true
@@ -130,7 +132,6 @@ export default function CheckoutForm({ user }) {
 
 
 
-
   useEffect(() => {
     if (cityInput) {
       if(cityInputt.length === 0) {
@@ -150,33 +151,32 @@ export default function CheckoutForm({ user }) {
       }
     }
 
-
-
-    // if (isLoggedIn && !userEditDelivery) {
-    //   const { name, email, phone } = user;
-    //   const { city, warehouse } = user.delivery;
-    //   setValue("name", name);
-    //   setValue("email", email);
-    //   setValue("phone", phone);
-    //   setValue("city", city);
-    //   setValue("warehouse", warehouse);
-    //   dispatch(removeWarehousesList([]));
-    //   dispatch(removeCitiesList([]));
-    //   setShowCities(false);
-    //   setShowWarehouses(false);
-    // }
+    if (isLoggedIn && !loggedIn) {
+      const { name, email, phone } = user;
+      const { city, warehouse } = user.delivery;
+      setValue("name", name);
+      setValue("email", email);
+      setValue("phone", phone);
+      setValue("city", city);
+      setValue("warehouse", warehouse);
+      dispatch(removeWarehousesList([]));
+      dispatch(removeCitiesList([]));
+      setShowCities(false);
+      setShowWarehouses(false);
+      setLoggedIn(true);
+    }
   }, [
     cityInput,
     warehouseInput,
     dispatch,
     showCities,
     showWarehouses,
-    // isLoggedIn,
-    // userEditDelivery,
-    // user,
-    // setValue,
-    // delivery,
-    cityInputt
+    isLoggedIn,
+    userEditDelivery,
+    user,
+    setValue,
+    cityInputt,
+    loggedIn
   ]);
 
 
@@ -229,6 +229,9 @@ export default function CheckoutForm({ user }) {
         products: busket,
       };
       dispatch(orderProducts(newData));
+    }
+    if(data.payments === "cash") {
+      dispatch(clearBusket());
     }
   });
 

@@ -20,7 +20,6 @@ import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
 import { LuShoppingBasket } from "react-icons/lu";
 
-
 export const Select = styled.select`
   width: 40px;
   text-align-last: center;
@@ -87,6 +86,7 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
             ) : (
               <ButtonWrapper $noMargin>
                 {modifications && modifications.length !== 0 ? 
+                
                 <AddButton
                 onClick={() => {
                   handleItemWithSize({
@@ -124,7 +124,6 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
                 <LuShoppingBasket style={{fontSize: `16px`}}/>
               </AddButton>
               }
-                
               </ButtonWrapper>
             )}
           </ItemBody>

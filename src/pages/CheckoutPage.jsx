@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import {
   getBusket,
+  getLiqpay,
   totalBusketPrice,
 } from "../redux/products/products-selectors";
 import { theme } from "../styles/theme";
@@ -102,6 +103,7 @@ const BusketList = styled.ul`
 `;
 
 const Text = styled.p`
+height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -144,12 +146,21 @@ export default function CheckoutPage() {
   const { isLoggedIn } = useAuth();
   const { openModal, isModalOpen, closeModal } = useModal();
   const navigate = useNavigate();
+  const liqpay = useSelector(getLiqpay);
 
   useEffect(() => {
-    if(busket.length === 0) {
-      navigate('/')
+    if (busket.length === 0) {
+      return navigate('/')
     }
-  }, [busket, navigate])
+    if((liqpay && !liqpay.signature) || !liqpay){
+      return;
+    } else {
+      navigate('/payment');
+    }
+    // if(liqpayliqpay.signature) {
+    //   navigate('/payment')
+    // }
+  }, [liqpay, busket, navigate])
 
   return (
     <Container>
@@ -158,11 +169,11 @@ export default function CheckoutPage() {
           {busket.map((item) => {
             const {
               product_name,
-              description,
               product_id,
               photo,
               price,
               amount,
+              size
             } = item;
             return (
               <BusketItem key={product_name}>
@@ -185,8 +196,8 @@ export default function CheckoutPage() {
                     </ItemImageWrapper>
                     <ItemWrapper>
                       <DetailsWrapper>
-                        <Text>{product_name}</Text>
-                        <Text>{description}</Text>
+                        <Text>{product_name} {size ? size : ""}</Text>
+                        {/* <Text>{description}</Text> */}
                       </DetailsWrapper>
                     </ItemWrapper>
                   </ImageTitleWrapper>

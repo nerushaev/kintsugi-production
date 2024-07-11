@@ -24,7 +24,7 @@ const productsInitialState = {
   banners: [],
   similarProducts: [],
   orderId: '',
-  liqpay: null,
+  liqpay: {},
   feedback: [],
   response: null,
 };
@@ -178,7 +178,6 @@ const productsSlice = createSlice({
       state.error = null;
       state.orderId = action.payload.orderId;
       state.liqpay = action.payload.liqpay;
-      state.busket = [];
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);

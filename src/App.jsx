@@ -27,6 +27,7 @@ import Loader from "./components/Loader/Loader";
 import DeliveryInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/DeliveryInfo";
 import PaymentInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/PaymentInfo";
 import Feedback from "./components/Home/Products/ProductsDetails/MoreInfoControlls/Feedback";
+import BusketRoute from "./components/BusketRoute/BusketRoute";
 
 function App() {
   const dispatch = useDispatch();
