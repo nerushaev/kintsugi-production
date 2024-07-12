@@ -32,7 +32,6 @@ import { useAuth } from "../../../hooks/useAuth";
 import { updateUserDelivery } from "../../../redux/auth/auth-operations";
 import { Options, OptionsWrapper } from "../../Auth/UserPage/UserData/DeliveryData";
 import { SmallLoader } from "../../SmallLoader/SmallLoader";
-import { clearBusket } from "../../../redux/products/products-slice";
 
 export default function CheckoutForm({ user }) {
   const { delivery } = user;
@@ -125,12 +124,10 @@ export default function CheckoutForm({ user }) {
     data: [
       { label: "Оберіть спосіб оплати", value: "" },
       { label: "Накладений платіж", value: "cash" },
-      { label: "Онлайн оплата Liqpay", value: "liqpay" },
+      { label: "Оплата на рахунок", value: "card" },
     ],
     id: "payments",
   };
-
-
 
   useEffect(() => {
     if (cityInput) {
@@ -229,9 +226,6 @@ export default function CheckoutForm({ user }) {
         products: busket,
       };
       dispatch(orderProducts(newData));
-    }
-    if(data.payments === "cash") {
-      dispatch(clearBusket());
     }
   });
 

@@ -6,7 +6,8 @@ import { theme } from "../../../styles/theme";
 import Logo from "../Logo/Logo";
 
 const Header = styled.header`
-  padding: 10px 0;
+  height: 100px;
+  // padding: 10px 0;
   margin-bottom: 50px;
   border-bottom: 2px solid rgba(255, 200, 221, 1);
   @media (min-width: 769px) {
@@ -56,7 +57,7 @@ export default function TabletNav() {
             <StyledLink to="/">Каталог</StyledLink>
           </NavigationItem>
           <NavigationItem>
-            <Link to="/info">Інформація</Link>
+            <Link to="/info">Доставка та оплата</Link>
           </NavigationItem>
           {!isLoggedIn ? (
             <>

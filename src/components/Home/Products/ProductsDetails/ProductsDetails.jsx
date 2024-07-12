@@ -11,6 +11,11 @@ import Score from "../Feedback/Score";
 import { SlArrowLeftCircle } from "react-icons/sl";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { LuShoppingBasket } from "react-icons/lu";
+import { createBrowserHistory } from "history";
+import { selectUser } from "../../../../redux/auth/auth-selectors";
+import Dropzone from "./Dropzone/Dropzone";
+import Slider from "../../Swiper/Swiper";
+
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -34,57 +39,33 @@ const GoBackWrapper = styled.div`
 
 const ProductWrapper = styled.div`
   position: relative;
-  margin-bottom: 50px;
-  @media (min-width: 767px) {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+  margin-bottom: 40px;
   margin-right: auto;
   margin-left: auto;
 `;
 
 const ContentWrapper = styled.div`
   @media (min-width: 767px) {
-    display: flex;
-    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   display: block;
-  @media (min-width: 767px) {
-    flex: 0 0 50%;
-    max-width: 50%;
-    margin-right: 20px;
-  }
 `;
 
 const ImageWrapper = styled.span`
   @media (min-width: 767px) {
-    background-size: contain;
+    background-size: cover;
     position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
   }
-
-
-`;
-
-const Image = styled.img`
-object-fit: contain;
-margin-bottom: 20px;
-@media (min-width: 767px) {
-  object-fit: contain;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-}
 `;
 
 const DetailsWrapper = styled.div`
@@ -93,10 +74,7 @@ const DetailsWrapper = styled.div`
   gap: 15px;
   padding: 20px 0;
   @media (min-width: 767px) {
-    flex: 0 0 50%;
-    max-width: 50%;
-  align-items: left;
-
+    align-items: left;
   }
 `;
 
@@ -126,17 +104,33 @@ export default function ProductsDetails({ data }) {
     category_name,
     modifications,
     score,
+    photo_extra
   } = data;
 
+
+  let photos = []
+  photos.unshift(photo)
+
+  if(photo_extra) {
+    photos.push(...photo_extra);
+  }
+
+  const history = createBrowserHistory();
 
   const [activeSize, setActiveSize] = useState(modifications.length > 0 ? modifications[0].modificator_name : null);
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
 
+  const user = useSelector(selectUser);
+  const isAdmin = user.role === "admin" ? true : false;
+
   const handleClick = (newData) => {
-    console.log(newData);
     dispatch(addToBusket(newData));
   };
+
+  const handleBackClick = () => {
+    history.go(-1)
+  }
 
   const isFromBusket = busket.find((item) => item.product_id === product_id);
   const item = busket.find((item) => item.product_id === product_id);
@@ -147,20 +141,21 @@ export default function ProductsDetails({ data }) {
         <ContentWrapper>
         <GoBackWrapper>
           <SlArrowLeftCircle size="24" />
-          <GoBackLink id="scroll" to="/">
+          <GoBackLink id="scroll" onClick={handleBackClick}>
             Назад
           </GoBackLink>
         </GoBackWrapper>
         <ImageContainer>
           <ImageWrapper>
-            {photo ? (
+          <Slider images={photos} />
+            {/* {photo ? (
               <Image alt="" src={`https://kintsugi.joinposter.com${photo}`} />
             ) : (
               <Image
                 alt=""
                 src={`https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg`}
               />
-            )}
+            )} */}
           </ImageWrapper>
         </ImageContainer>
         <DetailsWrapper>
@@ -193,6 +188,9 @@ export default function ProductsDetails({ data }) {
         </DetailsWrapper>
         </ContentWrapper>
       </ProductWrapper>
+      {isAdmin &&
+        <Dropzone _id={product_id} />
+        }
     </>
   );
 }

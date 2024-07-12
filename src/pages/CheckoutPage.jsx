@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import {
   getBusket,
-  getLiqpay,
+  selectIsLoading,
   totalBusketPrice,
 } from "../redux/products/products-selectors";
 import { theme } from "../styles/theme";
@@ -19,6 +19,7 @@ import { SlClose } from "react-icons/sl";
 import { selectUser } from "../redux/auth/auth-selectors";
 import { useNavigate } from "react-router";
 import { Container } from "../components/Container/Container.styled";
+import Loader from "../components/Loader/Loader";
 
 const BusketWrapper = styled.div`
   margin-bottom: 30px;
@@ -146,23 +147,18 @@ export default function CheckoutPage() {
   const { isLoggedIn } = useAuth();
   const { openModal, isModalOpen, closeModal } = useModal();
   const navigate = useNavigate();
-  const liqpay = useSelector(getLiqpay);
+  const loading = useSelector(selectIsLoading);
+
 
   useEffect(() => {
     if (busket.length === 0) {
       return navigate('/')
     }
-    if((liqpay && !liqpay.signature) || !liqpay){
-      return;
-    } else {
-      navigate('/payment');
-    }
-    // if(liqpayliqpay.signature) {
-    //   navigate('/payment')
-    // }
-  }, [liqpay, busket, navigate])
+  }, [busket, navigate])
 
   return (
+    <>
+    {loading && <Loader />}
     <Container>
       <BusketWrapper>
         <BusketList>
@@ -241,5 +237,6 @@ export default function CheckoutPage() {
         </Modal>
       )}
       </Container>
+      </>
   );
 }

@@ -21,6 +21,18 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const getAllProductsName = createAsyncThunk(
+  "/products/getNames",
+  async (_, ThunkAPI) => {
+      try {
+        const { data } = await instance.get(`/api/products/getNames`);
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+    }
+);
+
 export const getSimilarProducts = createAsyncThunk(
   "/products/getSimilar",
   async (requestData, ThunkAPI) => {
@@ -130,12 +142,13 @@ export const removeProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "/products/update",
-  async (updateData, ThunkAPI) => {
-    const { _id } = updateData;
+  async (data, ThunkAPI) => {
+    const {_id, formData} = data;
+    console.log(formData.has('photo_extra'))
     try {
-      const { data } = await AuthInstance.put(
+      const { data } = await instance.put(
         `/api/products/${_id}`,
-        updateData
+        formData
       );
       return data;
     } catch (error) {

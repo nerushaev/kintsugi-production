@@ -10,6 +10,7 @@ import {
   getProductsByName,
   orderProducts,
   getSimilarProducts,
+  getAllProductsName,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -24,9 +25,10 @@ const productsInitialState = {
   banners: [],
   similarProducts: [],
   orderId: '',
-  liqpay: {},
+  orderAccepted: false,
   feedback: [],
   response: null,
+  productsName: []
 };
 
 const handlePending = (state) => {
@@ -72,6 +74,10 @@ const productsSlice = createSlice({
     },
     clearBusket: (state, action) => {
       state.busket = [];
+    },
+    clearOrderInfo: (state, action) => {
+      state.orderId = "";
+      state.orderAccepted = false;
     },
   },
 
@@ -133,12 +139,10 @@ const productsSlice = createSlice({
 
     builder.addCase(updateProduct.pending, handlePending);
 
-    builder.addCase(updateProduct.fulfilled, (state, action) => {
+    builder.addCase(updateProduct.fulfilled, (state, {payload}) => {
       state.isLoading = false;
       state.error = null;
-      state.items = state.items.map((product) =>
-        product._id === action.payload._id ? action.payload : product
-      );
+      state.details.photo_extra = payload.photo_extra;
     });
 
     builder.addCase(updateProduct.rejected, handleRejected);
@@ -177,13 +181,23 @@ const productsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.orderId = action.payload.orderId;
-      state.liqpay = action.payload.liqpay;
+      state.busket = [];
+      state.orderAccepted = true;
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);
+    builder.addCase(getAllProductsName.pending, handlePending);
+
+    builder.addCase(getAllProductsName.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.productsName = action.payload.productsName;
+    });
+
+    builder.addCase(getAllProductsName.rejected, handleRejected);
   }
 });
 
-export const { addToBusket, incrementAmount, decrementAmount, clearBusket } =
+export const { addToBusket, incrementAmount, decrementAmount, clearBusket, clearOrderInfo } =
   productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

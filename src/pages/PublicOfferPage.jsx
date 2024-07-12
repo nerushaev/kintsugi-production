@@ -6,11 +6,11 @@ import { theme } from "../styles/theme";
 import { Container } from "../components/Container/Container.styled";
 
 export const Text = styled.p`
-  text-align: center;
+  text-align: left;
   margin-bottom: 20px;
   font-size: ${(props) =>
-    props.accent ? `${theme.fontSizes.large}` : `${theme.fontSizes.medium}`};
-  font-weight: ${(props) => (props.accent ? "500" : "400")};
+    props.$accent ? `${theme.fontSizes.large}` : `${theme.fontSizes.medium}`};
+  font-weight: ${(props) => (props.$accent ? "500" : "400")};
 `;
 
 export const Link = styled.a`

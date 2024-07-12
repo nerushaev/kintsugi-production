@@ -2,7 +2,7 @@ import FormAddProducts from "../../components/Admin/Form";
 import { getStateProducts, getTotalPages } from "../../redux/products/products-selectors";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../redux/products/products-operation";
+import { getAllProductsName, getProducts } from "../../redux/products/products-operation";
 import { useDispatch } from "react-redux";
 import Search from "../../components/Home/Search/Search";
 import Modal from '../../components/Modal';
@@ -22,12 +22,8 @@ export default function Admin() {
   const {closeModal, isModalOpen, openModal} = useModal();
   
   useEffect(() => {
-    if(search) {
-      dispatch(getProducts({page: 1, search}));
-    } else {
-      dispatch(getProducts({page}));
-    }
-  }, [dispatch, page, search]);
+    dispatch(getAllProductsName());
+  }, [dispatch]);
 
 
   const handlePagination = (e) => {
@@ -46,11 +42,8 @@ export default function Admin() {
     }
     
       {/* {loading && <Loader />} */}
-      <Search />
-      <ButtonWrapper>
-        <Button onClick={openModal}>Додати товар</Button>
-      </ButtonWrapper>
-      {products && <ProductsList data={products} />}
+      {/* <Search /> */}
+      {/* {products && <ProductsList data={products} />} */}
       <Pagination 
       handlePagePrev={handlePagination}
       totalPages={totalPages}

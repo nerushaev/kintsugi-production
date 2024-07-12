@@ -8,6 +8,7 @@ import Logo from "../Logo/Logo";
 import { useAuth } from "../../../hooks/useAuth";
 import svg from "../../../assets/filterIcons.svg";
 import { Link } from "react-router-dom";
+import useScreenSize from "../../../hooks/useScreenSize";
 
 const Navbar = styled.div`
   display: flex;
@@ -43,10 +44,19 @@ const Header = styled.header`
   height: 100px;
 `;
 
+const LinksWrapper = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-right: 40px;
+`;
+
 const MainMenu = () => {
   const node = useRef();
   const { isLoggedIn } = useAuth();
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
+  const screenSize = useScreenSize();
+
   useOnClickOutside(node, () => {
     if (isMenuOpen) {
       toggleMenuMode();
@@ -56,9 +66,17 @@ const MainMenu = () => {
   return (
     <Header id="header" ref={node}>
       <Navbar>
+      <Logo className={"nav-logo"} />
         <NavLogoWrapper>
-          <HamburgerButton />
-          {isLoggedIn && (
+        
+          {screenSize.width > 767 &&
+          <LinksWrapper>
+            <Link to="/">Каталог</Link>
+            <Link to="/info">Оплата та доставка</Link>
+            <Link to="/about">Про нас</Link>
+            </LinksWrapper>
+          }
+            {isLoggedIn && (
             <IconWrapper>
             <Link to="/user">
               <svg width="42" height="50">
@@ -67,13 +85,17 @@ const MainMenu = () => {
             </Link>
             </IconWrapper>
           )}
+          <IconWrapper>
           <Link to="/checkout">
               <svg width="42" height="50">
                 <use xlinkHref={`${svg}#icon-shopping-cart`} />
               </svg>
             </Link>
+            </IconWrapper>
+          {screenSize.width < 767 &&
+          <HamburgerButton />}
+          
         </NavLogoWrapper>
-        <Logo className={"nav-logo"} />
       </Navbar>
       <SideMenu />
     </Header>

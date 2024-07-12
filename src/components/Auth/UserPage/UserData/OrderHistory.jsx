@@ -24,6 +24,7 @@ const Item = styled.li`
   border: 1px solid gray;
   border-radius: 6px;
   margin: 0 auto;
+  heigth: 100%;
 `;
 
 const ItemBodyWrapper = styled.div`
@@ -42,6 +43,10 @@ const ItemProductsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const Title = styled.p`
+height: 40px;
 `;
 
 export default function OrderHistory({ ordersId, userPhone }) {
@@ -71,7 +76,7 @@ return (
             return(
               <ItemImageWrapper>
                 <img src={photo ? `https://kintsugi.joinposter.com${photo}` : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"} alt="" />
-                <p>{product_name}</p>
+                <Title>{product_name}</Title>
               </ItemImageWrapper>
             )
           })}

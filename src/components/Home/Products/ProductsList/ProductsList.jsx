@@ -1,11 +1,10 @@
 import { ProductsItem } from "../ProductsItem/ProductsItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../../redux/products/products-operation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getTotalPages,
   selectFilteredProducts,
-  // selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import { List, ListWrapper } from "../List.styled";
 import Pagination from "../../Pagination/Pagination";
@@ -71,8 +70,6 @@ const ProductsList = () => {
   const page = searchParams.get('page') || 1;
   const pageNum = Number(page);
   const totalPages = useSelector(getTotalPages);
-  const scrollPosition = useRef(null);
-  // const isLoading = useSelector(selectIsLoading);
   const category = searchParams.get('category');
   const price = searchParams.get('price');
   const search = searchParams.get('search');
@@ -188,9 +185,11 @@ const ProductsList = () => {
           <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
         )}
         <ListWrapper>
-        <List ref={scrollPosition}>
+          <List>
+          
           <ProductsItem key={nanoid()} data={product} handleItemWithSize={handleItemWithSize}/>
         </List>
+
         </ListWrapper>
       <Pagination
         handlePagePrev={handlePagination}

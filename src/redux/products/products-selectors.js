@@ -81,3 +81,5 @@ export const selectFilteredProducts = (state) => {
 
   return products;
 };
+
+export const selectIsOrderAccepted = ({products}) => products.orderAccepted;

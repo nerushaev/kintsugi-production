@@ -20,14 +20,12 @@ import AdminRoute from "./components/AdminRoute/AdminRoute";
 import RestorePass from "./components/Auth/RestorePassForm/RestorePassForm";
 import AdminPage from "./pages/Admin/AdminPage";
 import OrdersPage from "./pages/Admin/OrdersPage";
-import Payment from "./components/Busket/CheckoutPage/Payment";
 import PublicOfferPage from "./pages/PublicOfferPage";
 import Politic from "./pages/Politic";
 import Loader from "./components/Loader/Loader";
 import DeliveryInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/DeliveryInfo";
 import PaymentInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/PaymentInfo";
 import Feedback from "./components/Home/Products/ProductsDetails/MoreInfoControlls/Feedback";
-import BusketRoute from "./components/BusketRoute/BusketRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,7 +53,7 @@ function App() {
         <Route path="/info" element={<InfoPage />} />
         {/* <Route path="/busket" element={<BusketPage />} /> */}
         <Route path="/checkout" element={<CheckoutPage />}/>
-        <Route path="/payment" element={<Payment />}/>
+        {/* <Route path="/payment" element={<Payment />}/> */}
         <Route path="/restore" element={<RestorePasswordPage />} />
         <Route path="/publicoffer" element={<PublicOfferPage />}/>
         <Route path="/politic" element={<Politic />}/>
