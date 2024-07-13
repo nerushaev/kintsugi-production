@@ -14,7 +14,7 @@ export const Button = styled.div`
 position: fixed; 
 width: 70px;
 right: 10px; 
-bottom: 60px; 
+bottom: 0; 
 height: 70px; 
 display: flex;
 justify-content: center;

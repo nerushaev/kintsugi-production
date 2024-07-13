@@ -16,7 +16,7 @@ export default function SharedLayout() {
           <MainMenu />
         </NavState>
       <main>
-          <Busket />
+          {/* <Busket /> */}
           <Outlet />
           <ScrollButton />
       </main>

@@ -66,11 +66,12 @@ const DetailsWrapper = styled.div`
 
 const PriceWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid rgb(0, 0, 0, 0.1);
   padding-bottom: 10px;
+  height: 60px;
 `;
 
 const Price = styled.p`

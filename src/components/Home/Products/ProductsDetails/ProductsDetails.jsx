@@ -85,7 +85,6 @@ const Title = styled.h2`
 
 const Subtitle = styled.h3`
 font-weight: 500;
-
 `;
 
 const Text = styled.p`
