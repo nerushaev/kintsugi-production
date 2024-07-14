@@ -10,7 +10,8 @@ import svg from "../../../assets/filterIcons.svg";
 import { Link } from "react-router-dom";
 import useScreenSize from "../../../hooks/useScreenSize";
 import { useSelector } from "react-redux";
-import { totalBusketPrice } from "../../../redux/products/products-selectors";
+import { selectBusketAmount } from "../../../redux/products/products-selectors";
+import { useNavigate } from "react-router";
 
 const Navbar = styled.div`
   display: flex;
@@ -29,44 +30,49 @@ const Navbar = styled.div`
   min-height: 0px;
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px 10px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
   z-index: 500;
-  height: 80px;
-  padding: 0 20px;
+  height: 70px;
+  padding: 0px 10px;
 
   @media (min-width: 767px) {
-    height: 100px;
-  padding: 0 30px;
-
+    height: 80px;
+    padding: 0 30px;
   }
 `;
 
 const IconWrapper = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 5px;
 `;
 
 const NavLogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 `;
 
 const Header = styled.header`
-  margin-bottom: 120px;
+  margin-bottom: 100px;
 
   @media (min-width: 767px) {
-    margin-bottom: 150px;
+    margin-bottom: 120px;
   }
 `;
 
 const LinksWrapper = styled.div`
   display: flex;
-  gap: 15px;
   align-items: center;
   margin-right: 20px;
+  @media (min-width: 767px) {
+    font-size: 18px;
+    gap: 20px;
+  }
+  @media (min-width: 1199px) {
+    font-size: 20px;
+    gap: 30px;
+  }
 `;
 
 const BusketWrapper = styled.div`
@@ -75,8 +81,16 @@ const BusketWrapper = styled.div`
 
 const TotalPrice = styled.p`
   position: absolute;
-  bottom: -10px;
-  left: 5px;
+  width: 22px;
+  height: 22px;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  background-color: lightgray;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MainMenu = () => {
@@ -84,13 +98,22 @@ const MainMenu = () => {
   const { isLoggedIn } = useAuth();
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
   const screenSize = useScreenSize();
-  const totalPrice = useSelector(totalBusketPrice);
+  const totalAmount = useSelector(selectBusketAmount);
+  const navigate = useNavigate();
 
   useOnClickOutside(node, () => {
     if (isMenuOpen) {
       toggleMenuMode();
     }
   });
+
+  const handleClick = () => {
+    if(totalAmount !== 0) {
+      navigate('/checkout')
+    } else {
+      return;
+    }
+  }
 
   return (
     <Header id="header" ref={node}>
@@ -118,16 +141,19 @@ const MainMenu = () => {
                 </svg>
               </Link>
             )}
-            <Link to="/checkout">
+            <div onClick={handleClick}>
               <BusketWrapper>
+                {totalAmount > 0 &&
+                <TotalPrice>{totalAmount}</TotalPrice>
+                }
                 <svg width="42" height="50">
                   <use xlinkHref={`${svg}#icon-shopping-cart`} />
                 </svg>
-                {totalPrice !== 0 &&
+                {/* {totalPrice !== 0 &&
                 <TotalPrice>{totalPrice}</TotalPrice>
-                }
+                } */}
               </BusketWrapper>
-            </Link>
+            </div>
             {screenSize.width < 767 && <HamburgerButton />}
           </IconWrapper>
         </NavLogoWrapper>

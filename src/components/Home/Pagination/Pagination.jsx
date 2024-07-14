@@ -14,7 +14,7 @@ export default function Pagination({
 
   return (
     <PaginationWrapper>
-      {currentPage >=3 && 
+      {currentPage > 2 && 
       <>
       <PaginationItem onClick={() => handlePagePrev(1)}>1</PaginationItem>
       <PaginationItem>...</PaginationItem>
@@ -34,7 +34,7 @@ export default function Pagination({
           </PaginationItem>
         );
       })}
-      {currentPage < totalPages - 2 && 
+      {currentPage < totalPages - 1 && 
       <>
       <PaginationItem>...</PaginationItem>
       <PaginationItem onClick={() => handlePagePrev(totalPages)}>{totalPages}</PaginationItem>

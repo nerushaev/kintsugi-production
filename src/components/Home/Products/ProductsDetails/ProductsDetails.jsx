@@ -60,18 +60,18 @@ const ImageContainer = styled.div`
 const ImageWrapper = styled.span`
   @media (min-width: 767px) {
     background-size: cover;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
+    // position: absolute;
+    // top: 0px;
+    // left: 0px;
+    // width: 100%;
+    // height: 100%;
   }
 `;
 
 const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 25px;
   padding: 20px 0;
   @media (min-width: 767px) {
     align-items: left;

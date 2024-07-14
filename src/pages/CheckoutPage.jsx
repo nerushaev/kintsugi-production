@@ -20,6 +20,7 @@ import { selectUser } from "../redux/auth/auth-selectors";
 import { useNavigate } from "react-router";
 import { Container } from "../components/Container/Container.styled";
 import Loader from "../components/Loader/Loader";
+import ErrorMessage from '../components/Errors/ErrorMessage';
 
 const BusketWrapper = styled.div`
   margin-bottom: 30px;
@@ -224,6 +225,9 @@ export default function CheckoutPage() {
           </NotificationMessage>
         </NotificationWrapper>
       )}
+      {totalPrice < 300 &&
+      <ErrorMessage message="Для замовлення, загальна сума повинна бути більше 300грн!"/>
+      }
       <CheckoutForm user={user} />
       {isModalOpen && !isLoggedIn && (
         <Modal onCloseModal={closeModal}>

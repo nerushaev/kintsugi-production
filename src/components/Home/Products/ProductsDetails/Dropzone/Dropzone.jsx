@@ -16,14 +16,6 @@ const DropzoneContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-const FilesAside = styled.aside`
-  margin-bottom: 10px;
-`;
-
-const FilesList = styled.ul`
-  min-height: 20px;
-`;
-
 const AdminContainer = styled.div`
   border: 1px solid lightgray;
   border-radius: 6px;
