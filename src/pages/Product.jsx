@@ -16,6 +16,7 @@ export default function Product() {
   const { product_id } = useParams();
   const isLoading = useSelector(selectIsLoading);
   const product = useSelector(getDetails);
+  
   useEffect(() => {
       dispatch(getProductsById(product_id));
   }, [dispatch, product_id]);

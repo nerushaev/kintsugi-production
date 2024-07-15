@@ -19,6 +19,9 @@ import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
 import { LuShoppingBasket } from "react-icons/lu";
+import { setLocation } from "../../../../redux/auth/auth-slice";
+import { createBrowserHistory } from "history";
+import { useNavigate } from "react-router";
 
 export const Select = styled.select`
   width: 40px;
@@ -36,13 +39,29 @@ const ScoreWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
+const Category = styled.p`
+  color: ${theme.colors.gray};
+  margin-bottom: 5px;
+  font-size: ${theme.fontSizes.small};
+  font-weight: 500;
+`;
+
 export const ProductsItem = ({ data,handleItemWithSize }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
+  const {location} = createBrowserHistory();
+  const navigate = useNavigate();
+
 
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
+
+  const handleClickImage = (product_id) => {
+    console.log(product_id);
+    dispatch(setLocation(location.search));
+    navigate(`/products/${product_id}`);
+  }
 
   return data.map(
     ({
@@ -63,7 +82,7 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
       return (
         <Item key={itemId}>
           <ItemBody>
-              <StyledLink to={`/products/${product_id}`}>
+              <StyledLink onClick={() => handleClickImage(product_id)}>
                 <ImageWrapper>
                 <Image src={photo ? `https://kintsugi.joinposter.com${photo}` : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"} alt="" />
                 </ImageWrapper>
@@ -71,7 +90,7 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
             <ScoreWrapper>
               <Score score={score} />
             </ScoreWrapper>
-
+              <Category>{category_name}</Category>
             <Title>{product_name}</Title>
             <CardInfoWrapper>
               <Price>{price / 100} грн.</Price>

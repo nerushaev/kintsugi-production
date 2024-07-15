@@ -11,6 +11,7 @@ export const ButtonWrapper = styled.div`
 
 export const Button = styled.button`
   display: flex;
+  align-items: center;
   gap: 6px;
   padding: 15px;
   border-radius: 6px;

@@ -1,6 +1,5 @@
 import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import MainTitle from "../components/Home/Title/Title";
-import Slider from "../components/Home/Swiper/Swiper";
 import styled from 'styled-components';
 import { Container } from "../components/Container/Container.styled";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +9,11 @@ import Modal from "../components/Modal";
 import { useEffect } from "react";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import { clearOrderInfo } from "../redux/products/products-slice";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const HeroWrapper = styled.div`
   width: 100%;
+  margin-top: 20px;
 `;
 
 const OrderNotificationWrapper = styled.div`
@@ -53,7 +54,16 @@ export default function Home() {
     <>
         <HeroWrapper>
             <MainTitle text="Картини по номерам в наявності" />
-          <Slider images={homePageSlider} />
+            <Swiper>
+              {homePageSlider.map(item => {
+                return(
+                  <SwiperSlide key={item}>
+                    <img src={item} alt="" /> 
+                  </SwiperSlide>
+                )
+              })}
+            </Swiper>
+          {/* <Slider homePage={true} images={homePageSlider} /> */}
           </HeroWrapper>
           <Container>
         <MainTitle text="Каталог" />

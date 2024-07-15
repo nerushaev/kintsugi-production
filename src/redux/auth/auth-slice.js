@@ -22,6 +22,7 @@ const initialState = {
   isLoading: false,
   error: null,
   response: null,
+  location: '',
 };
 
 const handlePending = (state) => {
@@ -42,6 +43,9 @@ const authSlice = createSlice({
     clearErrorAndResponse(state, action) {
       state.error = null
       state.response = null
+    },
+    setLocation(state, {payload}) {
+      state.location = payload;
     }
   },
   extraReducers: (builder) => {
@@ -170,6 +174,6 @@ const authSlice = createSlice({
   }
 });
 
-export const { clearErrorAndResponse } =
+export const { clearErrorAndResponse, setLocation } =
   authSlice.actions;
 export default authSlice.reducer;

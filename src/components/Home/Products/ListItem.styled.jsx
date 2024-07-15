@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../../../styles/theme";
 
@@ -48,7 +47,7 @@ export const ItemBody = styled.div`
   justify-content: space-between
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled.div`
   position: relative;
   display: block;
   padding-top: 100%;

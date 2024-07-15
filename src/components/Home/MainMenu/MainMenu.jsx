@@ -33,7 +33,7 @@ const Navbar = styled.div`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
   z-index: 500;
   height: 70px;
-  padding: 0px 10px;
+  padding: 0px 15px;
 
   @media (min-width: 767px) {
     height: 80px;
@@ -54,10 +54,10 @@ const NavLogoWrapper = styled.div`
 `;
 
 const Header = styled.header`
-  margin-bottom: 100px;
+  margin-bottom: 70px;
 
   @media (min-width: 767px) {
-    margin-bottom: 120px;
+    margin-bottom: 80px;
   }
 `;
 
@@ -66,12 +66,12 @@ const LinksWrapper = styled.div`
   align-items: center;
   margin-right: 20px;
   @media (min-width: 767px) {
-    font-size: 18px;
-    gap: 20px;
+    font-size: 16px;
+    gap: 10px;
   }
   @media (min-width: 1199px) {
     font-size: 20px;
-    gap: 30px;
+    gap: 20px;
   }
 `;
 
@@ -124,7 +124,7 @@ const MainMenu = () => {
             <LinksWrapper>
               <Link to="/">Каталог</Link>
               <Link to="/info">Оплата та доставка</Link>
-              <Link to="/about">Про нас</Link>
+              <Link>Про нас</Link>
               {!isLoggedIn && (
                 <>
                   <Link to="/register">Реєстрація</Link>

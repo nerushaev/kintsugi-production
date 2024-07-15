@@ -5,12 +5,22 @@ import "./Swiper.css";
 import React from "react";
 import styled from 'styled-components';
 
-const Image = styled.img`
-
+const Image = styled.div`
+  background: url(${props => props.src});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 320px;
+  min-width: 320px;
+  @media (min-width: 767px) {
+  height: 400px;
+  width: 400px;
+  }
 `;
 
 
 export default function Slider({ images }) {
+
   const elements = images.map((item) => {
     if (item && item[0] === "/") {
       item = `https://kintsugi.joinposter.com${item}`;
@@ -22,7 +32,7 @@ export default function Slider({ images }) {
     );
   });
   return (
-    <Swiper className="details-swiper" pagination={true} modules={[Pagination]}>
+    <Swiper pagination={true} modules={[Pagination]}>
       {elements}
     </Swiper>
   );

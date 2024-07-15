@@ -31,7 +31,7 @@ export default function ScrollButton() {
   return (
     <Button> 
      <FaArrowCircleUp onClick={scrollToTop}  
-     style={{display: visible ? 'inline' : 'none'}} /> 
+     style={{display: visible ? 'block' : 'none'}} /> 
     </Button> 
   )
 }
