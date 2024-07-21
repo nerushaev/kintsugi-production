@@ -9,7 +9,6 @@ import {
   StyledLink,
   ImageWrapper
 } from "../ListItem.styled";
-
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
 import { getBusket } from "../../../../redux/products/products-selectors";
@@ -19,9 +18,8 @@ import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
 import { LuShoppingBasket } from "react-icons/lu";
-import { setLocation } from "../../../../redux/auth/auth-slice";
-import { createBrowserHistory } from "history";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
 
 export const Select = styled.select`
   width: 40px;
@@ -46,11 +44,13 @@ const Category = styled.p`
   font-weight: 500;
 `;
 
+
+
 export const ProductsItem = ({ data,handleItemWithSize }) => {
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
-  const {location} = createBrowserHistory();
   const navigate = useNavigate();
+  const location = useLocation();
 
 
   const handleClick = (newData) => {
@@ -58,8 +58,8 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
   };
 
   const handleClickImage = (product_id) => {
-    console.log(product_id);
-    dispatch(setLocation(location.search));
+    localStorage.setItem('previousUrl', location.search);
+    localStorage.setItem('scrollPosition', window.pageYOffset);
     navigate(`/products/${product_id}`);
   }
 

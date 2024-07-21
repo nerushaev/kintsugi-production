@@ -70,6 +70,13 @@ export const SideMenu = ({ children }) => {
   return (
     <Menu onClick={() => toggleMenuMode()} open={isMenuOpen}>
       {children}
+      <MenuLink to="/" end href="/">
+        Головна
+      </MenuLink>
+      <MenuLink to="/checkout">Корзина</MenuLink>
+      <MenuLink to="/info" href="/info">
+        Інформація
+      </MenuLink>
       {isLoggedIn ? (
         <MenuLink onClick={handleLogout}>Вийти</MenuLink>
       ) : (
@@ -89,6 +96,7 @@ export const SideMenu = ({ children }) => {
       ) : (
         ""
       )}
+      
     </Menu>
   );
 };
@@ -97,16 +105,16 @@ SideMenu.propTypes = {
   children: PropTypes.node,
 };
 
-SideMenu.defaultProps = {
-  children: (
-    <>
-      <MenuLink to="/" end href="/">
-        Головна
-      </MenuLink>
-      <MenuLink to="/busket">Корзина</MenuLink>
-      <MenuLink to="/info" href="/info">
-        Інформація
-      </MenuLink>
-    </>
-  ),
-};
+// SideMenu.defaultProps = {
+//   children: (
+//     <>
+//       <MenuLink to="/" end href="/">
+//         Головна
+//       </MenuLink>
+//       <MenuLink to="/busket">Корзина</MenuLink>
+//       <MenuLink to="/info" href="/info">
+//         Інформація
+//       </MenuLink>
+//     </>
+//   ),
+// };

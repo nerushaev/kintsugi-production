@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AddButton, Button, ButtonWrapper } from "../../../Buttons/Buttons";
+import { AddButton, Button } from "../../../Buttons/Buttons";
 import React, { useState } from "react";
 import { theme } from "../../../../styles/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import Score from "../Feedback/Score";
 import { SlArrowLeftCircle } from "react-icons/sl";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { LuShoppingBasket } from "react-icons/lu";
-import { selectLocation, selectUser } from "../../../../redux/auth/auth-selectors";
+import { selectUser } from "../../../../redux/auth/auth-selectors";
 import Dropzone from "./Dropzone/Dropzone";
 import Slider from "../../Swiper/Swiper";
 import { useNavigate } from "react-router";
@@ -28,13 +28,10 @@ const GoBackLink = styled(NavLink)`
   }
 `;
 const GoBackWrapper = styled.div`
-  // // position: absolute;
-  // left: 40px;
-  // top: -55px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  // margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 const ProductWrapper = styled.div`
@@ -118,8 +115,6 @@ export default function ProductsDetails({ data }) {
     photos.push(...photo_extra);
   }
 
-  const location = useSelector(selectLocation);
-
   const [activeSize, setActiveSize] = useState(
     modifications.length > 0 ? modifications[0].modificator_name : null
   );
@@ -129,13 +124,25 @@ export default function ProductsDetails({ data }) {
   const user = useSelector(selectUser);
   const isAdmin = user.role === "admin" ? true : false;
 
+
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
 
   const handleBackClick = () => {
-    navigate(`/${location}`);
+    const previousUrl = localStorage.getItem('previousUrl');
+    const scrollPosition = localStorage.getItem('scrollPosition');
+    if (previousUrl) {
+      navigate(`/${previousUrl}` || '/');
+      setTimeout(() => {
+        window.scrollTo(0, scrollPosition || 0);
+      }, 0);
+    } else {
+      navigate('/');
+
+    }
   };
+
 
   const handleRatingClick = () => {
     console.log("he");

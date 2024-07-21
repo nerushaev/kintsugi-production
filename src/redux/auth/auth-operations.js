@@ -32,7 +32,6 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue, getState }) => {
-    console.log(data);
     try {
       const result = await api.AuthInstance.post("/api/auth/login", data);
       setTimeout(

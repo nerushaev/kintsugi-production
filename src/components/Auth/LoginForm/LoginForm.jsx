@@ -53,7 +53,7 @@ export default function LoginForm() {
     name: 'email',
     label: 'Пошта',
     type: 'text',
-    id: 'email',
+    id: 'emailLogin',
     placeholder: 'Введіть вашу пошту',
   }
   
@@ -61,7 +61,7 @@ export default function LoginForm() {
     name: 'password',
     label: 'Пароль',
     type: 'password',
-    id: 'password',
+    id: 'passwordLogin',
     placeholder: 'Введіть пароль...',
   }
 

@@ -109,6 +109,7 @@ const MainMenu = () => {
 
   const handleClick = () => {
     if(totalAmount !== 0) {
+      window.scrollTo({top: 0})
       navigate('/checkout')
     } else {
       return;

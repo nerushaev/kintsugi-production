@@ -30,12 +30,72 @@ export const checkoutPageValidationReg = Yup.object({
     .max(32, "Пароль занадто довгий!"),
 });
 
-export const checkoutPageValidation = Yup.object({
+export const checkoutPageValidation = Yup.object().shape({
+  name: Yup.string()
+  .trim()
+  .required(`Обов'язкове поле!`)
+  .matches(
+    /^[а-яёіїєА-ЯЁІЇЄA-Za-z]+б?\s[а-яёіїєА-ЯЁІЇЄA-Za-z]+$/,
+    `Прізвище та Ім'я`
+  ),
+  email: Yup.string()
+  .trim()
+  .required("Обов'язкове поле!")
+  .matches(
+    /^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}.){1,2}[-A-Za-z]{2,})$/u,
+    'Введіть вашу пошту у форматі "youemail@gmail.com"'
+  )
+  .max(32, "Пошта занадто довга!"),
+  phone: Yup.string()
+    .trim()
+    .required("Обов'язкове поле!")
+    .matches(/^\+380\d{9}$/, `У форматі +380`),
+  delivery: Yup.string().required('Оберіть спосіб доставки!'),
+  city: Yup.string().when('delivery', {
+    is: 'nova',
+    then: checkoutPageValidation => checkoutPageValidation.required("Обов'язкове поле!"),
+  }),
+  warehouse: Yup.string().when('delivery', {
+    is: 'nova',
+    then: checkoutPageValidation => checkoutPageValidation.required("Обов'язкове поле!"),
+  }),
+  payments: Yup.string().required('Оберіть метод оплати!'),
+});
+
+// export const checkoutPageValidation = Yup.object().shape({
+//   delivery: Yup.string().required(`Оберіть спосіб доставки!`),
+//   payments: Yup.string().required(`Оберіть метод оплати!`),
+//   phone: Yup.string()
+//     .required("Обов'язкове поле!")
+//     .matches(/^\+380\d{9}$/, `У форматі +380`),
+//   name: Yup.string()
+//     .required(`Обов'язкове поле!`)
+//     .matches(
+//       /^[а-яёіїєА-ЯЁІЇЄA-Za-z]+б?\s[а-яёіїєА-ЯЁІЇЄA-Za-z]+$/,
+//       `Прізвище та Ім'я`
+//     ),
+//   email: Yup.string()
+//     .required("Обов'язкове поле!")
+//     .matches(
+//       /^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}.){1,2}[-A-Za-z]{2,})$/u,
+//       'У форматі "youemail@gmail.com"'
+//     )
+//     .max(32, "Пошта занадто довга!"),
+    
+//     city: Yup.string().when('delivery', {
+//       is: 'nova',
+//       then: Yup.string().required(`Обов'язкове поле!`)
+//     }),
+//     warehouse: Yup.string().when('delivery', {
+//       is: 'nova',
+//       then: Yup.string().required(`Обов'язкове поле!`)
+//     }),
+// });
+
+
+export const checkoutPageValidationAfina = Yup.object({
   delivery: Yup.string().required(`Оберіть спосіб доставки!`),
   payments: Yup.string().required(`Оберіть метод оплати!`),
-  warehouse: Yup.string().required(`Обов'язкове поле!`),
-  city: Yup.string()
-    .required(`Обов'язкове поле!`),
   phone: Yup.string()
     .required("Обов'язкове поле!")
     .matches(/^\+380\d{9}$/, `У форматі +380`),
@@ -53,6 +113,8 @@ export const checkoutPageValidation = Yup.object({
     )
     .max(32, "Пошта занадто довга!"),
 });
+
+
 
 export const passwordsValidation = Yup.object({
   confirmPassword: Yup.string()

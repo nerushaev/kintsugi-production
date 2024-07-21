@@ -26,6 +26,7 @@ import Loader from "./components/Loader/Loader";
 import DeliveryInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/DeliveryInfo";
 import PaymentInfo from "./components/Home/Products/ProductsDetails/MoreInfoControlls/PaymentInfo";
 import Feedback from "./components/Home/Products/ProductsDetails/MoreInfoControlls/Feedback";
+import ScrollManager from './hooks/scrollManager';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function App() {
   }, [dispatch, token]);
 
   return (
-    <>
+      <ScrollManager>
       {isRefreshing && <Loader />}
       <Routes>
       <Route path="/" element={<SharedLayout />}>
@@ -87,7 +88,7 @@ function App() {
         <Route path="/restore" element={RestorePass} />
       </Route>
     </Routes>
-      </>
+    </ScrollManager>
   );
   
 }

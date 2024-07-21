@@ -22,14 +22,13 @@ export const Item = styled.li`
   position: relative;
   text-align: left;
   width: 100%;
-  padding: 0 10px;
   margin-bottom: 15px;
   
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  padding: 5px;
+  padding: 8px;
 
   &:hover,
   &:focus {

@@ -47,6 +47,9 @@ const novaSlice = createSlice({
     },
     clearDeliveryInfo(state, _) {
       return novaInitialState;
+    },
+    setNova(state, {payload}) {
+      state = payload;
     }
   },
 
@@ -89,6 +92,7 @@ export const {
   selectWarehouse,
   removeWarehousesList,
   clearDeliveryInfo,
+  setNova
 } = novaSlice.actions;
 
 export const novaReducer = novaSlice.reducer;

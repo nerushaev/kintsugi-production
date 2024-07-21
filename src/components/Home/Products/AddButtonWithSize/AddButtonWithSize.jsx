@@ -24,6 +24,9 @@ export default function SizeButtons({
   activeSize
 }) {
   const elements = modifications.map((item) => {
+    if(item.size_left === 0) {
+      return "";
+    }
     return (
       <SizeButton
         onClick={() => setActiveSize(item.modificator_name)}

@@ -76,8 +76,8 @@ const ProductsList = () => {
   const [modalProduct, setModalProduct] = useState([]);
   const [activeSize, setActiveSize] = useState();
 
-
   useEffect(() => {
+
     if(!category) {
       searchParams.set('category', '');
       setSearchParams(searchParams)

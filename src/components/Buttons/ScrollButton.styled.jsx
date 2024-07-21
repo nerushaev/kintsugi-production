@@ -19,7 +19,7 @@ height: 70px;
 display: flex;
 justify-content: center;
 font-size: 3rem; 
-z-index: 50; 
+z-index: 1000; 
 cursor: pointer; 
 color: pink; 
 `

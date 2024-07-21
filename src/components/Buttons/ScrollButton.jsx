@@ -27,7 +27,6 @@ export default function ScrollButton() {
   
   window.addEventListener('scroll', toggleVisible); 
 
-
   return (
     <Button> 
      <FaArrowCircleUp onClick={scrollToTop}  

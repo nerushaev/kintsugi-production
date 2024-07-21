@@ -10,6 +10,12 @@ import { useEffect } from "react";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import { clearOrderInfo } from "../redux/products/products-slice";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useSearchParams } from "react-router-dom";
+import { scroller } from "react-scroll";
+
+const StyledImg = styled.img`
+  cursor: pointer;
+`;
 
 const HeroWrapper = styled.div`
   width: 100%;
@@ -28,13 +34,12 @@ const OrderNotificationWrapper = styled.div`
 `;
 
 const homePageSlider = [
-  "https://res.cloudinary.com/dzjmswzgp/image/upload/v1689970137/Banner_vmn4ex.jpg",
-  // "https://res.cloudinary.com/dzjmswzgp/image/upload/v1689970137/Banner_vmn4ex.jpg",
-  // "https://res.cloudinary.com/dzjmswzgp/image/upload/v1689970137/Banner_vmn4ex.jpg",
+  {image: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1721476014/banner_subnw5.jpg",
+category: "Перуки"}
 ];
 
 export default function Home() {
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const { openModal, isModalOpen, closeModal } = useModal();
   const dispatch = useDispatch();
   const orderAccepted = useSelector(selectIsOrderAccepted);
@@ -50,15 +55,22 @@ export default function Home() {
     dispatch(clearOrderInfo())
   }
 
+  const handleClickBanner = (category) => {
+    searchParams.set('category', category);
+    searchParams.set('page', 1);
+    setSearchParams(searchParams);
+    scroller.scrollTo("scroll")
+  };
+
   return (
     <>
         <HeroWrapper>
-            <MainTitle text="Картини по номерам в наявності" />
+            <MainTitle />
             <Swiper>
               {homePageSlider.map(item => {
                 return(
                   <SwiperSlide key={item}>
-                    <img src={item} alt="" /> 
+                    <StyledImg onClick={() => handleClickBanner(item.category)} src={item.image} alt="" /> 
                   </SwiperSlide>
                 )
               })}
@@ -67,7 +79,7 @@ export default function Home() {
           </HeroWrapper>
           <Container>
         <MainTitle text="Каталог" />
-      <ProductsList />
+      <ProductsList id="scroll" />
       </Container>
       <>
       {isModalOpen && orderAccepted && (
