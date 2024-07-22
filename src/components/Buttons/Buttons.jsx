@@ -54,8 +54,8 @@ display: flex;
 justify-content: center;
 align-items: center;
 gap: 6px;
-height: 30px;
-padding: 0 10px;
+height: 36px;
+padding: 10px;
 border-radius: 6px;
 font-size: ${theme.fontSizes.small};
 background-color: ${(props) =>

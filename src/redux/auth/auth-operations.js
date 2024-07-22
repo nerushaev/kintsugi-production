@@ -193,4 +193,34 @@ export const updateUserInfo = createAsyncThunk(
   }
 );
 
+export const addToWishList = createAsyncThunk(
+  "user/addToWish",
+  async (data, {rejectWithValue}) => {
+    try {
+      const result = await api.AuthInstance.patch(
+        "/api/auth/addToWish",
+        data
+      )
+      return result.data;
+    } catch (error) {
+      return rejectWithValue(error.data.message);
+    }
+  }
+);
+
+export const removeFromWishList = createAsyncThunk(
+  "user/removeFromWish",
+  async (data, {rejectWithValue}) => {
+    try {
+      const result = await api.AuthInstance.patch(
+        "/api/auth/removeFromWish",
+        data
+      )
+      return result.data;
+    } catch (error) {
+      return rejectWithValue(error.data.message);
+    }
+  }
+)
+
 

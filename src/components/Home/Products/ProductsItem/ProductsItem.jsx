@@ -13,14 +13,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
 import { getBusket } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
-import { AddButton, ButtonWrapper } from "../../../Buttons/Buttons";
+import { ProductItemButton, ProductItemWrapper } from "../../../Buttons/Buttons";
 import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 import Score from "../Feedback/Score";
 import { LuShoppingBasket } from "react-icons/lu";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
-
+import { FaHeart } from "react-icons/fa";
+import { addToWishList, removeFromWishList } from "../../../../redux/auth/auth-operations";
+import { selectWishes } from "../../../../redux/auth/auth-selectors";
 export const Select = styled.select`
   width: 40px;
   text-align-last: center;
@@ -51,11 +53,20 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
   const busket = useSelector(getBusket);
   const navigate = useNavigate();
   const location = useLocation();
-
-
+  const wishes = useSelector(selectWishes)
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
+
+  const handleAddToWishList = (product_id) => {
+    console.log(product_id);
+    dispatch(addToWishList({product_id: product_id}));
+  };
+
+  const handleRemoveFromWish = (product_id) => {
+    dispatch(removeFromWishList({product_id: product_id}))
+  }
+
 
   const handleClickImage = (product_id) => {
     localStorage.setItem('previousUrl', location.search);
@@ -66,7 +77,6 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
   return data.map(
     ({
       product_name,
-      description,
       product_id,
       photo,
       price,
@@ -79,6 +89,8 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
       const isFromBusket = busket.find((item) => item.product_id === product_id);
       const item = busket.find((item) => item.product_id === product_id);
       const itemId = nanoid();
+      const isWish = wishes.includes(product_id);
+
       return (
         <Item key={itemId}>
           <ItemBody>
@@ -96,55 +108,35 @@ export const ProductsItem = ({ data,handleItemWithSize }) => {
               <Price>{price / 100} грн.</Price>
               {/* <Sizes>{sizes === "-" ? "One size" : sizes}</Sizes> */}
             </CardInfoWrapper>
-            {isFromBusket ? (
-              <ButtonWrapper $noMargin>
-                <AddButton>
-                  <CountButton amount={item.amount} product_id={product_id} />
-                </AddButton>
-              </ButtonWrapper>
-            ) : (
-              <ButtonWrapper $noMargin>
-                {modifications && modifications.length !== 0 ? 
-                
-                <AddButton
-                onClick={() => {
-                  handleItemWithSize({
-                    product_id,
-                    product_name,
-                    description,
-                    photo,
-                    price,
-                    amount,
-                    category_name,
-                    modifications
-                    // size: sizeRef.current.value,
-                  });
-                }}
-              >
-                Додати у кошик
+            <ProductItemWrapper>
+              <ProductItemButton onClick={isWish ? () => handleRemoveFromWish(product_id) : () => handleAddToWishList(product_id)}>
+                <FaHeart style={{color: isWish ? `${theme.colors.rose}` : "white"}}/>
+              </ProductItemButton>
+              {isFromBusket ? 
+              <ProductItemButton>
+              <CountButton amount={item.amount} product_id={product_id}/>
+            </ProductItemButton>  
+            : 
+            <ProductItemButton onClick={modifications?.length !== 0 ? () => handleItemWithSize({
+              product_id,
+              product_name,
+              photo,
+              price,
+              amount,
+              category_name,
+              modifications
+            }) : () => handleClick({
+              product_id,
+              product_name,
+              photo,
+              price,
+              amount,
+              category_name,
+            })}>
+                Додати
                 <LuShoppingBasket style={{fontSize: `16px`}}/>
-              </AddButton>
-                :
-                <AddButton
-                onClick={() => {
-                  handleClick({
-                    product_id,
-                    product_name,
-                    description,
-                    photo,
-                    price,
-                    amount,
-                    category_name,
-                    // size: sizeRef.current.value,
-                  });
-                }}
-              >
-                Додати у кошик
-                <LuShoppingBasket style={{fontSize: `16px`}}/>
-              </AddButton>
-              }
-              </ButtonWrapper>
-            )}
+              </ProductItemButton>}
+            </ProductItemWrapper>
           </ItemBody>
         </Item>
       );

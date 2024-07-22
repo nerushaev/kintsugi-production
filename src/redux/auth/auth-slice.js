@@ -9,6 +9,8 @@ import {
   updateUserDelivery,
   updateUserInfo,
   changePassword,
+  addToWishList,
+  removeFromWishList,
 } from "./auth-operations";
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
     busket: [],
     delivery: {},
     role: "",
+    wishes: []
   },
   token: "",
   isLogin: false,
@@ -171,6 +174,33 @@ const authSlice = createSlice({
       store.isLoading = false;
       store.error = payload;
     });
+    builder.addCase(addToWishList.pending, (store) =>  {
+      store.isLoading = false;
+    });
+
+    builder.addCase(addToWishList.fulfilled, (store, {payload}) => {
+      store.isLoading = false;
+      store.user.wishes = payload.wishes;
+    });
+
+    builder.addCase(addToWishList.rejected, (store, {payload}) => {
+      store.isLoading = false;
+      store.error = payload;
+    });
+    builder.addCase(removeFromWishList.pending, (store) =>  {
+      store.isLoading = false;
+    });
+
+    builder.addCase(removeFromWishList.fulfilled, (store, {payload}) => {
+      store.isLoading = false;
+      store.user.wishes = payload.wishes;
+    });
+
+    builder.addCase(removeFromWishList.rejected, (store, {payload}) => {
+      store.isLoading = false;
+      store.error = payload;
+    });
+
   }
 });
 

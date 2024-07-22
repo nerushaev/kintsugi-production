@@ -11,6 +11,7 @@ import {
   orderProducts,
   getSimilarProducts,
   getAllProductsName,
+  getWishProducts,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -195,6 +196,19 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(getAllProductsName.rejected, handleRejected);
+    builder.addCase(getWishProducts.pending, (state) =>  {
+      state.isLoading = true;
+    });
+
+    builder.addCase(getWishProducts.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.items = payload.products;
+    });
+
+    builder.addCase(getWishProducts.rejected, (state, {payload}) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
   }
 });
 

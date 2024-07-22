@@ -22,4 +22,6 @@ export const selectChangePassResponse = ({ auth }) => auth.changePassResponse;
 
 export const selectIsSuccess = ({auth}) => auth.success;
 
-export const selectLocation = ({auth}) => auth.location;;
+export const selectLocation = ({auth}) => auth.location;
+
+export const selectWishes = ({auth}) => auth.user.wishes;

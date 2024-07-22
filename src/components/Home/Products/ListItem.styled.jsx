@@ -9,26 +9,13 @@ export const CardInfoWrapper = styled.div`
 `;
 
 export const Item = styled.li`
-  flex:0 0 50%;
-  max-width: 50%;
-  @media (min-width: 479px) {
-    flex:0 0 33.33%;
-  max-width: 33.33%;
-  }
-  @media (min-width: 767px) {
-    flex:0 0 25%;
-    max-width: 25%;
-  }
-  position: relative;
-  text-align: left;
-  width: 100%;
-  margin-bottom: 15px;
   
+  padding: 5px;
+  
+  border-radius: 6px;
   transform: scale(1);
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  padding: 8px;
 
   &:hover,
   &:focus {
@@ -88,7 +75,7 @@ export const Price = styled.p`
   font-weight: 600;
   color: ${theme.colors.rose};
   font-size: ${theme.fontSizes.medium};
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   overflow: hidden;
 `;
 

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AddButton, Button } from "../../../Buttons/Buttons";
+import { AddButton, Button, ProductItemButton, ProductItemWrapper } from "../../../Buttons/Buttons";
 import React, { useState } from "react";
 import { theme } from "../../../../styles/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,11 +11,13 @@ import Score from "../Feedback/Score";
 import { SlArrowLeftCircle } from "react-icons/sl";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { LuShoppingBasket } from "react-icons/lu";
-import { selectUser } from "../../../../redux/auth/auth-selectors";
+import { selectUser, selectWishes } from "../../../../redux/auth/auth-selectors";
 import Dropzone from "./Dropzone/Dropzone";
 import Slider from "../../Swiper/Swiper";
 import { useNavigate } from "react-router";
 import { animateScroll } from "react-scroll";
+import { addToWishList, removeFromWishList } from "../../../../redux/auth/auth-operations";
+import { FaHeart } from "react-icons/fa";
 
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -123,6 +125,8 @@ export default function ProductsDetails({ data }) {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const isAdmin = user.role === "admin" ? true : false;
+  const wishes = useSelector(selectWishes)
+  const isWish = wishes.includes(product_id);
 
 
   const handleClick = (newData) => {
@@ -151,6 +155,15 @@ export default function ProductsDetails({ data }) {
       delay: 0,
     });
   };
+
+  const handleAddToWishList = (product_id) => {
+    console.log(product_id);
+    dispatch(addToWishList({product_id: product_id}));
+  };
+
+  const handleRemoveFromWish = (product_id) => {
+    dispatch(removeFromWishList({product_id: product_id}))
+  }
 
   const isFromBusket = busket.find((item) => item.product_id === product_id);
   const item = busket.find((item) => item.product_id === product_id);
@@ -188,6 +201,11 @@ export default function ProductsDetails({ data }) {
                 modifications={modifications}
               />
             )}
+            <ProductItemWrapper>
+            <ProductItemButton onClick={isWish ? () => handleRemoveFromWish(product_id) : () => handleAddToWishList(product_id)}>
+                <FaHeart style={{color: isWish ? `${theme.colors.rose}` : "white"}}/>
+              </ProductItemButton>
+            </ProductItemWrapper>
             {isFromBusket ? (
               <AddButton>
                 <CountButton

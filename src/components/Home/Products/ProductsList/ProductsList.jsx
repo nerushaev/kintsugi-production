@@ -51,7 +51,7 @@ const StyledSelect = styled(Select)`
   margin-bottom: 10px;
 `;
 
-const ModalWrapper = styled.div`
+export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;

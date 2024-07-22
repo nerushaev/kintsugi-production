@@ -16,6 +16,8 @@ import { Button } from "../components/Buttons/Buttons";
 import { LuShoppingBasket } from "react-icons/lu";
 import { Container } from "../components/Container/Container.styled";
 import OrderHistory from "../components/Auth/UserPage/UserData/OrderHistory";
+import WishList from "../components/Auth/UserPage/UserData/WishList";
+import { FaRegHeart } from "react-icons/fa";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -31,6 +33,7 @@ export default function UserPage() {
   const [changePass, setChangePass] = useState(false);
   const [deliveryData, setDeliveryData] = useState(false);
   const [orderHistory, setOrderHistory] = useState(false);
+  const [wishList, setWishList] = useState(false);
 
   const user = useSelector(selectUser);
 
@@ -49,6 +52,7 @@ export default function UserPage() {
         setUserData(true);
         setChangePass(false);
         setDeliveryData(false);
+        setWishList(false)
         break;
       case "changePass":
         dispatch(clearErrorAndResponse());
@@ -57,13 +61,14 @@ export default function UserPage() {
         setUserData(false);
         setChangePass(true);
         setDeliveryData(false);
+        setWishList(false);
         break;
       case "deliveryData":
         dispatch(clearErrorAndResponse());
         setUserData(false);
         setChangePass(false);
         setOrderHistory(false);
-
+        setWishList(false);
         setDeliveryData(true);
         
         break;
@@ -72,7 +77,16 @@ export default function UserPage() {
         setUserData(false);
         setChangePass(false);
         setDeliveryData(false);
+        setWishList(false);
         setOrderHistory(true);
+        break;
+        case "wishList":
+        dispatch(clearErrorAndResponse());
+        setUserData(false);
+        setChangePass(false);
+        setDeliveryData(false);
+        setWishList(true);
+        setOrderHistory(false);
         break;
       default:
         break;
@@ -95,12 +109,16 @@ export default function UserPage() {
           <Button $active={orderHistory} id="orderHistory" onClick={handleClickBtn}>
           <LuShoppingBasket />
           Історія замовлень</Button>
+          <Button $active={wishList} id="wishList" onClick={handleClickBtn}>
+          <FaRegHeart />
+          Список бажань</Button>
       </ButtonWrapper>
       <>
       {userData && <UserInfo user={user} />}
       {changePass && <PasswordChangeForm user={user} />}
       {deliveryData && <DeliveryData user={user} />}
       {orderHistory && <OrderHistory ordersId={user.orders} />}
+      {wishList && <WishList/>}
       </>
       <ButtonWrapper>
         <Button onClick={handleClick}>

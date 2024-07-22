@@ -6,7 +6,7 @@ margin-top: 20px;
 padding: 0 10px;
 
 @media (min-width: 479px) {
-  max-width: 460px;
+  max-width: 520px;
 }
 @media (min-width: 767px) {
   max-width: 720px;
