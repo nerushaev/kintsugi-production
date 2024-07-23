@@ -130,13 +130,13 @@ export const NotificationMessage = styled.p`
   }
 `;
 
-const StyledModal = styled.div`
+export const StyledModal = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 6px;
 `;
 
-const CloseWrapper = styled.div`
+export const CloseWrapper = styled.div`
   display: flex;
   padding-bottom: 10px;
   justify-content: flex-end;

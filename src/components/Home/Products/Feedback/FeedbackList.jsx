@@ -64,8 +64,6 @@ export default function FeedbackList() {
   const comments = useSelector(selectFeedback);
   const user = useSelector(selectUser);
 
-  console.log(comments);
-
   useEffect(() => {
     dispatch(getFeedback(product_id));
   }, [dispatch, product_id]);

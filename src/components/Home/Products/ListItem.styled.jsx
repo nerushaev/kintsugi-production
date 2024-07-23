@@ -9,7 +9,7 @@ export const CardInfoWrapper = styled.div`
 `;
 
 export const Item = styled.li`
-  
+
   padding: 5px;
   
   border-radius: 6px;
@@ -67,7 +67,6 @@ export const Title = styled.p`
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.medium};
     height: 80px;
-
   }
 `;
 

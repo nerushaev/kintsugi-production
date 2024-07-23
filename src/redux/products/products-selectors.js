@@ -2,6 +2,8 @@ import { getFilter } from "../filter/filter-selectors";
 
 export const getStateProducts = (state) => state.products.items;
 
+export const getWishList = ({products}) => products.wishList;
+
 export const getDetails = (state) => state.products.details;
 
 export const selectSimilarProducts = (state) => state.products.similarProducts;

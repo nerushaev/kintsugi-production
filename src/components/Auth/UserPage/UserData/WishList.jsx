@@ -4,24 +4,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import useModal from '../../../../hooks/modal';
 import { selectWishes } from '../../../../redux/auth/auth-selectors'
 import { getWishProducts } from '../../../../redux/products/products-operation';
-import { getStateProducts } from '../../../../redux/products/products-selectors';
+import { getWishList } from '../../../../redux/products/products-selectors';
 import { addToBusket } from '../../../../redux/products/products-slice';
 import { Button, ButtonWrapper } from '../../../Buttons/Buttons';
 import { List, ListWrapper } from '../../../Home/Products/List.styled';
 import { ProductsItem } from '../../../Home/Products/ProductsItem/ProductsItem';
-import ProductsList, { ModalWrapper } from '../../../Home/Products/ProductsList/ProductsList';
+import { ModalWrapper } from '../../../Home/Products/ProductsList/ProductsList';
 import Modal from '../../../Modal/Modal';
 import AddButtonWithSize from "../../../Home/Products/AddButtonWithSize/AddButtonWithSize";
+import ErrorMessage from '../../../Errors/ErrorMessage';
 
 export default function WishList() {
   const wishes = useSelector(selectWishes);
-  const product = useSelector(getStateProducts);
+  const product = useSelector(getWishList);
   const dispatch = useDispatch();
   const {openModal, closeModal, isModalOpen} = useModal();
   const [modalProduct, setModalProduct] = useState([]);
   const [activeSize, setActiveSize] = useState();
 
   useEffect(() => {
+    if(wishes?.length === 0) {
+      return;
+    }
     dispatch(getWishProducts(wishes))
   }, [wishes, dispatch]);
 
@@ -38,11 +42,14 @@ export default function WishList() {
 
   return (
     <>
+    {(product?.length === 0 || wishes?.length === 0) ? <ErrorMessage message="Додайте товари в список бажань!"/>
+    :
     <ListWrapper>
           <List>
           <ProductsItem key={nanoid()} data={product} handleItemWithSize={handleItemWithSize}/>
         </List>
         </ListWrapper>
+  }
         {isModalOpen && 
           <Modal onCloseModal={closeModal}>
             <ModalWrapper>

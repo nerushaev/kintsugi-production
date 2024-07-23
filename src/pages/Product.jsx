@@ -16,7 +16,7 @@ export default function Product() {
   const { product_id } = useParams();
   const isLoading = useSelector(selectIsLoading);
   const product = useSelector(getDetails);
-  
+
   useEffect(() => {
       dispatch(getProductsById(product_id));
   }, [dispatch, product_id]);
@@ -24,10 +24,8 @@ export default function Product() {
   return (
       <Container>
       {(isLoading) && <Loader />}
-      {(!isLoading && product.length !== 0) && 
-        <ProductsDetails data={product} />
-      }
-      <MoreInfoControlls/>
+      {!isLoading && product && Object.keys(product).length > 0 && <ProductsDetails data={product} />}
+      <MoreInfoControlls />
       <Outlet/>
       </Container>
   );

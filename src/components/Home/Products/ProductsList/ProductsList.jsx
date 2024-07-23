@@ -22,6 +22,11 @@ import Modal from '../../../Modal/Modal';
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
 import { addToBusket } from "../../../../redux/products/products-slice";
+import { useAuth } from "../../../../hooks/useAuth";
+import { FormWrapper } from "../../../Form/Form.styled";
+import { CloseWrapper, StyledModal } from "../../../../pages/CheckoutPage";
+import { SlClose } from "react-icons/sl";
+import LoginForm from "../../../Auth/LoginForm/LoginForm";
 
 const categories = ["Косплей","Перуки","Аксесуари","Мерч","Lolita fashion","Катани, мечі, зброя","K-pop","Фігурки","Акрилові стенди",]
 
@@ -65,7 +70,8 @@ export const ModalWrapper = styled.div`
 const ProductsList = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const {openModal, closeModal, isModalOpen} = useModal();
+  const {openModal:  openModalSize, closeModal: closeModalSize, isModalOpen: isModalOpenSize} = useModal();
+  const {openModal:  openModalLogin, closeModal: closeModalLogin, isModalOpen: isModalOpenLogin} = useModal();
   const product = useSelector(selectFilteredProducts);
   const page = searchParams.get('page') || 1;
   const pageNum = Number(page);
@@ -75,6 +81,7 @@ const ProductsList = () => {
   const search = searchParams.get('search');
   const [modalProduct, setModalProduct] = useState([]);
   const [activeSize, setActiveSize] = useState();
+  const {isLoggedIn} = useAuth();
 
   useEffect(() => {
 
@@ -151,12 +158,12 @@ const ProductsList = () => {
   const handleItemWithSize = (data) => {
     setActiveSize(data.modifications[0].modificator_name);
     setModalProduct(data);
-    openModal();
+    openModalSize();
   }
 
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
-    closeModal();
+    closeModalSize();
   };
 
 
@@ -186,8 +193,7 @@ const ProductsList = () => {
         )}
         <ListWrapper>
           <List>
-          
-          <ProductsItem key={nanoid()} data={product} handleItemWithSize={handleItemWithSize}/>
+          <ProductsItem isLoggedIn={isLoggedIn} openModalLogin={openModalLogin} key={nanoid()} data={product} handleItemWithSize={handleItemWithSize}/>
         </List>
 
         </ListWrapper>
@@ -196,8 +202,8 @@ const ProductsList = () => {
         totalPages={totalPages}
         currentPage={pageNum}
       />
-      {isModalOpen && 
-      <Modal onCloseModal={closeModal}>
+      {isModalOpenSize && 
+      <Modal onCloseModal={closeModalSize}>
         <ModalWrapper>
           <p>Оберіть розмір</p>
           <AddButtonWithSize activeSize={activeSize} modifications={modalProduct.modifications} setActiveSize={setActiveSize}  />
@@ -216,7 +222,18 @@ const ProductsList = () => {
           </ModalWrapper>
       </Modal>
       }
-      
+      {isModalOpenLogin && !isLoggedIn && (
+        <Modal onCloseModal={closeModalLogin}>
+          <FormWrapper>
+            <StyledModal>
+              <CloseWrapper>
+                <SlClose onClick={closeModalLogin} />
+              </CloseWrapper>
+              <LoginForm />
+            </StyledModal>
+          </FormWrapper>
+        </Modal>
+      )}
     </>
   );
 };

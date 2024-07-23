@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { theme } from "../../../../../styles/theme";
 import { Link } from "react-router-dom";
+import DeliveryInfo from "./DeliveryInfo";
+import PaymentInfo from "./PaymentInfo";
+import Feedback from "./Feedback";
 
 export const Title = styled.h2`
   font-size: ${theme.fontSizes.medium};
@@ -86,13 +89,50 @@ background-color: ${theme.colors.formButtonAccent};
 `;
 
 export default function MoreInfoControlls() {
+  const [delivery, setDelivery] = useState(false);
+  const [payment, setPayment] = useState(false);
+  const [feedback, setFeedback] = useState(false);
+
+  const handleScroll = (event) => {
+    event.preventDefault(); // Предотвратить переход по ссылке по умолчанию
+    const targetId = event.currentTarget.getAttribute("id"); // Получить якорь из ссылки
+    const targetElement = document.getElementById(targetId); 
+    if (targetElement) {
+      switch (targetId) {
+        case "delivery":
+          setPayment(false);
+          setFeedback(false);
+          setDelivery(true);
+          break;
+          case "payment":
+          setPayment(true);
+          setFeedback(false);
+          setDelivery(false);
+          break;
+          case "feedback":
+          setPayment(false);
+          setFeedback(true);
+          setDelivery(true);
+          break;
+        default:
+          break;
+      }
+      targetElement.scrollIntoView({ behavior: "smooth" }); // Прокрутка к элементу
+    }
+  };
+
   return (
+    <>
     <MoreInfoControllsWrapper>
       <ControllsButtonWrapper>
-        <StyledLink to={'delivery'}>Доставка</StyledLink>
-        <StyledLink to={'payment'}>Оплата</StyledLink>
-        <StyledLink to={'feedback'}>Відгуки</StyledLink>
+        <StyledLink id="delivery" onClick={handleScroll}>Доставка</StyledLink>
+        <StyledLink id="payment" onClick={handleScroll}>Оплата</StyledLink>
+        <StyledLink id="feedback" onClick={handleScroll}>Відгуки</StyledLink>
       </ControllsButtonWrapper>
     </MoreInfoControllsWrapper>
+    {delivery && <DeliveryInfo />}
+    {payment && <PaymentInfo />}
+    {feedback && <Feedback />}
+    </>
   );
 }

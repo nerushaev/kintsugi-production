@@ -29,7 +29,8 @@ const productsInitialState = {
   orderAccepted: false,
   feedback: [],
   response: null,
-  productsName: []
+  productsName: [],
+  wishList: [],
 };
 
 const handlePending = (state) => {
@@ -202,7 +203,7 @@ const productsSlice = createSlice({
 
     builder.addCase(getWishProducts.fulfilled, (state, {payload}) => {
       state.isLoading = false;
-      state.items = payload.products;
+      state.wishList = payload.products;
     });
 
     builder.addCase(getWishProducts.rejected, (state, {payload}) => {

@@ -11,12 +11,14 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { VscAccount } from "react-icons/vsc";
 
 const LoginLinkButtonWrapper = styled.div`
+width: 100%;
   display: flex;
   gap: 20px;
   align-items: center;
-  margin-left: auto;
+  justify-content: space-around;
 `;
 
 const LinkWrapper = styled.div`
@@ -39,6 +41,12 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const FormLinkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-end;
+`;
 
 export default function LoginForm() {
   const methods = useForm({ resolver: yupResolver(loginSchema) });
@@ -75,11 +83,18 @@ export default function LoginForm() {
         <ButtonWrapper>
         {error && <ErrorMessage>{error.message}</ErrorMessage>}
         <LoginLinkButtonWrapper>
+          <FormLinkWrapper>
+        <LinkWrapper>
+        <StyledLink to="/register">Зареєструватися
+        <VscAccount/>
+        </StyledLink>
+        </LinkWrapper>
           <LinkWrapper>
         <StyledLink to="/restore">Забули пароль?
         <RiLockPasswordLine/>
         </StyledLink>
         </LinkWrapper>
+        </FormLinkWrapper>
           <Button onClick={onSubmit}>
             <GrMail />
             Увійти
