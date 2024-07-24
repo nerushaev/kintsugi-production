@@ -96,7 +96,7 @@ const LinkToFeedback = styled.p`
   cursor: pointer;
 `;
 
-export default function ProductsDetails({ data }) {
+export default function ProductsDetails({ data, setFeedback }) {
   const {
     product_name,
     description,
@@ -128,7 +128,6 @@ export default function ProductsDetails({ data }) {
   const wishes = useSelector(selectWishes)
   const isWish = wishes.includes(product_id);
 
-
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
@@ -149,8 +148,7 @@ export default function ProductsDetails({ data }) {
 
 
   const handleRatingClick = () => {
-    console.log("he");
-    navigate("feedback");
+    setFeedback(true);
     animateScroll.scrollToBottom({
       delay: 0,
     });

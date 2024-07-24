@@ -1,12 +1,11 @@
 import MainMenu from "../MainMenu/MainMenu";
 import NavState from "../../../context/navState";
 import Footer from "../Footer/Footer";
-import { Outlet } from "react-router";
 import Loader from "../../Loader/Loader";
 import React, { Suspense } from "react";
 import ScrollButton from "../../Buttons/ScrollButton";
 
-export default function SharedLayout() {
+export default function SharedLayout({children}) {
 
   return (
     <>
@@ -15,7 +14,7 @@ export default function SharedLayout() {
           <MainMenu />
         </NavState>
       <main>
-          <Outlet />
+          {children}
           <ScrollButton />
       </main>
       <Footer />

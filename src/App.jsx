@@ -24,66 +24,62 @@ import PublicOfferPage from "./pages/PublicOfferPage";
 import Politic from "./pages/Politic";
 import Loader from "./components/Loader/Loader";
 import ScrollManager from './hooks/scrollManager';
+import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
-  const {isRefreshing} = useAuth();
-
-  const { token} = useAuth();
+  const { isRefreshing, token } = useAuth();
 
   useEffect(() => {
-      if(token) {
-        dispatch(current());
-      } 
+    if (token) {
+      dispatch(current());
+    }
   }, [dispatch, token]);
 
   return (
-      <ScrollManager>
+    <ScrollManager>
       {isRefreshing && <Loader />}
-      <Routes>
-      <Route path="/" element={<SharedLayout />}>
-        <Route index element={<Home />} />
-        <Route path="/products/:product_id" element={<Product />} />
-        <Route path="/info" element={<InfoPage />} />
-        {/* <Route path="/busket" element={<BusketPage />} /> */}
-        <Route path="/checkout" element={<CheckoutPage />}/>
-        {/* <Route path="/payment" element={<Payment />}/> */}
-        <Route path="/restore" element={<RestorePasswordPage />} />
-        <Route path="/publicoffer" element={<PublicOfferPage />}/>
-        <Route path="/politic" element={<Politic />}/>
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute component={AdminPage} redirectTo={"/login"} />
-          }
-        >
-          <Route path="products" element={<AddProductsPage />} />
-          <Route path="banners" element={<BanersPage />} />
-          <Route path="orders" element={<OrdersPage />} />
-          {/* <Route path="products" element={<FormAddProducts />} /> */}
-        </Route>
-        <Route
-          path="/login"
-          element={
-            <RestrictedRoute component={LoginPage} redirectTo={"/user"} />
-          }
-        />
-        <Route
-          path="/user"
-          element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}
-        />
-        <Route
-          path="/register"
-          element={
-            <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
-          }
-        />
-        <Route path="/restore" element={RestorePass} />
-      </Route>
-    </Routes>
+      <SharedLayout>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products/:product_id" element={<Product />} />
+            <Route path="/info" element={<InfoPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/restore" element={<RestorePasswordPage />} />
+            <Route path="/publicoffer" element={<PublicOfferPage />} />
+            <Route path="/politic" element={<Politic />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute component={AdminPage} redirectTo={"/login"} />
+              }
+            >
+              <Route path="products" element={<AddProductsPage />} />
+              <Route path="banners" element={<BanersPage />} />
+              <Route path="orders" element={<OrdersPage />} />
+            </Route>
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute component={LoginPage} redirectTo={"/user"} />
+              }
+            />
+            <Route
+              path="/user"
+              element={<PrivateRoute component={UserPage} redirectTo={"/login"} />}
+            />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute component={RegisterPage} redirectTo={"/user"} />
+              }
+            />
+            <Route path="/restore" element={<RestorePass />} />
+        </Routes>
+        </SharedLayout>
     </ScrollManager>
   );
-  
 }
 
 export default App;
