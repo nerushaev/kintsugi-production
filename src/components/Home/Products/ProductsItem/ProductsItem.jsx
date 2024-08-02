@@ -71,6 +71,17 @@ const HeartIcon = styled(FaHeart)`
   }
 `;
 
+const DontHaveMessage = styled.p`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 5px;
+  background-color: rgb(128, 128, 128, 0.2);
+  font-size: 12px;
+  text-align: center;
+  z-index: 1000;
+`;
+
 export const ProductsItem = ({
   data,
   handleItemWithSize,
@@ -103,11 +114,7 @@ export const ProductsItem = ({
     dispatch(removeFromWishList({ product_id: product_id }));
   };
 
-  const handleClickImage = (product_id) => {
-    localStorage.setItem("previousUrl", location.search);
-    localStorage.setItem("scrollPosition", window.pageYOffset);
-    navigate(`/products/${product_id}`);
-  };
+
 
   return data.map(
     ({
@@ -127,11 +134,18 @@ export const ProductsItem = ({
       const itemId = nanoid();
       const isWish = wishes?.includes(product_id);
 
+      const handleClickImage = (product_id) => {
+        localStorage.setItem("previousUrl", location.search);
+        localStorage.setItem("scrollPosition", window.pageYOffset);
+        navigate(`/products/${product_id}`);
+      };
+
       return (
         <Item key={itemId}>
           <ItemBody>
-            <StyledLink onClick={() => handleClickImage(product_id)}>
+            <StyledLink onClick={amount === 0 ? () => {return;} : () => handleClickImage(product_id)}>
               <ImageWrapper>
+                {amount === 0 && <DontHaveMessage>Немає в наявності!</DontHaveMessage>}
                 <Image
                   src={
                     photo
@@ -170,6 +184,7 @@ export const ProductsItem = ({
                 </ProductItemButton>
               ) : (
                 <ProductItemButton
+                disabled={amount === 0}
                   onClick={
                     modifications?.length !== 0
                       ? () =>

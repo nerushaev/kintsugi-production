@@ -4,6 +4,13 @@ import Footer from "../Footer/Footer";
 import Loader from "../../Loader/Loader";
 import React, { Suspense } from "react";
 import ScrollButton from "../../Buttons/ScrollButton";
+import styled from 'styled-components';
+import { theme } from "../../../styles/theme";
+
+const Main = styled.main`
+background-color: ${theme.colors.ligthGray};
+
+`;
 
 export default function SharedLayout({children}) {
 
@@ -13,10 +20,10 @@ export default function SharedLayout({children}) {
         <NavState>
           <MainMenu />
         </NavState>
-      <main>
+      <Main>
           {children}
           <ScrollButton />
-      </main>
+      </Main>
       <Footer />
     </Suspense>
   </>

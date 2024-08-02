@@ -23,6 +23,9 @@ import Loader from "../components/Loader/Loader";
 import ErrorMessage from '../components/Errors/ErrorMessage';
 
 const BusketWrapper = styled.div`
+background-color: white;
+padding: 20px;
+border-radius: 6px;
   margin-bottom: 30px;
 `;
 

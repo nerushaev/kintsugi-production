@@ -9,6 +9,9 @@ export const FormWrapper = styled.div`
 `;
 
 export const CustomForm = styled.form`
+background-color: white;
+padding: 20px;
+border-radius: 6px;
   width: 100%;
   margin-bottom: 30px;
   text-align: center;

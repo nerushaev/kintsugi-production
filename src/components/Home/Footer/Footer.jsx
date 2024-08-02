@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { theme } from "../../../styles/theme";
 import { IconsSet } from "./IconsSet";
 
 const FooterWrapper = styled.footer`
+background-color: ${theme.colors.ligthGray};
   margin-top: auto;
   padding-bottom: 20px;
   padding-top: 20px;

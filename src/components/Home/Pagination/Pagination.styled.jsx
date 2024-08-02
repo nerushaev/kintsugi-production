@@ -11,7 +11,7 @@ export const PaginationItem = styled.p`
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  background: ${(props) => (props.$active ? "#EFCFE3" : "#F3F3F3")};
+  background: ${(props) => (props.$active ? "#EFCFE3" : `white`)};
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
   text-align: center;
   display: ${(props) => (props.$disable ? "none" : "flex")};

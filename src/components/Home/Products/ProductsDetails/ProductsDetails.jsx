@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AddButton, Button, ProductItemButton, ProductItemWrapper } from "../../../Buttons/Buttons";
+import {
+  AddButton,
+  Button,
+  ProductItemButton,
+  ProductItemWrapper,
+} from "../../../Buttons/Buttons";
 import React, { useState } from "react";
 import { theme } from "../../../../styles/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +16,18 @@ import Score from "../Feedback/Score";
 import { SlArrowLeftCircle } from "react-icons/sl";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
 import { LuShoppingBasket } from "react-icons/lu";
-import { selectUser, selectWishes } from "../../../../redux/auth/auth-selectors";
+import {
+  selectUser,
+  selectWishes,
+} from "../../../../redux/auth/auth-selectors";
 import Dropzone from "./Dropzone/Dropzone";
 import Slider from "../../Swiper/Swiper";
 import { useNavigate } from "react-router";
 import { animateScroll } from "react-scroll";
-import { addToWishList, removeFromWishList } from "../../../../redux/auth/auth-operations";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../../../redux/auth/auth-operations";
 import { FaHeart } from "react-icons/fa";
 
 const GoBackLink = styled(NavLink)`
@@ -44,6 +55,9 @@ const ProductWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+background-color: white;
+  padding: 20px;
+  border-radius: 6px;
   @media (min-width: 767px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -52,11 +66,10 @@ const ContentWrapper = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  @media (min-width: 767px) {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-  }
+  margin-top: auto;
+  margin-bottom: auto;
+  min-height: 320px;
+  min-width: 320px;
 `;
 
 const DetailsWrapper = styled.div`
@@ -87,8 +100,8 @@ const Text = styled.p`
 `;
 
 const ScoreWrapper = styled.div`
-display: flex;
-gap: 10px;
+  display: flex;
+  gap: 10px;
 `;
 
 const LinkToFeedback = styled.p`
@@ -118,34 +131,33 @@ export default function ProductsDetails({ data, setFeedback }) {
   }
 
   const [activeSize, setActiveSize] = useState(
-    modifications.length > 0 ? modifications[0].modificator_name : null
+    modifications?.length > 0 ? modifications[0]?.modificator_name : null
   );
+
   const dispatch = useDispatch();
   const busket = useSelector(getBusket);
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const isAdmin = user.role === "admin" ? true : false;
-  const wishes = useSelector(selectWishes)
-  const isWish = wishes.includes(product_id);
+  const wishes = useSelector(selectWishes);
+  const isWish = wishes?.includes(product_id);
 
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
 
   const handleBackClick = () => {
-    const previousUrl = localStorage.getItem('previousUrl');
-    const scrollPosition = localStorage.getItem('scrollPosition');
+    const previousUrl = localStorage.getItem("previousUrl");
+    const scrollPosition = localStorage.getItem("scrollPosition");
     if (previousUrl) {
-      navigate(`/${previousUrl}` || '/');
+      navigate(`/${previousUrl}` || "/");
       setTimeout(() => {
         window.scrollTo(0, scrollPosition || 0);
       }, 0);
     } else {
-      navigate('/');
-
+      navigate("/");
     }
   };
-
 
   const handleRatingClick = () => {
     setFeedback(true);
@@ -155,30 +167,26 @@ export default function ProductsDetails({ data, setFeedback }) {
   };
 
   const handleAddToWishList = (product_id) => {
-    console.log(product_id);
-    dispatch(addToWishList({product_id: product_id}));
+    dispatch(addToWishList({ product_id: product_id }));
   };
 
   const handleRemoveFromWish = (product_id) => {
-    dispatch(removeFromWishList({product_id: product_id}))
-  }
+    dispatch(removeFromWishList({ product_id: product_id }));
+  };
 
   const isFromBusket = busket.find((item) => item.product_id === product_id);
   const item = busket.find((item) => item.product_id === product_id);
 
   return (
     <>
-              <GoBackWrapper>
-          <Button onClick={handleBackClick}>
-            <SlArrowLeftCircle size="22" />
-            <GoBackLink id="scroll" >
-              Назад
-            </GoBackLink>
-          </Button>
-          </GoBackWrapper>
+      <GoBackWrapper>
+        <Button onClick={handleBackClick}>
+          <SlArrowLeftCircle size="22" />
+          <GoBackLink id="scroll">Назад</GoBackLink>
+        </Button>
+      </GoBackWrapper>
       <ProductWrapper>
         <ContentWrapper>
-
           <ImageContainer>
             <Slider images={photos} />
           </ImageContainer>
@@ -188,11 +196,13 @@ export default function ProductsDetails({ data, setFeedback }) {
             <Text $accent>Код товару: {product_id}</Text>
             <Subtitle>{price / 100}грн</Subtitle>
             <ScoreWrapper>
-            <Score onClick={handleRatingClick} score={score} />
-            <LinkToFeedback onClick={handleRatingClick}>Залишити відгук</LinkToFeedback>
+              <Score onClick={handleRatingClick} score={score} />
+              <LinkToFeedback onClick={handleRatingClick}>
+                Залишити відгук
+              </LinkToFeedback>
             </ScoreWrapper>
             <Subtitle>Розмір: {activeSize ? activeSize : "One size"}</Subtitle>
-            {modifications.length > 0 && (
+            {modifications?.length > 0 && (
               <AddButtonWithSize
                 activeSize={activeSize}
                 setActiveSize={setActiveSize}
@@ -200,8 +210,16 @@ export default function ProductsDetails({ data, setFeedback }) {
               />
             )}
             <ProductItemWrapper>
-            <ProductItemButton onClick={isWish ? () => handleRemoveFromWish(product_id) : () => handleAddToWishList(product_id)}>
-                <FaHeart style={{color: isWish ? `${theme.colors.rose}` : "white"}}/>
+              <ProductItemButton
+                onClick={
+                  isWish
+                    ? () => handleRemoveFromWish(product_id)
+                    : () => handleAddToWishList(product_id)
+                }
+              >
+                <FaHeart
+                  style={{ color: isWish ? `${theme.colors.rose}` : "white" }}
+                />
               </ProductItemButton>
             </ProductItemWrapper>
             {isFromBusket ? (

@@ -9,7 +9,7 @@ import {
 } from "../redux/products/products-selectors";
 import Loader from "../components/Loader/Loader";
 import { Container } from "../components/Container/Container.styled";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { theme } from "../styles/theme";
 import DeliveryInfo from "../components/Home/Products/ProductsDetails/MoreInfoControlls/DeliveryInfo";
 import PaymentInfo from "../components/Home/Products/ProductsDetails/MoreInfoControlls/PaymentInfo";
@@ -22,10 +22,10 @@ export const Title = styled.h2`
   margin-bottom: 10px;
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.large};
-    }
+  }
   @media (min-width: 1199px) {
-      font-size: ${theme.fontSizes.extraLarge};
-      }
+    font-size: ${theme.fontSizes.extraLarge};
+  }
 `;
 
 export const SubTitle = styled.p`
@@ -34,10 +34,10 @@ export const SubTitle = styled.p`
   margin-bottom: 30px;
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.large};
-    }
+  }
   @media (min-width: 1199px) {
-      font-size: ${theme.fontSizes.extraLarge};
-      }
+    font-size: ${theme.fontSizes.extraLarge};
+  }
 `;
 
 const ControllsButtonWrapper = styled.div`
@@ -55,8 +55,7 @@ export const Image = styled.img`
   width: 320px;
   @media (min-width: 767px) {
     margin-right: 30px;
-    ${props => props.$payment ?  
-      `margin: 0 auto;` : ""}
+    ${(props) => (props.$payment ? `margin: 0 auto;` : "")}
   }
 `;
 
@@ -72,18 +71,19 @@ export const DeliveryWrapper = styled.div`
   }
 `;
 
-
-
 const StyledLink = styled(Link)`
-display: flex;
-gap: 6px;
-padding: 15px;
-border-radius: 6px;
-font-weight: 500;
-background-color: ${props => props.$active ? `${theme.colors.formButtonAccent}` : `${theme.colors.formButton}`};
-&:hover {
-background-color: ${theme.colors.formButtonAccent};
-}
+  display: flex;
+  gap: 6px;
+  padding: 15px;
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: ${(props) =>
+    props.$active
+      ? `${theme.colors.formButtonAccent}`
+      : `${theme.colors.formButton}`};
+  &:hover {
+    background-color: ${theme.colors.formButtonAccent};
+  }
 `;
 
 export default function Product() {
@@ -98,7 +98,7 @@ export default function Product() {
   const handleScroll = (event) => {
     event.preventDefault(); // Предотвратить переход по ссылке по умолчанию
     const targetId = event.currentTarget.getAttribute("id"); // Получить якорь из ссылки
-    const targetElement = document.getElementById(targetId); 
+    const targetElement = document.getElementById(targetId);
     if (targetElement) {
       switch (targetId) {
         case "delivery":
@@ -106,12 +106,12 @@ export default function Product() {
           setFeedback(false);
           setDelivery(true);
           break;
-          case "payment":
+        case "payment":
           setPayment(true);
           setFeedback(false);
           setDelivery(false);
           break;
-          case "feedback":
+        case "feedback":
           setPayment(false);
           setFeedback(true);
           setDelivery(false);
@@ -124,31 +124,43 @@ export default function Product() {
   };
 
   useEffect(() => {
-      dispatch(getProductsById(product_id));
+    dispatch(getProductsById(product_id));
   }, [dispatch, product_id]);
 
   return (
-      <Container>
-        {!isLoading ? 
-        // {!isLoading && product && Object.keys(product).length > 0 && <ProductsDetails setFeedback={setFeedback} data={product} />}
+    <Container>
+      {!isLoading ? (
         <>
-        <ProductsDetails setFeedback={setFeedback} data={product}/>
-      <MoreInfoControllsWrapper>
-        <ControllsButtonWrapper>
-          <StyledLink $active={delivery} id="delivery" onClick={handleScroll}>Доставка</StyledLink>
-          <StyledLink $active={payment} id="payment" onClick={handleScroll}>Оплата</StyledLink>
-          <StyledLink $active={feedback} id="feedback" onClick={handleScroll}>Відгуки</StyledLink>
-        </ControllsButtonWrapper>
-      </MoreInfoControllsWrapper>
-      {delivery && <DeliveryInfo />}
-      {payment && <PaymentInfo />}
-      {feedback && <Feedback />}
-        <Outlet/>
+          <ProductsDetails setFeedback={setFeedback} data={product} />
+          <MoreInfoControllsWrapper>
+            <ControllsButtonWrapper>
+              <StyledLink
+                $active={delivery}
+                id="delivery"
+                onClick={handleScroll}
+              >
+                Доставка
+              </StyledLink>
+              <StyledLink $active={payment} id="payment" onClick={handleScroll}>
+                Оплата
+              </StyledLink>
+              <StyledLink
+                $active={feedback}
+                id="feedback"
+                onClick={handleScroll}
+              >
+                Відгуки
+              </StyledLink>
+            </ControllsButtonWrapper>
+          </MoreInfoControllsWrapper>
+          {delivery && <DeliveryInfo />}
+          {payment && <PaymentInfo />}
+          {feedback && <Feedback />}
+          <Outlet />
         </>
-        :
+      ) : (
         <Loader />
-        }
-      
-      </Container>
+      )}
+    </Container>
   );
 }

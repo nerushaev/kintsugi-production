@@ -31,6 +31,7 @@ const productsInitialState = {
   response: null,
   productsName: [],
   wishList: [],
+  monoPayUrl: ''
 };
 
 const handlePending = (state) => {
@@ -185,6 +186,7 @@ const productsSlice = createSlice({
       state.orderId = action.payload.orderId;
       state.busket = [];
       state.orderAccepted = true;
+      state.monoPayUrl = action.payload.payments?.pageUrl;
     });
 
     builder.addCase(orderProducts.rejected, handleRejected);

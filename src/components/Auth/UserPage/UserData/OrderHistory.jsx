@@ -74,7 +74,7 @@ return (
           {products.map(item => {
             const {photo, product_name} = item;
             return(
-              <ItemImageWrapper>
+              <ItemImageWrapper key={product_name}>
                 <img src={photo ? `https://kintsugi.joinposter.com${photo}` : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"} alt="" />
                 <Title>{product_name}</Title>
               </ItemImageWrapper>

@@ -9,8 +9,9 @@ export const CardInfoWrapper = styled.div`
 `;
 
 export const Item = styled.li`
+  background-color: white;
 
-  padding: 5px;
+  padding: 10px;
   
   border-radius: 6px;
   transform: scale(1);

@@ -6,17 +6,17 @@ export const List = styled.ul`
   gap: 10px;
     @media (min-width: 479px) {
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
+  gap: 5px;
 
     }
     @media (min-width: 767px) {
       grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 20px;
+  gap: 10px;
 
     }
     @media (min-width: 1199px) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 20px;
+  gap: 15px;
 
     }
   // flex-wrap: wrap;

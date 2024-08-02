@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   gap: 8px;
   width: 100%;
   margin-bottom: 20px;
+  background-color: white;
 `;
 
 export const Select = styled.select`

@@ -8,6 +8,8 @@ export const getDetails = (state) => state.products.details;
 
 export const selectSimilarProducts = (state) => state.products.similarProducts;
 
+export const selectMonoPayUrl = (state) => state.products.monoPayUrl;
+
 export const selectСomingSoonProducts = (state) =>
   state.products.comingSoonProducts;
 

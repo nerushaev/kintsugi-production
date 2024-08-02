@@ -1,9 +1,13 @@
 import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import MainTitle from "../components/Home/Title/Title";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { Container } from "../components/Container/Container.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsOrderAccepted, selectOrderId } from "../redux/products/products-selectors";
+import {
+  selectIsOrderAccepted,
+  selectMonoPayUrl,
+  selectOrderId,
+} from "../redux/products/products-selectors";
 import useModal from "../hooks/modal";
 import Modal from "../components/Modal";
 import { useEffect } from "react";
@@ -34,8 +38,11 @@ const OrderNotificationWrapper = styled.div`
 `;
 
 const homePageSlider = [
-  {image: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1721476014/banner_subnw5.jpg",
-category: "Перуки"}
+  {
+    image:
+      "https://res.cloudinary.com/dzjmswzgp/image/upload/v1721476014/banner_subnw5.jpg",
+    category: "Перуки",
+  },
 ];
 
 export default function Home() {
@@ -44,55 +51,62 @@ export default function Home() {
   const dispatch = useDispatch();
   const orderAccepted = useSelector(selectIsOrderAccepted);
   const orderId = useSelector(selectOrderId);
+  const monoPayUrl = useSelector(selectMonoPayUrl);
 
   useEffect(() => {
-    if (orderAccepted) {
+    if (orderAccepted && !monoPayUrl) {
       openModal();
+    } else if (monoPayUrl && monoPayUrl.length !== 0) {
+      console.log(monoPayUrl);
+      window.location.replace(monoPayUrl);
     }
-  }, [orderAccepted, openModal])
+  }, [orderAccepted, openModal, monoPayUrl]);
 
   const handleClick = () => {
-    dispatch(clearOrderInfo())
-  }
+    dispatch(clearOrderInfo());
+  };
 
   const handleClickBanner = (category) => {
-    searchParams.set('category', category);
-    searchParams.set('page', 1);
+    searchParams.set("category", category);
+    searchParams.set("page", 1);
     setSearchParams(searchParams);
-    scroller.scrollTo("scroll")
+    scroller.scrollTo("scroll");
   };
 
   return (
-    <>
-        <HeroWrapper>
-            <MainTitle />
-            <Swiper>
-              {homePageSlider.map(item => {
-                return(
-                  <SwiperSlide key={item}>
-                    <StyledImg onClick={() => handleClickBanner(item.category)} src={item.image} alt="" /> 
-                  </SwiperSlide>
-                )
-              })}
-            </Swiper>
-          {/* <Slider homePage={true} images={homePageSlider} /> */}
-          </HeroWrapper>
-          <Container>
+      <>
+      <HeroWrapper>
+        <MainTitle />
+        <Swiper>
+          {homePageSlider.map((item) => {
+            return (
+              <SwiperSlide key={item}>
+                <StyledImg
+                  onClick={() => handleClickBanner(item.category)}
+                  src={item.image}
+                  alt=""
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </HeroWrapper>
+      <Container>
         <MainTitle text="Каталог" />
-      <ProductsList id="scroll" />
+        <ProductsList id="scroll" />
       </Container>
       <>
-      {isModalOpen && orderAccepted && (
-        <Modal onCloseModal={closeModal}>
-          <OrderNotificationWrapper>
-            <h2>Ваше замовлення під номером {orderId} прийнято!</h2>
-            <p>В найближчій час с вами зв'яжуться для підтвердження!</p>
-            <ButtonWrapper>
-            <Button onClick={handleClick}>Закрити</Button>
-            </ButtonWrapper>
-          </OrderNotificationWrapper>
-        </Modal>
-      )}
+        {isModalOpen && orderAccepted && (
+          <Modal onCloseModal={closeModal}>
+            <OrderNotificationWrapper>
+              <h2>Ваше замовлення під номером {orderId} прийнято!</h2>
+              <p>В найближчій час с вами зв'яжуться для підтвердження!</p>
+              <ButtonWrapper>
+                <Button onClick={handleClick}>Закрити</Button>
+              </ButtonWrapper>
+            </OrderNotificationWrapper>
+          </Modal>
+        )}
       </>
     </>
   );

@@ -11,7 +11,7 @@ export const theme = Object.freeze({
     red: "rgb(237, 41, 57, 0.6)",
     redAccent: "rgb(237, 41, 57, 0.7)",
     mainBackground: "#FDF7F2",
-    ligthGray: "#F2F2F2",
+    ligthGray: "rgba(242,242,242,0.5)",
     darkBlue: "#1C0047",
     filter: "#C5E2FF",
     filterActive: "#90C8FF"
