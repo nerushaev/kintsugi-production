@@ -67,11 +67,11 @@ const LinksWrapper = styled.div`
   margin-right: 20px;
   @media (min-width: 767px) {
     font-size: 16px;
-    gap: 10px;
+    gap: 20px;
   }
   @media (min-width: 1199px) {
     font-size: 20px;
-    gap: 20px;
+    gap: 25px;
   }
 `;
 

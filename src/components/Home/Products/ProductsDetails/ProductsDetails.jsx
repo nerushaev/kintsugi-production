@@ -29,7 +29,16 @@ import {
   removeFromWishList,
 } from "../../../../redux/auth/auth-operations";
 import { FaHeart } from "react-icons/fa";
-
+import useModal from "../../../../hooks/modal";
+import Modal from "../../../Modal/Modal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation, Zoom } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import 'swiper/css/zoom';
+import 'swiper/css/pagination';
+import { nanoid } from "@reduxjs/toolkit";
+import { IoMdClose } from "react-icons/io";
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
   font-size: ${theme.fontSizes.small};
@@ -55,13 +64,13 @@ const ProductWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-background-color: white;
+  background-color: white;
   padding: 20px;
   border-radius: 6px;
   @media (min-width: 767px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 40px;
   }
 `;
 
@@ -109,7 +118,16 @@ const LinkToFeedback = styled.p`
   cursor: pointer;
 `;
 
+const CloseModal = styled.p`
+  position: absolute;
+  top:20px;
+  right: 20px;
+  z-index:1001;
+`;
+
 export default function ProductsDetails({ data, setFeedback }) {
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0); // Состояние для хранения текущего индекса слайда
   const {
     product_name,
     description,
@@ -179,17 +197,24 @@ export default function ProductsDetails({ data, setFeedback }) {
 
   return (
     <>
-      <GoBackWrapper>
-        <Button onClick={handleBackClick}>
-          <SlArrowLeftCircle size="22" />
-          <GoBackLink id="scroll">Назад</GoBackLink>
-        </Button>
-      </GoBackWrapper>
       <ProductWrapper>
+        <GoBackWrapper>
+          <Button onClick={handleBackClick}>
+            <SlArrowLeftCircle size="22" />
+            <GoBackLink id="scroll">Назад</GoBackLink>
+          </Button>
+        </GoBackWrapper>
         <ContentWrapper>
-          <ImageContainer>
-            <Slider images={photos} />
+          <ImageContainer onClick={openModal}>
+            {!isModalOpen && (
+              <Slider
+                activeSlideIndex={activeSlideIndex}
+                setActiveSlideIndex={setActiveSlideIndex}
+                photos={photos}
+              />
+            )}
           </ImageContainer>
+
           <DetailsWrapper>
             <Title>{product_name}</Title>
             <Text $accent>Категорія: {category_name}</Text>
@@ -252,6 +277,54 @@ export default function ProductsDetails({ data, setFeedback }) {
         </ContentWrapper>
       </ProductWrapper>
       {isAdmin && <Dropzone _id={product_id} />}
+      {isModalOpen && (
+        <Modal onCloseModal={closeModal}>
+        {/*   <SwiperContainer> */}
+            <Swiper
+              key="swiper2"
+              onSlideChange={(swiper) => {
+                setActiveSlideIndex(swiper.activeIndex);
+              }}
+              pagination={true}
+              zoom={true}
+              navigation={true}
+              initialSlide={activeSlideIndex}
+              modules={[Navigation, Zoom, Pagination]}
+              style={{
+                'width': '100%',
+                'height': '100%',
+                '--swiper-navigation-color': '#fff',
+                '--swiper-pagination-color': '#fff',
+              }}
+            >
+            <CloseModal><IoMdClose onClick={closeModal} style={{fontSize: "36px", color: "white"}} /></CloseModal>
+              {photos.map((item) => {
+                const swiperId = nanoid();
+                if (item && item[0] === "/") {
+                  item = `https://kintsugi.joinposter.com${item}`;
+                }
+                return (
+                  <SwiperSlide
+                    key={swiperId}
+                    style={{overflow: "hidden"}}
+                  >
+                    <div className="swiper-zoom-container">
+                    <img
+                      src={
+                        item
+                          ? item
+                          : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
+                      }
+                      alt=""
+                    />
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+        {/* </SwiperContainer> */}
+        </Modal>
+      )}
     </>
   );
 }

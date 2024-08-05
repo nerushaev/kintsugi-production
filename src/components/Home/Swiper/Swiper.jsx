@@ -1,14 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import "swiper/css"
+import "swiper/css";
 import "./Swiper.css";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
 import React from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { nanoid } from "@reduxjs/toolkit";
 
 const Image = styled.div`
-  background: url(${props => props.src});
+  background: url(${(props) => props.src});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -16,29 +16,47 @@ const Image = styled.div`
   min-width: 320px;
 `;
 
+export default function Slider({
+  photos,
+  setActiveSlideIndex,
+  activeSlideIndex,
+}) {
 
-export default function Slider({ images }) {
-
-  const elements = images.map((item) => {
-  const swiperId = nanoid();
+  const elements = photos.map((item) => {
+    const swiperId = nanoid();
 
     if (item && item[0] === "/") {
       item = `https://kintsugi.joinposter.com${item}`;
     }
     return (
       <SwiperSlide key={swiperId}>
-        <Image src={item ? item : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"} alt="" />
+        <Image
+          src={
+            item
+              ? item
+              : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
+          }
+          alt=""
+        />
       </SwiperSlide>
     );
   });
 
   return (
     <>
-    <Swiper className="home-swiper" pagination={{
+      <Swiper
+
+      key="swiper1"
+        onSlideChange={(swiper) => {setActiveSlideIndex(swiper.activeIndex)}}
+        initialSlide={activeSlideIndex}
+        className="home-swiper"
+        pagination={{
           clickable: true,
-        }} modules={[Pagination]}>
-      {elements}
-    </Swiper>
+        }}
+        modules={[Pagination]}
+      >
+        {elements}
+      </Swiper>
     </>
   );
 }

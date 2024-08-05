@@ -15,7 +15,9 @@ import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import { clearOrderInfo } from "../redux/products/products-slice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSearchParams } from "react-router-dom";
-import { scroller } from "react-scroll";
+import { Element, scroller } from "react-scroll";
+import Search from "../components/Home/Search/Search";
+import Filter from "../components/Home/Products/ProductsList/Filter";
 
 const StyledImg = styled.img`
   cursor: pointer;
@@ -40,7 +42,7 @@ const OrderNotificationWrapper = styled.div`
 const homePageSlider = [
   {
     image:
-      "https://res.cloudinary.com/dzjmswzgp/image/upload/v1721476014/banner_subnw5.jpg",
+      "https://res.cloudinary.com/dzjmswzgp/image/upload/v1722696632/Group_39_ntkhve.jpg",
     category: "Перуки",
   },
 ];
@@ -61,6 +63,7 @@ export default function Home() {
       window.location.replace(monoPayUrl);
     }
   }, [orderAccepted, openModal, monoPayUrl]);
+  
 
   const handleClick = () => {
     dispatch(clearOrderInfo());
@@ -70,11 +73,15 @@ export default function Home() {
     searchParams.set("category", category);
     searchParams.set("page", 1);
     setSearchParams(searchParams);
-    scroller.scrollTo("scroll");
+    scroller.scrollTo("scroll", {
+      smooth: true,
+      duration: 500,
+      delay: 0,
+    });
   };
 
   return (
-      <>
+    <>
       <HeroWrapper>
         <MainTitle />
         <Swiper>
@@ -93,6 +100,10 @@ export default function Home() {
       </HeroWrapper>
       <Container>
         <MainTitle text="Каталог" />
+        <Element name="scroll">
+          <Search />
+        </Element>
+          <Filter />
         <ProductsList id="scroll" />
       </Container>
       <>

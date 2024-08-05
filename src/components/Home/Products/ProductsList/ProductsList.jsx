@@ -12,12 +12,8 @@ import Pagination from "../../Pagination/Pagination";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { nanoid } from "@reduxjs/toolkit";
 import { useSearchParams } from "react-router-dom";
-import Search from "../../Search/Search";
 import styled from "styled-components";
-import { theme } from "../../../../styles/theme";
-import { Select } from "../../../Busket/CheckoutPage/SelectInput";
-import { FaPlusCircle } from "react-icons/fa";
-import { Element, scroller } from "react-scroll";
+import { scroller } from "react-scroll";
 import useModal from "../../../../hooks/modal";
 import Modal from "../../../Modal/Modal";
 import AddButtonWithSize from "../AddButtonWithSize/AddButtonWithSize";
@@ -28,49 +24,7 @@ import { FormWrapper } from "../../../Form/Form.styled";
 import { CloseWrapper, StyledModal } from "../../../../pages/CheckoutPage";
 import { SlClose } from "react-icons/sl";
 import LoginForm from "../../../Auth/LoginForm/LoginForm";
-
-const categories = [
-  "Косплей",
-  "Перуки",
-  "Аксесуари",
-  "Мерч",
-  "Lolita fashion",
-  "Катани, мечі, зброя",
-  "K-pop",
-  "Фігурки",
-  "Акрилові стенди",
-];
-
-const CategoryWrapper = styled.div`
-  background-color: white;
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-  border-radius: 6px;
-`;
-const CategoryItem = styled.p`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background-color: ${(props) =>
-    props.$active ? `lightgray` : `${theme.colors.ligthGray}`};
-  color: ${(props) => (props.$accent ? `${theme.colors.redAccent}` : "none")};
-  cursor: pointer;
-  &:hover {
-    background-color: lightgray;
-  }
-`;
-
-const StyledSelect = styled(Select)`
-  height: 40px;
-  padding: 0 10px;
-  margin-bottom: 10px;
-  background-color: white;
-`;
+import Loader from "../../../Loader/Loader";
 
 export const ModalWrapper = styled.div`
   display: flex;
@@ -155,38 +109,6 @@ const ProductsList = () => {
     });
   };
 
-
-  const handleFilterChange = (type, value) => {
-    searchParams.set(type, value);
-    searchParams.set('page', 1);  // Сбрасываем номер страницы
-    setSearchParams(searchParams);
-
-    scroller.scrollTo("scroll", {
-      smooth: true,
-      duration: 500,
-      delay: 0,
-    });
-  };
-
-  const handlePriceFilter = (e) => {
-    const { value } = e.target;
-    handleFilterChange('price', value === "none" ? '' : value);
-  };
-
-  const resetFilters = () => {
-    searchParams.delete('price');
-    searchParams.delete('category');
-    searchParams.delete('search');
-    searchParams.set('page', 1);
-    setSearchParams(searchParams);
-
-    scroller.scrollTo("scroll", {
-      smooth: true,
-      duration: 500,
-      delay: 0,
-    });
-  };
-
   const handleItemWithSize = (data) => {
     setActiveSize(data.modifications[0].modificator_name);
     setModalProduct(data);
@@ -200,98 +122,70 @@ const ProductsList = () => {
 
   return (
     <>
-      <>
-      <Element name="scroll">
-        <Search setSearchParams={setSearchParams} searchParams={searchParams} />
-      </Element>
-      <CategoryWrapper>
-        {categories.map((item) => {
-          return (
-            <CategoryItem
-              onClick={() => handleFilterChange('category', item)}
-              $active={item === category}
-              key={item}
-            >
-              {item}
-            </CategoryItem>
-          );
-        })}
-        <CategoryItem $accent onClick={resetFilters}>
-          Скинути фільтри
-          <FaPlusCircle style={{ rotate: "45deg", fontSize: "14px" }} />
-        </CategoryItem>
-      </CategoryWrapper>
-      <StyledSelect
-        value={!price ? "none" : price}
-        onChange={handlePriceFilter}
-      >
-        <option value="none">Сортувати</option>
-        <option value="low">По-зростанню</option>
-        <option value="high">По-зменьшенню</option>
-      </StyledSelect>
-      {product.length < 1 && (
-        <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
-      )}
-      <ListWrapper>
-        <List>
-          <ProductsItem
-            isLoggedIn={isLoggedIn}
-            openModalLogin={openModalLogin}
-            key={nanoid()}
-            data={product}
-            handleItemWithSize={handleItemWithSize}
+    {product.length < 1 && (
+      <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
+    )}
+    <ListWrapper>
+      <List>
+        {loading ? <Loader /> :
+        <ProductsItem
+        isLoggedIn={isLoggedIn}
+        openModalLogin={openModalLogin}
+        key={nanoid()}
+        data={product}
+        handleItemWithSize={handleItemWithSize}
+        />
+        }
+      </List>
+    </ListWrapper>
+    <Pagination
+      handlePagePrev={handlePagination}
+      totalPages={totalPages}
+      currentPage={pageNum}
+    />
+    {isModalOpenSize && (
+      <Modal onCloseModal={closeModalSize}>
+        <ModalWrapper>
+          <p>Оберіть розмір</p>
+          <AddButtonWithSize
+            activeSize={activeSize}
+            modifications={modalProduct.modifications}
+            setActiveSize={setActiveSize}
           />
-        </List>
-      </ListWrapper>
-      <Pagination
-        handlePagePrev={handlePagination}
-        totalPages={totalPages}
-        currentPage={pageNum}
-      />
-      {isModalOpenSize && (
-        <Modal onCloseModal={closeModalSize}>
-          <ModalWrapper>
-            <p>Оберіть розмір</p>
-            <AddButtonWithSize
-              activeSize={activeSize}
-              modifications={modalProduct.modifications}
-              setActiveSize={setActiveSize}
-            />
-            <ButtonWrapper>
-              <Button
-                onClick={() =>
-                  handleClick({
-                    product_id: modalProduct.product_id,
-                    product_name: modalProduct.product_name,
-                    description: modalProduct.description,
-                    photo: modalProduct.photo,
-                    price: modalProduct.price,
-                    amount: modalProduct.amount,
-                    category_name: modalProduct.category_name,
-                    size: activeSize,
-                  })
-                }
-              >
-                Додати у кошик
-              </Button>
-            </ButtonWrapper>
-          </ModalWrapper>
-        </Modal>
-      )}
-      {isModalOpenLogin && !isLoggedIn && (
-        <Modal onCloseModal={closeModalLogin}>
-          <FormWrapper>
-            <StyledModal>
-              <CloseWrapper>
-                <SlClose onClick={closeModalLogin} />
-              </CloseWrapper>
-              <LoginForm />
-            </StyledModal>
-          </FormWrapper>
-        </Modal>
-      )}
-    </>
-    </>
+          <ButtonWrapper>
+            <Button
+              onClick={() =>
+                handleClick({
+                  product_id: modalProduct.product_id,
+                  product_name: modalProduct.product_name,
+                  description: modalProduct.description,
+                  photo: modalProduct.photo,
+                  price: modalProduct.price,
+                  amount: modalProduct.amount,
+                  category_name: modalProduct.category_name,
+                  size: activeSize,
+                })
+              }
+            >
+              Додати у кошик
+            </Button>
+          </ButtonWrapper>
+        </ModalWrapper>
+      </Modal>
+    )}
+    {isModalOpenLogin && !isLoggedIn && (
+      <Modal onCloseModal={closeModalLogin}>
+        <FormWrapper>
+          <StyledModal>
+            <CloseWrapper>
+              <SlClose onClick={closeModalLogin} />
+            </CloseWrapper>
+            <LoginForm />
+          </StyledModal>
+        </FormWrapper>
+      </Modal>
+    )}
+  </>
   );
 };
 

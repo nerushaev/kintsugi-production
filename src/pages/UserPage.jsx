@@ -20,6 +20,9 @@ import WishList from "../components/Auth/UserPage/UserData/WishList";
 import { FaRegHeart } from "react-icons/fa";
 
 const ButtonWrapper = styled.div`
+background-color: white;
+padding: 20px;
+border-radius: 6px;
   display: flex;
   gap: 20px;
   margin-bottom: 40px;

@@ -6,8 +6,10 @@ import {
 } from "./Search.styled.jsx";
 import svg from "../../../assets/filterIcons.svg";
 import React, { useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
-export default function Search({ setSearchParams, searchParams }) {
+export default function Search() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchRef = useRef();
   const searchParam = searchParams.get("search");
 
