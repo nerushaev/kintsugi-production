@@ -124,8 +124,12 @@ export default function Product() {
   };
 
   useEffect(() => {
+    if(product?.product_id === product_id) {
+      return;
+    } else {
     dispatch(getProductsById(product_id));
-  }, [dispatch, product_id]);
+    }
+  }, [dispatch, product_id, product]);
 
   return (
     <Container>

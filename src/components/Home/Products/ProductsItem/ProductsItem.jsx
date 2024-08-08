@@ -11,7 +11,7 @@ import {
 } from "../ListItem.styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addToBusket } from "../../../../redux/products/products-slice";
-import { getBusket } from "../../../../redux/products/products-selectors";
+import { getBusket, selectIsLoading } from "../../../../redux/products/products-selectors";
 import CountButton from "./CountButton";
 import {
   ProductItemButton,
@@ -29,6 +29,7 @@ import {
   removeFromWishList,
 } from "../../../../redux/auth/auth-operations";
 import { selectWishes } from "../../../../redux/auth/auth-selectors";
+import { getProductsById } from "../../../../redux/products/products-operation";
 
 
 export const Select = styled.select`
@@ -93,7 +94,7 @@ export const ProductsItem = ({
   const navigate = useNavigate();
   const location = useLocation();
   const wishes = useSelector(selectWishes);
-
+  const loading = useSelector(selectIsLoading)
   const handleClick = (newData) => {
     dispatch(addToBusket(newData));
   };
@@ -120,7 +121,7 @@ export const ProductsItem = ({
     ({
       product_name,
       product_id,
-      photo,
+      photo_origin,
       price,
       amount,
       category_name,
@@ -134,10 +135,14 @@ export const ProductsItem = ({
       const itemId = nanoid();
       const isWish = wishes?.includes(product_id);
 
-      const handleClickImage = (product_id) => {
+      const handleClickImage = async (product_id) => {
         localStorage.setItem("previousUrl", location.search);
         localStorage.setItem("scrollPosition", window.pageYOffset);
-        navigate(`/products/${product_id}`);
+        await dispatch(getProductsById(product_id)).then(() => {
+          if(!loading) {
+            navigate(`/products/${product_id}`);
+          }
+        });
       };
 
       return (
@@ -148,8 +153,8 @@ export const ProductsItem = ({
                 {amount === 0 && <DontHaveMessage>Немає в наявності!</DontHaveMessage>}
                 <Image
                   src={
-                    photo
-                      ? `https://kintsugi.joinposter.com${photo}`
+                    photo_origin
+                      ? `https://kintsugi.joinposter.com${photo_origin}`
                       : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
                   }
                   alt=""
@@ -191,7 +196,7 @@ export const ProductsItem = ({
                           handleItemWithSize({
                             product_id,
                             product_name,
-                            photo,
+                            photo_origin,
                             price,
                             amount,
                             category_name,
@@ -201,7 +206,7 @@ export const ProductsItem = ({
                           handleClick({
                             product_id,
                             product_name,
-                            photo,
+                            photo_origin,
                             price,
                             amount,
                             category_name,

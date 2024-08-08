@@ -46,6 +46,7 @@ export const AddButton = styled.button`
 export const ProductItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
 export const ProductItemButton = styled.button`

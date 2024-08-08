@@ -7,6 +7,9 @@ const SizeButtonWrapper = styled.div`
   display: flex;
   margin-bottom: 10px;
   gap: 6px;
+  @media(min-width: 767px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const SizeButton = styled.button`

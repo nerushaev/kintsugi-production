@@ -171,7 +171,7 @@ export default function CheckoutPage() {
             const {
               product_name,
               product_id,
-              photo,
+              photo_origin,
               price,
               amount,
               size
@@ -182,10 +182,10 @@ export default function CheckoutPage() {
                   <ImageTitleWrapper>
                     <ItemImageWrapper>
                       <ImageWrapper>
-                        {photo ? (
+                        {photo_origin ? (
                           <Image
                             alt=""
-                            src={`https://kintsugi.joinposter.com${photo}`}
+                            src={`https://kintsugi.joinposter.com${photo_origin}`}
                           />
                         ) : (
                           <Image

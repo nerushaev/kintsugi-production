@@ -29,16 +29,13 @@ import {
   removeFromWishList,
 } from "../../../../redux/auth/auth-operations";
 import { FaHeart } from "react-icons/fa";
-import useModal from "../../../../hooks/modal";
-import Modal from "../../../Modal/Modal";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Zoom } from "swiper/modules";
+
+// import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import 'swiper/css/zoom';
-import 'swiper/css/pagination';
-import { nanoid } from "@reduxjs/toolkit";
-import { IoMdClose } from "react-icons/io";
+import "swiper/css/zoom";
+import "swiper/css/pagination";
+// import { nanoid } from "@reduxjs/toolkit";
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
   font-size: ${theme.fontSizes.small};
@@ -57,60 +54,19 @@ const GoBackWrapper = styled.div`
 `;
 
 const ProductWrapper = styled.div`
-  position: relative;
-  margin-bottom: 40px;
-  margin-right: auto;
-  margin-left: auto;
-`;
-
-const ContentWrapper = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 6px;
+  margin-bottom: 20px;
   @media (min-width: 767px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    display: flex;
+    gap: 10px;
   }
 `;
 
-const ImageContainer = styled.div`
-  margin-top: auto;
-  margin-bottom: auto;
-  min-height: 320px;
-  min-width: 320px;
-`;
-
-const DetailsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  padding: 20px 0;
-  @media (min-width: 767px) {
-    align-items: left;
-  }
-`;
-
-const Title = styled.h2`
-  font-size: ${theme.fontSizes.title};
-  font-weight: 500;
-`;
-
-const Subtitle = styled.h3`
-  letter-spacing: 0.1rem;
-  font-weight: 600;
-  font-size: ${theme.fontSizes.extraLarge};
-`;
-
-const Text = styled.p`
-  display: inline;
-  font-weight: ${(props) => (props.$accent ? "500" : "400")};
-  font-size: ${theme.fontSizes.medium};
-`;
+const ImageContainer = styled.div``;
 
 const ScoreWrapper = styled.div`
   display: flex;
   gap: 10px;
+  margin-bottom: 20px;
 `;
 
 const LinkToFeedback = styled.p`
@@ -118,21 +74,75 @@ const LinkToFeedback = styled.p`
   cursor: pointer;
 `;
 
-const CloseModal = styled.p`
-  position: absolute;
-  top:20px;
-  right: 20px;
-  z-index:1001;
+export const Block = styled.div`
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  // height: 100%;
+  @media (min-width: 767px) {
+    padding: 20px;
+    width: 50%;
+  }
+`;
+
+const BlockSlider = styled.div`
+  margin-bottom: 20px;
+  height: 100%;
+  @media (min-width: 767px) {
+    width: 50%;
+  }
+`;
+
+const BlockWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const BlockTitle = styled.h3`
+  color: black;
+  font-weight: 600;
+  font-size: ${theme.fontSizes.medium};
+  margin-bottom: 14px;
+  @media (min-width: 767px) {
+    margin-bottom: 20px;
+  }
+`;
+
+const BlockPrice = styled.p`
+  font-size: ${theme.fontSizes.big};
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  @media (min-width: 479px) {
+    margin-bottom: 20px;
+  }
+`;
+
+const BlockText = styled.p`
+  font-size: ${theme.fontSizes.small};
+  font-weight: ${(props) => (props.$accent ? 600 : 500)};
+  margin-bottom: 14px;
+  @media (min-width: 479px) {
+    margin-bottom: 16px;
+  }
+`;
+
+const BlockTextFlex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  // margin-bottom: 20px;
+  gap: 20px;
 `;
 
 export default function ProductsDetails({ data, setFeedback }) {
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0); // Состояние для хранения текущего индекса слайда
   const {
     product_name,
     description,
     product_id,
-    photo,
+    photo_origin,
     price,
     amount,
     category_name,
@@ -142,7 +152,7 @@ export default function ProductsDetails({ data, setFeedback }) {
   } = data;
 
   let photos = [];
-  photos.unshift(photo);
+  photos.unshift(photo_origin);
 
   if (photo_extra) {
     photos.push(...photo_extra);
@@ -197,36 +207,35 @@ export default function ProductsDetails({ data, setFeedback }) {
 
   return (
     <>
+      <GoBackWrapper>
+        <Button onClick={handleBackClick}>
+          <SlArrowLeftCircle size="22" />
+          <GoBackLink id="scroll">Назад</GoBackLink>
+        </Button>
+      </GoBackWrapper>
       <ProductWrapper>
-        <GoBackWrapper>
-          <Button onClick={handleBackClick}>
-            <SlArrowLeftCircle size="22" />
-            <GoBackLink id="scroll">Назад</GoBackLink>
-          </Button>
-        </GoBackWrapper>
-        <ContentWrapper>
-          <ImageContainer onClick={openModal}>
-            {!isModalOpen && (
-              <Slider
-                activeSlideIndex={activeSlideIndex}
-                setActiveSlideIndex={setActiveSlideIndex}
-                photos={photos}
-              />
-            )}
+        {/* <ContentWrapper> */}
+        <BlockSlider>
+          <ImageContainer>
+            <Slider photos={photos} />
           </ImageContainer>
-
-          <DetailsWrapper>
-            <Title>{product_name}</Title>
-            <Text $accent>Категорія: {category_name}</Text>
-            <Text $accent>Код товару: {product_id}</Text>
-            <Subtitle>{price / 100}грн</Subtitle>
+        </BlockSlider>
+        <BlockWrapper>
+          <Block style={{ width: "100%"}}>
+            {/* <BlockTextFlex> */}
+            <BlockTitle>{product_name}</BlockTitle>
+            {/* <BlockSmallText>{category_name}</BlockSmallText> */}
+            {/* </BlockTextFlex> */}
+            <BlockPrice>{price / 100}₴</BlockPrice>
             <ScoreWrapper>
               <Score onClick={handleRatingClick} score={score} />
               <LinkToFeedback onClick={handleRatingClick}>
                 Залишити відгук
               </LinkToFeedback>
             </ScoreWrapper>
-            <Subtitle>Розмір: {activeSize ? activeSize : "One size"}</Subtitle>
+            <BlockText>
+              Розмір: {activeSize ? activeSize : "One size"}
+            </BlockText>
             {modifications?.length > 0 && (
               <AddButtonWithSize
                 activeSize={activeSize}
@@ -247,6 +256,7 @@ export default function ProductsDetails({ data, setFeedback }) {
                 />
               </ProductItemButton>
             </ProductItemWrapper>
+
             {isFromBusket ? (
               <AddButton>
                 <CountButton
@@ -261,7 +271,7 @@ export default function ProductsDetails({ data, setFeedback }) {
                     product_id,
                     product_name,
                     description,
-                    photo,
+                    photo_origin,
                     price,
                     amount,
                     category_name,
@@ -273,58 +283,28 @@ export default function ProductsDetails({ data, setFeedback }) {
                 <LuShoppingBasket style={{ fontSize: `16px` }} />
               </AddButton>
             )}
-          </DetailsWrapper>
-        </ContentWrapper>
+          </Block>
+          <Block style={{ width: "100%" }}>
+            <BlockTitle>Характеристики</BlockTitle>
+            <BlockTextFlex>
+              <BlockText $accent>Код товару:</BlockText>
+              <BlockText>{product_id}</BlockText>
+            </BlockTextFlex>
+            <BlockTextFlex>
+              <BlockText $accent>Категорія:</BlockText>
+              <BlockText>{category_name}</BlockText>
+            </BlockTextFlex>
+          </Block>
+          {description && (
+            <Block style={{ width: "100%" }}>
+              <BlockTitle>Опис товару</BlockTitle>
+              <BlockText>{description}</BlockText>
+            </Block>
+          )}
+        </BlockWrapper>
+        {/* </ContentWrapper> */}
       </ProductWrapper>
       {isAdmin && <Dropzone _id={product_id} />}
-      {isModalOpen && (
-        <Modal onCloseModal={closeModal}>
-        {/*   <SwiperContainer> */}
-            <Swiper
-              key="swiper2"
-              onSlideChange={(swiper) => {
-                setActiveSlideIndex(swiper.activeIndex);
-              }}
-              pagination={true}
-              zoom={true}
-              navigation={true}
-              initialSlide={activeSlideIndex}
-              modules={[Navigation, Zoom, Pagination]}
-              style={{
-                'width': '100%',
-                'height': '100%',
-                '--swiper-navigation-color': '#fff',
-                '--swiper-pagination-color': '#fff',
-              }}
-            >
-            <CloseModal><IoMdClose onClick={closeModal} style={{fontSize: "36px", color: "white"}} /></CloseModal>
-              {photos.map((item) => {
-                const swiperId = nanoid();
-                if (item && item[0] === "/") {
-                  item = `https://kintsugi.joinposter.com${item}`;
-                }
-                return (
-                  <SwiperSlide
-                    key={swiperId}
-                    style={{overflow: "hidden"}}
-                  >
-                    <div className="swiper-zoom-container">
-                    <img
-                      src={
-                        item
-                          ? item
-                          : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
-                      }
-                      alt=""
-                    />
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-        {/* </SwiperContainer> */}
-        </Modal>
-      )}
     </>
   );
 }

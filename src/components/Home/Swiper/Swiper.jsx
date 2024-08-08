@@ -1,28 +1,48 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { FreeMode, Thumbs, Navigation,Pagination ,Zoom} from "swiper/modules";
 import "swiper/css";
 import "./Swiper.css";
 import "swiper/css/pagination";
-import React from "react";
+import "swiper/css/thumbs";
+import "swiper/css/navigation";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { nanoid } from "@reduxjs/toolkit";
+import useModal from "../../../hooks/modal";
+import { IoMdClose } from "react-icons/io";
+import Modal from "../../../components/Modal/Modal";
+import { Block } from "../Products/ProductsDetails/ProductsDetails";
 
 const Image = styled.div`
   background: url(${(props) => props.src});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  min-height: 320px;
-  min-width: 320px;
+  padding-top: 100%;
+`;
+const CloseModal = styled.p`
+  position: absolute;
+  top:20px;
+  right: 20px;
+  z-index:1001;
 `;
 
 export default function Slider({
   photos,
-  setActiveSlideIndex,
-  activeSlideIndex,
 }) {
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [initialSlide, setInitialSlide] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  const elements = photos.map((item) => {
+  const handleClickImage = (e) => {
+    const {id} = e.target;
+    if(id) {
+      setInitialSlide(id);
+      openModal()
+    }
+  }
+
+  const elements = photos.map((item, index) => {
     const swiperId = nanoid();
 
     if (item && item[0] === "/") {
@@ -31,6 +51,8 @@ export default function Slider({
     return (
       <SwiperSlide key={swiperId}>
         <Image
+          
+          id={index}
           src={
             item
               ? item
@@ -44,19 +66,85 @@ export default function Slider({
 
   return (
     <>
-      <Swiper
-
-      key="swiper1"
-        onSlideChange={(swiper) => {setActiveSlideIndex(swiper.activeIndex)}}
-        initialSlide={activeSlideIndex}
-        className="home-swiper"
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-      >
-        {elements}
-      </Swiper>
+        <>
+        <Block style={{width: "100%"}}>
+        <div onClick={(e) => handleClickImage(e)}>
+          <Swiper
+            // onClick={(swiper) => handleClickImage(swiper)}
+            className="home-swiper"
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{swiper: thumbsSwiper}}
+            modules={[FreeMode, Navigation, Thumbs]}
+            style={{marginBottom: "20px"}}
+          >
+            
+            {elements}
+          </Swiper>
+          </div>
+          </Block>
+          <Block style={{width: "100%"}}>
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            spaceBetween={10}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            initialSlide={0}
+          >
+            {elements}
+          </Swiper>
+          </Block>
+        </>
+        <>
+              {isModalOpen && (
+                <Modal onCloseModal={closeModal}>
+                {/*   <SwiperContainer> */}
+                    <Swiper
+                      key="swiper2"
+                      pagination={true}
+                      zoom={true}
+                      navigation={true}
+                      initialSlide={initialSlide}
+                      modules={[Navigation, Zoom, Pagination]}
+                      style={{
+                        'width': '100%',
+                        'height': '100%',
+                        '--swiper-navigation-color': '#fff',
+                        '--swiper-pagination-color': '#fff',
+                      }}
+                    >
+                    <CloseModal><IoMdClose onClick={closeModal} style={{fontSize: "36px", color: "white"}} /></CloseModal>
+                      {photos.map((item) => {
+                        const swiperId = nanoid();
+                        if (item && item[0] === "/") {
+                          item = `https://kintsugi.joinposter.com${item}`;
+                        }
+                        return (
+                          <SwiperSlide
+                            key={swiperId}
+                            style={{overflow: "hidden"}}
+                          >
+                            <div className="swiper-zoom-container">
+                            <img
+                              src={
+                                item
+                                  ? item
+                                  : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
+                              }
+                              alt=""
+                            />
+                            </div>
+                          </SwiperSlide>
+                        );
+                      })}
+                    </Swiper>
+                {/* </SwiperContainer> */}
+                </Modal>
+              )}
+              </>
     </>
   );
+  
 }

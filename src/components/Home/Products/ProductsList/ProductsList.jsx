@@ -24,6 +24,7 @@ import { FormWrapper } from "../../../Form/Form.styled";
 import { CloseWrapper, StyledModal } from "../../../../pages/CheckoutPage";
 import { SlClose } from "react-icons/sl";
 import LoginForm from "../../../Auth/LoginForm/LoginForm";
+import { useLocation } from "react-router";
 import Loader from "../../../Loader/Loader";
 
 export const ModalWrapper = styled.div`
@@ -62,6 +63,7 @@ const ProductsList = () => {
   const { isLoggedIn } = useAuth();
   const loading = useSelector(selectIsLoading);
   const [shouldScroll, setShouldScroll] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     // Параметры поиска
@@ -74,9 +76,9 @@ const ProductsList = () => {
 
     dispatch(getProducts(params));
 
-    // Обновляем состояние после проверки параметров
-    setSearchParams(searchParams);
     setShouldScroll(true);
+
+    setSearchParams(searchParams);
   }, [
     pageNum,
     searchParams,
@@ -85,18 +87,21 @@ const ProductsList = () => {
     category,
     search,
     price,
+    location.search,
+    product.length
   ]);
 
   useEffect(() => {
     if (!loading && shouldScroll) {
       const scrollPosition = localStorage.getItem("scrollPosition");
-      if (scrollPosition) {
+      if (Number(scrollPosition) !== 0) {
+        console.log(scrollPosition);
         window.scrollTo(0, Number(scrollPosition));
-        localStorage.setItem("scrollPosition", 0); // Обнуляем значение после использования
+        localStorage.setItem("scrollPosition", 0);
       }
-      setShouldScroll(false); // Сброс флага
+      setShouldScroll(false);
     }
-  }, [loading, shouldScroll]); // Зависимости
+  }, [loading, shouldScroll]);
 
   const handlePagination = (page) => {
     searchParams.set("page", page);
@@ -122,21 +127,20 @@ const ProductsList = () => {
 
   return (
     <>
+    {loading && <Loader />}
     {product.length < 1 && (
       <ErrorMessage message="Нажаль, по-вашому запиту нічого не знайшлось..." />
     )}
     <ListWrapper>
       <List>
-        {loading ? <Loader /> :
-        <ProductsItem
-        isLoggedIn={isLoggedIn}
-        openModalLogin={openModalLogin}
-        key={nanoid()}
-        data={product}
-        handleItemWithSize={handleItemWithSize}
-        />
-        }
-      </List>
+      <ProductsItem
+      isLoggedIn={isLoggedIn}
+      openModalLogin={openModalLogin}
+      key={nanoid()}
+      data={product}
+      handleItemWithSize={handleItemWithSize}
+      />
+    </List>
     </ListWrapper>
     <Pagination
       handlePagePrev={handlePagination}
