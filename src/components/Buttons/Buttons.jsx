@@ -32,7 +32,7 @@ export const AddButton = styled.button`
   width: 100%;
   border-radius: 6px;
   min-height: 55px;
-  font-size: ${theme.fontSizes.small};
+  font-weight: 500;
   padding: 10px 10px;
   background-color: ${(props) =>
     props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};

@@ -1,17 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCities, getWarehouses } from "./nova-operation";
+import { getAddress, getCities, getPostboxes, getWarehouses } from "./nova-operation";
 
 const novaInitialState = {
   city: "",
+  cityWarehouse: "",
   cityRef: "",
   warehouse: "",
   recipientWarehouseIndex: "",
   warehouseRef: "",
   warehouseAddress: "",
+  postbox: "",
+  address: "",
   cities: [],
   warehouses: [],
+  postboxes: [],
+  addresses: [],
   citiesLoading: false,
   warehousesLoading: false,
+  postboxesLoading: false,
+  addressLoading: false,
   error: null,
 };
 
@@ -33,8 +40,20 @@ const novaSlice = createSlice({
       state.city = payload.city;
       state.cityRef = payload.cityRef;
     },
+    selectCityWarehouse(state, { payload }) {
+      state.cityWarehouse = payload;
+    },
+    selectPostbox(state, { payload }) {
+      state.postbox = payload;
+    },
+    selectAddress(state, { payload }) {
+      state.address = payload;
+    },
     removeCitiesList(state, _) {
       state.cities = [];
+    },
+    removeAddressesList(state, _) {
+      state.addresses = [];
     },
     selectWarehouse(state, { payload }) {
       state.warehouseAddress = payload.ShortAddress;
@@ -44,6 +63,9 @@ const novaSlice = createSlice({
     },
     removeWarehousesList(state, _) {
       state.warehouses = [];
+    },
+    removePostboxesList(state, _) {
+      state.postboxes = [];
     },
     clearDeliveryInfo(state, _) {
       return novaInitialState;
@@ -83,6 +105,36 @@ const novaSlice = createSlice({
       state.citiesLoading = false;
       state.error = error;
     });
+
+    builder.addCase(getPostboxes.pending, (state) => {
+      state.postboxLoading = true;
+      state.error = null;
+    });
+
+    builder.addCase(getPostboxes.fulfilled, (state, { payload }) => {
+      state.postboxes = payload;
+      state.postboxLoading = false;
+    });
+
+    builder.addCase(getPostboxes.rejected, (state, { error }) => {
+      state.postboxLoading = false;
+      state.error = error;
+    });
+
+    builder.addCase(getAddress.pending, (state) => {
+      state.addressLoading = true;
+      state.error = null;
+    });
+
+    builder.addCase(getAddress.fulfilled, (state, { payload }) => {
+      state.addresses = payload;
+      state.addressLoading = false;
+    });
+
+    builder.addCase(getAddress.rejected, (state, { error }) => {
+      state.addressLoading = false;
+      state.error = error;
+    });
   }
 });
 
@@ -92,7 +144,12 @@ export const {
   selectWarehouse,
   removeWarehousesList,
   clearDeliveryInfo,
-  setNova
+  setNova,
+  selectCityWarehouse,
+  removePostboxesList,
+  selectPostbox,
+  removeAddressesList,
+  selectAddress
 } = novaSlice.actions;
 
 export const novaReducer = novaSlice.reducer;

@@ -19,6 +19,7 @@ export const getWarehouses = createAsyncThunk(
           },
         }
       );
+      console.log(data);
       return data.data;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
@@ -36,21 +37,78 @@ export const getCities = createAsyncThunk(
         {
           apiKey: NOVA_API_KEY,
           modelName: "Address",
-          calledMethod: "getCities",
+          calledMethod: "searchSettlements",
           methodProperties: {
-            FindByString: city,
+            CityName: city,
             Limit: 5,
             Page: 1,
           },
         }
       );
-      return data.data;
+      console.log(data);
+      return data.data[0].Addresses;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
+export const getAddress = createAsyncThunk(
+  "/address/get",
+  async ({street, ref}, ThunkAPI) => {
+    console.log(street);
+    console.log(ref);
+    try {
+      const { data } = await novaInstance.post(
+        "https://api.novaposhta.ua/v2.0/json/",
+        {
+          apiKey: NOVA_API_KEY,
+          modelName: "Address",
+          calledMethod: "searchSettlementStreets",
+          methodProperties: {
+            StreetName: street,
+            SettlementRef: ref,
+            Limit: 5,
+            Page: 1,
+          },
+        }
+      );
+      console.log(data);
+      return data.data[0].Addresses;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getPostboxes = createAsyncThunk(
+  "/postmate/get",
+  async ({city, postbox}, ThunkAPI) => {
+    console.log(city);
+    console.log(postbox);
+    try {
+      const { data } = await novaInstance.post(
+        "https://api.novaposhta.ua/v2.0/json/",
+        {
+          apiKey: NOVA_API_KEY,
+          modelName: "Address",
+          calledMethod: "getWarehouses",
+          methodProperties: {
+            FindByString: postbox,
+            TypeOfWarehouseRef: "f9316480-5f2d-425d-bc2c-ac7cd29decf0",
+            CityName: city,
+            Limit: 5,
+            Page: 1
+          }
+        }
+      );
+      console.log(data);
+      return data.data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 // export const getOrderStatus = createAsyncThunk(
 //   "/getOrderStatus",
 //   async (data, ThunkAPI) => {

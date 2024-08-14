@@ -47,6 +47,18 @@ const AnimatedP = styled(motion.p)`
   color: ${theme.colors.red};
 `;
 
+const Textarea = styled.textarea`
+width: 100%;
+padding: 20px;
+font-weight: 500;
+border-width: 1px;
+border-radius: 6px;
+border-color: ${theme.colors.darkBlue};
+&::placeholder {
+  opacity: 0.6;
+}
+`;
+
 export const Input = ({ label, type, id, validation, name, placeholder, disabled = false }) => {
   const {
     register,
@@ -69,6 +81,9 @@ export const Input = ({ label, type, id, validation, name, placeholder, disabled
         )}
       </AnimatePresence>
       </LabelWrapper>
+      {type === "textarea" ?
+      <Textarea id={id} {...register(name)} />
+      :
       <CustomInput
         id={id}
         type={type}
@@ -76,6 +91,8 @@ export const Input = ({ label, type, id, validation, name, placeholder, disabled
         disabled={disabled}
         {...register(name, validation)}
       />
+    }
+      
     </InputWrapper>
   );
 };

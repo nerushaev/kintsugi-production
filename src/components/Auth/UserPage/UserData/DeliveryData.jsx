@@ -30,6 +30,7 @@ import {
   removeCitiesList,
   removeWarehousesList,
   selectCity,
+  selectCityWarehouse,
   selectWarehouse,
 } from "../../../../redux/nova/nova-slice";
 import { useAuth } from "../../../../hooks/useAuth";
@@ -56,6 +57,14 @@ export default function DeliveryData({ user }) {
   const dispatch = useDispatch();
   const { delivery } = user;
   const nova = useSelector(selectNovaState);
+  const {
+    cities,
+    city,
+    warehouse,
+    warehouses,
+    cityWarehouse,
+  } = nova;
+
   const error = useSelector(selectError);
   const response = useSelector(selectResponse);
   const loadingCities = useSelector(selectCitiesLoading);
@@ -74,21 +83,13 @@ export default function DeliveryData({ user }) {
   const { watch, setValue } = methods;
 
   const cityInput = useDebounce(watch("city"), 500);
+  const cityInputNow = watch("city");
   const warehouseInput = useDebounce(watch("warehouse"), 500);
-  const cityInputt = watch('city');
+  const warehouseInputNow = watch("warehouse");
+
   const [userEdit, setUserEdit] = useState(
     cityInput && warehouseInput ? false : true
   );
-
-  const [showCities, setShowCities] = useState(
-    delivery && delivery.city ? false : true
-  );
-
-  const [showWarehouses, setShowWarehouses] = useState(
-    delivery && delivery.warehouse ? false : true
-  );
-
-  const { warehouses, cities } = nova;
 
   const onSubmit = methods.handleSubmit(async (data) => {
     setUserEdit(false);
@@ -97,55 +98,50 @@ export default function DeliveryData({ user }) {
     dispatch(removeWarehousesList([]));
   });
 
-  const handleClickCity = (data) => {
-    const { Description, Ref } = data;
-    dispatch(selectCity({ city: Description, cityRef: Ref }));
-    setValue("city", Description);
-    setValue("warehouse", "");
-    dispatch(removeCitiesList([]));
-    setShowCities(false);
+  const handleCityClick = (item) => {
+    setValue("city", item.Present);
+    dispatch(selectCity({ city: item.Present, cityRef: item.Ref }));
+    dispatch(selectCityWarehouse(item.MainDescription));
+    dispatch(removeCitiesList());
   };
 
-  const handleClickWarehouse = (data) => {
-    const { ShortAddress, Ref, WarehouseIndex, Description } = data;
-    dispatch(
-      selectWarehouse({ ShortAddress, Ref, WarehouseIndex, Description })
-    );
-    setValue("warehouse", Description);
-    dispatch(removeWarehousesList([]));
-    setShowWarehouses(false);
+  const handleWarehouseClick = (item) => {
+    setValue("warehouse", item.Description);
+    dispatch(selectWarehouse(item));
+    dispatch(removeWarehousesList());
   };
 
   const handleEditButton = () => {
     setValue("city", "");
     setValue("warehouse", "");
     setUserEdit(true);
-    setShowCities(true);
-    setShowWarehouses(true);
     dispatch(removeCitiesList([]));
     dispatch(removeWarehousesList([]));
   };
 
   useEffect(() => {
-    if(cityInput) {
-      if(cityInputt.length === 0) {
-        return;
-      }
-  
-      if (cityInput.length > 2 && showCities) {
-        dispatch(getCities(cityInput));
-      } else {
-        dispatch(removeCitiesList([]));
-      }
-  
-      if (warehouseInput.length >= 1 && showWarehouses) {
-        dispatch(getWarehouses({ warehouse: warehouseInput, city: cityInput }));
-      } else {
-        dispatch(removeWarehousesList([]));
-      }
+    if (cityInputNow?.length === 0) {
+      dispatch(removeCitiesList());
+      return;
     }
 
-  }, [cityInput, warehouseInput, dispatch, showCities, showWarehouses, delivery, cityInputt]);
+    if (cityInput?.length >= 2 && city !== cityInputNow) {
+      dispatch(getCities(cityInput));
+    }
+  }, [cityInput, cityInputNow, city, dispatch]);
+
+  useEffect(() => {
+    if (warehouseInputNow?.length === 0) {
+      dispatch(removeWarehousesList());
+      return;
+    }
+
+    if (warehouseInput?.length >= 1 && warehouse !== warehouseInputNow) {
+      dispatch(
+        getWarehouses({ city: cityWarehouse, warehouse: warehouseInput })
+      );
+    }
+  }, [warehouseInput, warehouseInputNow, warehouse, dispatch, cityWarehouse]);
 
 
 
@@ -177,12 +173,11 @@ export default function DeliveryData({ user }) {
               {loadingCities && <SmallLoader />}
             {cities &&
               userEdit &&
-              showCities &&
               cities.map((item) => {
-                const { Description, Ref } = item;
+                const { Present, Ref } = item;
                 return (
-                  <Options key={Ref} onClick={() => handleClickCity(item)}>
-                    {Description}
+                  <Options key={Ref} onClick={() => handleCityClick(item)}>
+                    {Present}
                   </Options>
                 );
               })}
@@ -194,11 +189,10 @@ export default function DeliveryData({ user }) {
             {loadingWarehouses && <SmallLoader />}
             {warehouses &&
               userEdit &&
-              showWarehouses &&
               warehouses.map((item) => {
                 const { Description, Ref } = item;
                 return (
-                  <Options key={Ref} onClick={() => handleClickWarehouse(item)}>
+                  <Options key={Ref} onClick={() => handleWarehouseClick(item)}>
                     {Description}
                   </Options>
                 );

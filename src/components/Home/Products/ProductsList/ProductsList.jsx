@@ -148,7 +148,7 @@ const ProductsList = () => {
       currentPage={pageNum}
     />
     {isModalOpenSize && (
-      <Modal onCloseModal={closeModalSize}>
+      <Modal isModalOpen={isModalOpenSize} onCloseModal={closeModalSize}>
         <ModalWrapper>
           <p>Оберіть розмір</p>
           <AddButtonWithSize

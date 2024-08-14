@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import AddProductsPage from "./pages/Admin/AddProductsPage";
 import Product from "./pages/Product";
-import CheckoutPage from "./pages/CheckoutPage";
 import UserPage from "./pages/UserPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useAuth } from "./hooks/useAuth";
@@ -25,6 +24,8 @@ import Politic from "./pages/Politic";
 import Loader from "./components/Loader/Loader";
 import ScrollManager from './hooks/scrollManager';
 import './App.css';
+import Checkout from "./pages/Checkout";
+import RedirectPage from "./components/RedirectPage/RedirectPage";
 
 
 function App() {
@@ -45,10 +46,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/products/:product_id" element={<Product />} />
             <Route path="/info" element={<InfoPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="/restore" element={<RestorePasswordPage />} />
             <Route path="/publicoffer" element={<PublicOfferPage />} />
             <Route path="/politic" element={<Politic />} />
+            <Route path="/redirect" element={<RedirectPage />} />
             <Route
               path="/admin"
               element={

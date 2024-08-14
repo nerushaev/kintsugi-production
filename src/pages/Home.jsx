@@ -5,7 +5,6 @@ import { Container } from "../components/Container/Container.styled";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectIsOrderAccepted,
-  selectMonoPayUrl,
   selectOrderId,
 } from "../redux/products/products-selectors";
 import useModal from "../hooks/modal";
@@ -49,20 +48,16 @@ const homePageSlider = [
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { openModal, isModalOpen, closeModal } = useModal();
+  const { openModal: openOrderModal, isModalOpen: isOrderModalOpen, closeModal } = useModal();
   const dispatch = useDispatch();
   const orderAccepted = useSelector(selectIsOrderAccepted);
   const orderId = useSelector(selectOrderId);
-  const monoPayUrl = useSelector(selectMonoPayUrl);
 
   useEffect(() => {
-    if (orderAccepted && !monoPayUrl) {
-      openModal();
-    } else if (monoPayUrl && monoPayUrl.length !== 0) {
-      console.log(monoPayUrl);
-      window.location.replace(monoPayUrl);
+    if (orderAccepted && orderId) {
+      openOrderModal();
     }
-  }, [orderAccepted, openModal, monoPayUrl]);
+  }, [orderAccepted, openOrderModal, orderId]);
   
 
   const handleClick = () => {
@@ -107,7 +102,7 @@ export default function Home() {
         <ProductsList id="scroll" />
       </Container>
       <>
-        {isModalOpen && orderAccepted && (
+        {isOrderModalOpen && orderAccepted && (
           <Modal onCloseModal={closeModal}>
             <OrderNotificationWrapper>
               <h2>Ваше замовлення під номером {orderId} прийнято!</h2>

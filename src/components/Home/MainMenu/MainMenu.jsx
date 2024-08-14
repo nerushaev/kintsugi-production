@@ -11,7 +11,13 @@ import { Link } from "react-router-dom";
 import useScreenSize from "../../../hooks/useScreenSize";
 import { useSelector } from "react-redux";
 import { selectBusketAmount } from "../../../redux/products/products-selectors";
-import { useNavigate } from "react-router";
+import useModal from "../../../hooks/modal";
+import SideBusket from "../../SideBusket/SideBusket";
+import Modal from "../../Modal/Modal";
+import { motion, AnimatePresence } from "framer-motion";
+
+const AnimationP = styled(motion.div)`
+`;
 
 const Navbar = styled.div`
   display: flex;
@@ -99,69 +105,87 @@ const MainMenu = () => {
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
   const screenSize = useScreenSize();
   const totalAmount = useSelector(selectBusketAmount);
-  const navigate = useNavigate();
+  const { isModalOpen: isSideModalOpen, closeModal, openModal: openSideModal } = useModal();
 
   useOnClickOutside(node, () => {
     if (isMenuOpen) {
       toggleMenuMode();
     }
   });
+  console.log("isSideModalOpen", isSideModalOpen);
+
 
   const handleClick = () => {
-    if(totalAmount !== 0) {
-      window.scrollTo({top: 0})
-      navigate('/checkout')
-    } else {
-      return;
-    }
-  }
+    openSideModal();
+  };
 
   return (
-    <Header id="header" ref={node}>
-      <Navbar>
-        <Logo className={"nav-logo"} />
-        <NavLogoWrapper>
-          {screenSize.width > 767 && (
-            <LinksWrapper>
-              <Link to="/">Каталог</Link>
-              <Link to="/info">Оплата та доставка</Link>
-              <Link>Про нас</Link>
-              {!isLoggedIn && (
-                <>
-                  <Link to="/register">Реєстрація</Link>
-                  <Link to="/login">Вхід</Link>
-                </>
-              )}
-            </LinksWrapper>
-          )}
-          <IconWrapper>
-            {isLoggedIn && (
-              <Link to="/user">
-                <svg width="42" height="50">
-                  <use xlinkHref={`${svg}#icon-profile`} />
-                </svg>
-              </Link>
+    <>
+      <Header id="header" ref={node}>
+        <Navbar>
+          <Logo className={"nav-logo"} />
+          <NavLogoWrapper>
+            {screenSize.width > 767 && (
+              <LinksWrapper>
+                <Link to="/">Каталог</Link>
+                <Link to="/info">Оплата та доставка</Link>
+                <Link>Про нас</Link>
+                {!isLoggedIn && (
+                  <>
+                    <Link to="/register">Реєстрація</Link>
+                    <Link to="/login">Вхід</Link>
+                  </>
+                )}
+              </LinksWrapper>
             )}
-            <div onClick={handleClick}>
-              <BusketWrapper>
-                {totalAmount > 0 &&
-                <TotalPrice>{totalAmount}</TotalPrice>
-                }
-                <svg width="42" height="50">
-                  <use xlinkHref={`${svg}#icon-shopping-cart`} />
-                </svg>
-                {/* {totalPrice !== 0 &&
+            <IconWrapper>
+              {isLoggedIn && (
+                <Link to="/user">
+                  <svg width="42" height="50">
+                    <use xlinkHref={`${svg}#icon-profile`} />
+                  </svg>
+                </Link>
+              )}
+              <div onClick={handleClick}>
+                <BusketWrapper>
+                  {totalAmount > 0 && <TotalPrice>{totalAmount}</TotalPrice>}
+                  <svg width="42" height="50">
+                    <use xlinkHref={`${svg}#icon-shopping-cart`} />
+                  </svg>
+                  {/* {totalPrice !== 0 &&
                 <TotalPrice>{totalPrice}</TotalPrice>
                 } */}
-              </BusketWrapper>
-            </div>
-            {screenSize.width < 767 && <HamburgerButton />}
-          </IconWrapper>
-        </NavLogoWrapper>
-      </Navbar>
-      <SideMenu />
-    </Header>
+                </BusketWrapper>
+              </div>
+              {screenSize.width < 767 && <HamburgerButton />}
+            </IconWrapper>
+          </NavLogoWrapper>
+        </Navbar>
+        <SideMenu />
+      </Header>
+      <AnimatePresence mode="sync">
+        {isSideModalOpen && (
+          <AnimationP 
+          variants={variants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          >
+            <Modal onCloseModal={closeModal}>
+              <SideBusket closeModal={closeModal} />
+            </Modal>
+            
+          </AnimationP>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
 export default MainMenu;
+
+const variants = {
+  visible: {opacity: 1},
+  hidden: {opacity: 0}
+}
+

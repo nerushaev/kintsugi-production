@@ -49,7 +49,7 @@ const authSlice = createSlice({
     },
     setLocation(state, {payload}) {
       state.location = payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(refreshToken.pending, (state) => {

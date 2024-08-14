@@ -1,8 +1,26 @@
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useScroll from '../../hooks/useScroll';
-
+import styled from 'styled-components';
 import { Overlay } from './Modal.styled';
+import useModal from '../../hooks/modal';
+
+const AnimationP = styled(motion.div)`
+position: fixed;
+width: 100%;
+height: 100%;
+
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: rgba(0, 0, 0, 0.3);
+// overflow: hidden;
+overflow-y: scroll;
+top: 0;
+left: 0;
+z-index: 1000;
+`;
 
 const modalRoot = document.querySelector('#modal-root');
 
@@ -32,9 +50,20 @@ function Modal(props) {
   };
 
   return createPortal(
-    <Overlay onClick={handleBackdropClick}>{props.children}</Overlay>,
-    modalRoot
+    // <AnimatePresence mode="wait">
+      <AnimationP variants={variants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden" 
+      onClick={handleBackdropClick}>{props.children}</AnimationP>
+    // </AnimatePresence>
+    , modalRoot
   );
 }
 
 export default Modal;
+
+const variants = {
+  visible: {opacity: 1},
+  hidden: {opacity: 0}
+}

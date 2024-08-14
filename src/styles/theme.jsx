@@ -7,7 +7,7 @@ export const theme = Object.freeze({
     white: "#ffffff",
     black: "#181C27",
     rose: "#DD62A1",
-    gray: "rgba(17, 17, 17, 0.6)",
+    gray: "rgba(17, 17, 17, 0.2)",
     red: "rgb(237, 41, 57, 0.6)",
     redAccent: "rgb(237, 41, 57, 0.7)",
     mainBackground: "#FDF7F2",

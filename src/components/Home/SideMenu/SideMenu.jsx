@@ -73,7 +73,7 @@ export const SideMenu = ({ children }) => {
       <MenuLink to="/" end href="/">
         Головна
       </MenuLink>
-      <MenuLink to="/checkout">Корзина</MenuLink>
+      {/* <MenuLink to="/checkout">Корзина</MenuLink> */}
       <MenuLink to="/info" href="/info">
         Інформація
       </MenuLink>

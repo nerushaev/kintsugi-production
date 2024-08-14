@@ -1,12 +1,11 @@
 import { Input } from "../../Input/Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { GrMail } from "react-icons/gr";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../../redux/auth/auth-operations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../../helpers/loginValidation";
-import { selectError } from "../../../redux/auth/auth-selectors";
-import {CustomForm, InputsWrapper, ButtonWrapper, Button, ErrorMessage} from "../../Form/Form.styled";
+import {CustomForm, InputsWrapper, ButtonWrapper, Button, FormWrapper} from "../../Form/Form.styled";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
@@ -34,7 +33,7 @@ const StyledLink = styled(Link)`
   justify-content: center;
   align-items: center;
   gap: 6px;
-  font-size: ${theme.fontSizes.medium};
+  font-size: ${theme.fontSizes.small};
   cursor: pointer;
   &:hover {
     color: black;
@@ -45,12 +44,11 @@ const FormLinkWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: flex-end;
+  align-items: flex-start;
 `;
 
 export default function LoginForm() {
   const methods = useForm({ resolver: yupResolver(loginSchema) });
-  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   const onSubmit = methods.handleSubmit((data) => {
@@ -74,6 +72,7 @@ export default function LoginForm() {
   }
 
   return (
+    <FormWrapper>
     <FormProvider {...methods}>
       <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
@@ -81,7 +80,6 @@ export default function LoginForm() {
           <Input {...password_input} />
         </InputsWrapper>
         <ButtonWrapper>
-        {error && <ErrorMessage>{error.message}</ErrorMessage>}
         <LoginLinkButtonWrapper>
           <FormLinkWrapper>
         <LinkWrapper>
@@ -103,5 +101,6 @@ export default function LoginForm() {
         </ButtonWrapper>
       </CustomForm>
     </FormProvider>
+    </FormWrapper>
   );
 }

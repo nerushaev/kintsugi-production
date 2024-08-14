@@ -16,6 +16,8 @@ const categories = [
   "K-pop",
   "Фігурки",
   "Акрилові стенди",
+  "Рюкзаки, сумки",
+  "Лінзи"
 ];
 
 const CategoryWrapper = styled.div`
