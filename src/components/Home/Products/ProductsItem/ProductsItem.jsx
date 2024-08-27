@@ -121,7 +121,7 @@ export const ProductsItem = ({
     ({
       product_name,
       product_id,
-      photo_origin,
+      photo,
       price,
       amount,
       category_name,
@@ -153,8 +153,8 @@ export const ProductsItem = ({
                 {amount === 0 && <DontHaveMessage>Немає в наявності!</DontHaveMessage>}
                 <Image
                   src={
-                    photo_origin
-                      ? `https://kintsugi.joinposter.com${photo_origin}`
+                    photo
+                      ? `https://kintsugi.joinposter.com${photo}`
                       : "https://res.cloudinary.com/dzjmswzgp/image/upload/c_crop,ar_1:1/v1719250641/image_not_found_wruanw.jpg"
                   }
                   alt=""
@@ -196,7 +196,7 @@ export const ProductsItem = ({
                           handleItemWithSize({
                             product_id,
                             product_name,
-                            photo_origin,
+                            photo,
                             price,
                             amount,
                             category_name,
@@ -206,7 +206,7 @@ export const ProductsItem = ({
                           handleClick({
                             product_id,
                             product_name,
-                            photo_origin,
+                            photo,
                             price,
                             amount,
                             category_name,

@@ -94,7 +94,7 @@ export default function Product() {
   const [feedback, setFeedback] = useState(false);
   const [delivery, setDelivery] = useState(false);
   const [payment, setPayment] = useState(false);
-
+  
   const handleScroll = (event) => {
     event.preventDefault(); // Предотвратить переход по ссылке по умолчанию
     const targetId = event.currentTarget.getAttribute("id"); // Получить якорь из ссылки

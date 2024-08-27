@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiShoppingBasket } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getBusket, totalBusketPrice } from "../../redux/products/products-selectors";
 import CountButton from "../Home/Products/ProductsItem/CountButton";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
+import { removeFromBusket } from "../../redux/products/products-slice";
 
 const SideBlockAnimated = styled(motion.div)`
   position: fixed;
@@ -143,6 +144,7 @@ export default function SideBusket({ closeModal }) {
   const busket = useSelector(getBusket);
   const totalPrice = useSelector(totalBusketPrice);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     if(busket.length !== 0) {
@@ -185,7 +187,7 @@ export default function SideBusket({ closeModal }) {
       {busket.map((item) => {
         return (
           <ProductItem key={item.product_id}>
-            <IoCloseOutline
+            <IoCloseOutline onClick={() => dispatch(removeFromBusket(item.product_id))}
           style={{
             fontSize: "32",
             position: "absolute",
@@ -196,12 +198,12 @@ export default function SideBusket({ closeModal }) {
             <ProductBody>
               <ProductImageBlock>
                 <img
-                  src={`https://kintsugi.joinposter.com${item.photo_origin}`}
+                  src={`https://kintsugi.joinposter.com${item.photo}`}
                   alt=""
                 />
               </ProductImageBlock>
               <ProductDetailsBlock>
-                <p>{item.product_name}</p>
+                <a href={`/products/${item.product_id}`}>{item.product_name}</a>
                 <AmountCountBlock>
                   <span>X{item.amount}</span>
                   <div style={{backgroundColor: `${theme.colors.formButton}`, padding: "4px", borderRadius: "6px"}}>

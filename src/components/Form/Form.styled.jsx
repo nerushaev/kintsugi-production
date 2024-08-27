@@ -14,7 +14,7 @@ export const CustomForm = styled.form`
   background-color: white;
   border-radius: 6px;
   max-width: 100%;
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
   text-align: center;
   @media (min-width: 479px) {
     padding: 20px;

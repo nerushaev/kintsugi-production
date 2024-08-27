@@ -35,6 +35,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/zoom";
 import "swiper/css/pagination";
+import DescriptionChange from "./DescriptionChange";
 // import { nanoid } from "@reduxjs/toolkit";
 const GoBackLink = styled(NavLink)`
   margin-left: 10px;
@@ -54,7 +55,7 @@ const GoBackWrapper = styled.div`
 `;
 
 const ProductWrapper = styled.div`
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   @media (min-width: 767px) {
     display: flex;
     gap: 10px;
@@ -79,7 +80,6 @@ export const Block = styled.div`
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 20px;
-  // height: 100%;
   @media (min-width: 767px) {
     padding: 20px;
     width: 50%;
@@ -129,7 +129,7 @@ const BlockText = styled.p`
   }
 `;
 
-const BlockTextFlex = styled.div`
+export const BlockTextFlex = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -143,6 +143,7 @@ export default function ProductsDetails({ data, setFeedback }) {
     description,
     product_id,
     photo_origin,
+    photo,
     price,
     amount,
     category_name,
@@ -271,7 +272,7 @@ export default function ProductsDetails({ data, setFeedback }) {
                     product_id,
                     product_name,
                     description,
-                    photo_origin,
+                    photo,
                     price,
                     amount,
                     category_name,
@@ -295,7 +296,7 @@ export default function ProductsDetails({ data, setFeedback }) {
               <BlockText>{category_name}</BlockText>
             </BlockTextFlex>
           </Block>
-          {description && (
+          {description && !isAdmin && (
             <Block style={{ width: "100%" }}>
               <BlockTitle>Опис товару</BlockTitle>
               <BlockText>{description}</BlockText>
@@ -304,6 +305,7 @@ export default function ProductsDetails({ data, setFeedback }) {
         </BlockWrapper>
         {/* </ContentWrapper> */}
       </ProductWrapper>
+      {isAdmin && <DescriptionChange description={description} product_id={product_id} />}
       {isAdmin && <Dropzone _id={product_id} />}
     </>
   );

@@ -39,11 +39,8 @@ import { checkoutPageValidationThirdStep } from "../../../../helpers/checkoutPag
 import {
   getBusket,
   selectIsLoading,
-  selectMonoPayUrl,
 } from "../../../../redux/products/products-selectors";
 import { orderProducts } from "../../../../redux/products/products-operation";
-import Loader from "../../../Loader/Loader";
-import { useNavigate } from "react-router";
 
 const CheckboxFlexBlock = styled.div`
   display: flex;
@@ -235,14 +232,26 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
       return;
     }
 
+    if(cityInputNow === delivery.city) {
+      dispatch(removeCitiesList());
+      setShowCities(false);
+      return;
+    }
+
     if (cityInput?.length >= 2 && city !== cityInputNow) {
       setShowCities(true);
       dispatch(getCities(cityInput));
     }
-  }, [cityInput, cityInputNow, city, dispatch]);
+  }, [cityInput, cityInputNow, city, dispatch, delivery.city]);
 
   useEffect(() => {
     if (warehouseInputNow?.length === 0) {
+      dispatch(removeWarehousesList());
+      setShowWarehouses(false);
+      return;
+    }
+
+    if(warehouseInputNow === delivery.warehouse) {
       dispatch(removeWarehousesList());
       setShowWarehouses(false);
       return;
@@ -254,7 +263,7 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
         getWarehouses({ city: cityWarehouse, warehouse: warehouseInput })
       );
     }
-  }, [warehouseInput, warehouseInputNow, warehouse, dispatch, cityWarehouse]);
+  }, [warehouseInput, warehouseInputNow, warehouse, dispatch, cityWarehouse, delivery.warehouse]);
 
   useEffect(() => {
     if (postboxInputNow?.length === 0 || postboxInput === postbox) {

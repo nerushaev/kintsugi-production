@@ -13,6 +13,7 @@ import {
   Button,
   ErrorMessage,
 } from "../../Form/Form.styled";
+import { Block } from "../../Busket/CheckoutPage/CheckoutSteps/Steps.styled";
 
 export default function RegisterForm() {
   const methods = useForm({ resolver: yupResolver(registerSchema) });
@@ -65,6 +66,7 @@ export default function RegisterForm() {
   };
 
   return (
+    <Block>
     <FormProvider {...methods}>
       <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
@@ -83,5 +85,6 @@ export default function RegisterForm() {
         </ButtonWrapper>
       </CustomForm>
     </FormProvider>
+    </Block>
   );
 }

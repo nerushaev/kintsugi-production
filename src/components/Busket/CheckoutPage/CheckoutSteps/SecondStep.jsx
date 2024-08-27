@@ -19,7 +19,6 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { register } from "../../../../redux/auth/auth-operations";
 import { Notify } from "notiflix";
-import { scroller } from "react-scroll";
 
 export default function SecondStep({ user, setUserData, setStep2, setStep3 }) {
   const { isLoggedIn } = useAuth();

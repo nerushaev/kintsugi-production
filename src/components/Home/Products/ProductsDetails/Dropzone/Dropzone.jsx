@@ -1,28 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { updateProduct } from "../../../../../redux/products/products-operation";
+import { updatePhotoProduct } from "../../../../../redux/products/products-operation";
 import { theme } from "../../../../../styles/theme";
 import { Button, ButtonWrapper } from "../../../../Buttons/Buttons";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const DropzoneContainer = styled.div`
-  background-color: ${theme.colors.ligthGray};
   padding: 30px 20px;
   border: 1px solid lightgray;
   border-radius: 6px;
   position: relative;
-
   margin-bottom: 10px;
 `;
 
 const AdminContainer = styled.div`
-  border: 1px solid lightgray;
+  background-color: ${theme.colors.white};
   border-radius: 6px;
   margin-bottom: 20px;
   padding-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 20px;
 `;
 
 const Input = styled.input`
@@ -99,7 +98,7 @@ export default function Dropzone(props) {
     }
     const formData = new FormData(e.target);
     const { _id } = props;
-    dispatch(updateProduct({ formData, _id }));
+    dispatch(updatePhotoProduct({ formData, _id }));
   };
 
   const handleChange = (e) => {
@@ -160,7 +159,7 @@ export default function Dropzone(props) {
             );
           })}
         </ImageList>
-        <ButtonWrapper>
+        <ButtonWrapper style={{marginBottom: "0"}}>
           <Button type="submit">Додати</Button>
         </ButtonWrapper>
       </form>

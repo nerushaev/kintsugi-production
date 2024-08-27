@@ -1,10 +1,8 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useScroll from '../../hooks/useScroll';
 import styled from 'styled-components';
-import { Overlay } from './Modal.styled';
-import useModal from '../../hooks/modal';
 
 const AnimationP = styled(motion.div)`
 position: fixed;

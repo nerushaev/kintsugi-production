@@ -21,14 +21,15 @@ export const CheckoutStepTitle = styled.h3`
 `;
 
 export const Block = styled.div`
+position: relative;
 background-color: white;
 padding: 10px;
 border-radius: 6px;
+margin-bottom: 20px;
 
 @media(min-width:  479px) {
   padding: 20px;
 }
-margin-bottom: 30px;
 
 @media(min-width: 767px) {
   display: flex;

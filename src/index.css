@@ -46,7 +46,7 @@ html {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
+  background-color: rgba(242,242,242,0.6);
 }
 
 main {

@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { theme } from "../../../styles/theme";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
+import { Block } from "../../Busket/CheckoutPage/CheckoutSteps/Steps.styled";
 
 const LoginLinkButtonWrapper = styled.div`
 width: 100%;
@@ -72,9 +73,10 @@ export default function LoginForm() {
   }
 
   return (
-    <FormWrapper>
+    <FormWrapper style={{display: "flex", justifyContent: "center"}}>
+      <Block>
     <FormProvider {...methods}>
-      <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
+      <CustomForm  onSubmit={(e) => e.preventDefault()} noValidate>
         <InputsWrapper>
           <Input {...email_input} />
           <Input {...password_input} />
@@ -101,6 +103,7 @@ export default function LoginForm() {
         </ButtonWrapper>
       </CustomForm>
     </FormProvider>
+    </Block>
     </FormWrapper>
   );
 }

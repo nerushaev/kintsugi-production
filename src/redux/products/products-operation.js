@@ -152,17 +152,33 @@ export const removeProduct = createAsyncThunk(
   }
 );
 
-export const updateProduct = createAsyncThunk(
-  "/products/update",
+export const updatePhotoProduct = createAsyncThunk(
+  "/products/update/photo",
   async (data, ThunkAPI) => {
     const {_id, formData} = data;
-    console.log(formData.has('photo_extra'))
     try {
       const { data } = await instance.put(
-        `/api/products/${_id}`,
+        `/api/products/photos/${_id}`,
         formData
       );
       return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
+export const updateProduct = createAsyncThunk(
+  "/products/update",
+  async (updateData, ThunkAPI) => {
+    const {product_id} = updateData;
+    try {
+      const { data } = await instance.patch(
+        `/api/products/update/${product_id}`,
+        updateData
+      );
+      return data.result;
     } catch (error) {
       return ThunkAPI.rejectWithValue(error.message);
     }

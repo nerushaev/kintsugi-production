@@ -3,7 +3,6 @@ import {
   getProducts,
   addProducts,
   removeProduct,
-  updateProduct,
   getAllProducts,
   getComingSoonProducts,
   getProductsById,
@@ -12,6 +11,8 @@ import {
   getSimilarProducts,
   getAllProductsName,
   getWishProducts,
+  updatePhotoProduct,
+  updateProduct,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -74,6 +75,11 @@ const productsSlice = createSlice({
       } else {
         item.amount--;
       }
+    },
+    removeFromBusket: (state, {payload}) => {
+      const resultBusket = state.busket.filter(item => item.product_id !== payload);
+      console.log(resultBusket);
+      state.busket = resultBusket;
     },
     clearBusket: (state, action) => {
       state.busket = [];
@@ -140,12 +146,21 @@ const productsSlice = createSlice({
       );
     });
 
+    builder.addCase(updatePhotoProduct.pending, handlePending);
+
+    builder.addCase(updatePhotoProduct.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.error = null;
+      state.details.photo_extra = payload.photo_extra;
+    });
+
+    builder.addCase(updatePhotoProduct.rejected, handleRejected);
     builder.addCase(updateProduct.pending, handlePending);
 
     builder.addCase(updateProduct.fulfilled, (state, {payload}) => {
       state.isLoading = false;
       state.error = null;
-      state.details.photo_extra = payload.photo_extra;
+      state.details = payload;
     });
 
     builder.addCase(updateProduct.rejected, handleRejected);
@@ -215,6 +230,6 @@ const productsSlice = createSlice({
   }
 });
 
-export const { addToBusket, incrementAmount, decrementAmount, clearBusket, clearOrderInfo } =
+export const { addToBusket, incrementAmount, decrementAmount, clearBusket, clearOrderInfo, removeFromBusket } =
   productsSlice.actions;
 export const productsReducer = productsSlice.reducer;
