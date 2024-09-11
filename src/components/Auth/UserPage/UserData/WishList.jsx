@@ -9,9 +9,9 @@ import { addToBusket } from '../../../../redux/products/products-slice';
 import { Button, ButtonWrapper } from '../../../Buttons/Buttons';
 import { List, ListWrapper } from '../../../Home/Products/List.styled';
 import { ProductsItem } from '../../../Home/Products/ProductsItem/ProductsItem';
-import { ModalWrapper } from '../../../Home/Products/ProductsList/ProductsList';
+import { ModalWrapper } from '../../../Modal/Modals'; 
 import Modal from '../../../Modal/Modal';
-import AddButtonWithSize from "../../../Home/Products/AddButtonWithSize/AddButtonWithSize";
+import AddButtonWithSize from "../../../Home/Products/SizeButtons/SizeButtons";
 import ErrorMessage from '../../../Errors/ErrorMessage';
 
 export default function WishList() {

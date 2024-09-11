@@ -32,6 +32,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Button = styled.button`
+  font-family: "Montserrat";
   margin-left: auto;
   display: flex;
   align-items: center;

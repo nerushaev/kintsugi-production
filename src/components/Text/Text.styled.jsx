@@ -32,3 +32,43 @@ export const TitleWrapper = styled.div`
     margin-bottom: 50px;
   }
 `;
+
+export const Text = styled.p`
+  font-family: "Montserrat";
+  font-weight: ${props => props.$accent ? "600" : "500"};
+  font-size: ${theme.fontSizes.medium};
+`;
+
+export const TextWrapper = styled.div`
+  margin-bottom: 6px;
+  @media (min-width: 767px) {
+    margin-bottom: 10px;
+  }
+`;
+
+export const Subtitle = styled.h3`
+  font-family: "Montserrat Alternates";
+  color: black;
+  font-weight: 550;
+  font-size: ${theme.fontSizes.extraLarge};
+`;
+
+export const Price = styled.p`
+  font-family: "Montserrat Alternates";
+  font-size: ${theme.fontSizes.extraLarge};
+  font-weight: 600;
+`;
+
+export const BlockTitle = styled.h2`
+  font-family: "Montserrat Alternates";
+  color: black;
+  font-weight: 550;
+  font-size: ${theme.fontSizes.extraLarge};
+`;
+
+export const BlockTitleWrapper = styled.div`
+  margin-bottom: 14px;
+  @media (min-width: 767px) {
+    margin-bottom: 20px;
+  }
+`;

@@ -5,7 +5,6 @@ import { getProductsById } from "../redux/products/products-operation";
 import ProductsDetails from "../components/Home/Products/ProductsDetails/ProductsDetails";
 import {
   getDetails,
-  selectIsLoading,
 } from "../redux/products/products-selectors";
 import Loader from "../components/Loader/Loader";
 import { Container } from "../components/Container/Container.styled";
@@ -72,6 +71,7 @@ export const DeliveryWrapper = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+  font-family: "Montserrat";
   display: flex;
   gap: 6px;
   padding: 15px;
@@ -89,7 +89,6 @@ const StyledLink = styled(Link)`
 export default function Product() {
   const dispatch = useDispatch();
   const { product_id } = useParams();
-  const isLoading = useSelector(selectIsLoading);
   const product = useSelector(getDetails);
   const [feedback, setFeedback] = useState(false);
   const [delivery, setDelivery] = useState(false);
@@ -133,9 +132,8 @@ export default function Product() {
 
   return (
     <Container>
-      {!isLoading ? (
-        <>
-          <ProductsDetails setFeedback={setFeedback} data={product} />
+      {!product.product_name && <Loader />} 
+      {product.product_name && <ProductsDetails setFeedback={setFeedback} data={product} />}
           <MoreInfoControllsWrapper>
             <ControllsButtonWrapper>
               <StyledLink
@@ -161,10 +159,6 @@ export default function Product() {
           {payment && <PaymentInfo />}
           {feedback && <Feedback />}
           <Outlet />
-        </>
-      ) : (
-        <Loader />
-      )}
     </Container>
   );
 }

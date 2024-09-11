@@ -7,13 +7,13 @@ import { FaMinus } from "react-icons/fa";
 
 const CountWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  gap: 10px;
 `;
 
 const CountText = styled.p`
   font-size: 16px;
-  margin: 0 20px;
   font-weight: 600;
 `;
 
@@ -22,7 +22,6 @@ export default function CountButton({ amount, product_id }) {
   const handleIncrement = (product_id) => {
     dispatch(incrementAmount(product_id))
   }
-  
   const handleDecrement = (product_id) => {
     dispatch(decrementAmount(product_id))
   }

@@ -1,4 +1,3 @@
-import ProductsList from "../components/Home/Products/ProductsList/ProductsList";
 import MainTitle from "../components/Home/Title/Title";
 import styled from "styled-components";
 import { Container } from "../components/Container/Container.styled";
@@ -15,8 +14,7 @@ import { clearOrderInfo } from "../redux/products/products-slice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSearchParams } from "react-router-dom";
 import { Element, scroller } from "react-scroll";
-import Search from "../components/Home/Search/Search";
-import Filter from "../components/Home/Products/ProductsList/Filter";
+import Catalog from "../components/Home/Catalog/Catalog";
 
 const StyledImg = styled.img`
   cursor: pointer;
@@ -48,7 +46,11 @@ const homePageSlider = [
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { openModal: openOrderModal, isModalOpen: isOrderModalOpen, closeModal } = useModal();
+  const {
+    openModal: openOrderModal,
+    isModalOpen: isOrderModalOpen,
+    closeModal,
+  } = useModal();
   const dispatch = useDispatch();
   const orderAccepted = useSelector(selectIsOrderAccepted);
   const orderId = useSelector(selectOrderId);
@@ -58,7 +60,6 @@ export default function Home() {
       openOrderModal();
     }
   }, [orderAccepted, openOrderModal, orderId]);
-  
 
   const handleClick = () => {
     dispatch(clearOrderInfo());
@@ -95,11 +96,8 @@ export default function Home() {
       </HeroWrapper>
       <Container>
         <MainTitle text="Каталог" />
-        <Element name="scroll">
-          <Search />
-        </Element>
-          <Filter />
-        <ProductsList id="scroll" />
+        <Element name="scroll" />
+        <Catalog />
       </Container>
       <>
         {isOrderModalOpen && orderAccepted && (

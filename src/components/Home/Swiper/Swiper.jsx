@@ -5,13 +5,13 @@ import "./Swiper.css";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/navigation";
-import React, { useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import styled from "styled-components";
 import { nanoid } from "@reduxjs/toolkit";
 import useModal from "../../../hooks/modal";
 import { IoMdClose } from "react-icons/io";
 import Modal from "../../../components/Modal/Modal";
-import { Block } from "../Products/ProductsDetails/ProductsDetails";
+import { Block } from "../Products/ProductsDetails/ProductsDetails.styled";
 
 const Image = styled.div`
   background: url(${(props) => props.src});
@@ -27,9 +27,9 @@ const CloseModal = styled.p`
   z-index:1001;
 `;
 
-export default function Slider({
+const Slider = memo(({
   photos,
-}) {
+}) => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [initialSlide, setInitialSlide] = useState(0);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -42,7 +42,7 @@ export default function Slider({
     }
   }
 
-  const elements = photos.map((item, index) => {
+  const elements = useMemo(() => photos.map((item, index) => {
     const swiperId = nanoid();
 
     if (item && item[0] === "/") {
@@ -62,7 +62,9 @@ export default function Slider({
         />
       </SwiperSlide>
     );
-  });
+  }), [photos]);
+
+
 
   return (
     <>
@@ -146,5 +148,6 @@ export default function Slider({
               </>
     </>
   );
-  
-}
+});
+
+export default Slider;

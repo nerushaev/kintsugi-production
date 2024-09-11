@@ -5,9 +5,8 @@ import { MenuContext } from "../../../context/navState";
 import arrow from "../../../assets/arrow.svg";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsLogin } from "../../../redux/auth/auth-selectors";
+import { selectIsLogin, selectRole } from "../../../redux/auth/auth-selectors";
 import { logout } from "../../../redux/auth/auth-operations";
-import { useAuth } from "../../../hooks/useAuth";
 
 const Menu = styled.nav`
   position: fixed;
@@ -60,8 +59,8 @@ export const MenuLink = styled(NavLink)`
 export const SideMenu = ({ children }) => {
   const dispatch = useDispatch();
   const { isMenuOpen, toggleMenuMode } = useContext(MenuContext);
-  const { role } = useAuth();
   const isLoggedIn = useSelector(selectIsLogin);
+  const role = useSelector(selectRole);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -73,7 +72,6 @@ export const SideMenu = ({ children }) => {
       <MenuLink to="/" end href="/">
         Головна
       </MenuLink>
-      {/* <MenuLink to="/checkout">Корзина</MenuLink> */}
       <MenuLink to="/info" href="/info">
         Інформація
       </MenuLink>
@@ -104,17 +102,3 @@ export const SideMenu = ({ children }) => {
 SideMenu.propTypes = {
   children: PropTypes.node,
 };
-
-// SideMenu.defaultProps = {
-//   children: (
-//     <>
-//       <MenuLink to="/" end href="/">
-//         Головна
-//       </MenuLink>
-//       <MenuLink to="/busket">Корзина</MenuLink>
-//       <MenuLink to="/info" href="/info">
-//         Інформація
-//       </MenuLink>
-//     </>
-//   ),
-// };

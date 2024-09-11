@@ -1,6 +1,9 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { getFilter } from "../filter/filter-selectors";
 
-export const getStateProducts = (state) => state.products.items;
+const selectProductsState = (state) => state.products;
+
+export const selectStateProducts = (state) => state.products.items;
 
 export const getWishList = ({products}) => products.wishList;
 
@@ -26,6 +29,14 @@ export const getBusket = (state) => state.products.busket;
 export const getLiqpay = (state) => state.products.liqpay;
 
 export const selectOrderId = (state) => state.products.orderId;
+
+export const selectBusketItemAmount = ({products}, product_id) => {
+  if(products.busket === 0) {
+    return;
+  }
+  const product = products.busket.filter(item => item.product_id === product_id);
+  return product[0];
+}
 
 export const totalBusketPrice = ({products}) => {
   const {busket} = products;
@@ -61,9 +72,18 @@ export const selectBusketProductsId = (state) => {
   return result;
 };
 
+export const selectAvailableSize = createSelector(
+  [selectProductsState],
+  (products) => {
+    const availableSize = products.details.modifications.filter(item => item.size_left > 0);
+    return availableSize;
+  }
+  
+)
+
 export const selectFilteredProducts = (state) => {
   const filter = getFilter(state);
-  const products = getStateProducts(state);
+  const products = selectStateProducts(state);
 
   // if (!filter) {
   //   const filteredProducts = products.filter((element) => {

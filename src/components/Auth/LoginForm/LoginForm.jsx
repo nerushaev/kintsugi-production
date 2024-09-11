@@ -12,6 +12,7 @@ import { theme } from "../../../styles/theme";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
 import { Block } from "../../Busket/CheckoutPage/CheckoutSteps/Steps.styled";
+import { memo } from "react";
 
 const LoginLinkButtonWrapper = styled.div`
 width: 100%;
@@ -48,7 +49,7 @@ const FormLinkWrapper = styled.div`
   align-items: flex-start;
 `;
 
-export default function LoginForm() {
+const LoginForm = memo(() => {
   const methods = useForm({ resolver: yupResolver(loginSchema) });
   const dispatch = useDispatch();
 
@@ -106,4 +107,6 @@ export default function LoginForm() {
     </Block>
     </FormWrapper>
   );
-}
+});
+
+export default LoginForm;

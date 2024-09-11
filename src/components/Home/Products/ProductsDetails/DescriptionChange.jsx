@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import {
   Block,
-  BlockText,
-  BlockTitle,
 } from "../../../Busket/CheckoutPage/CheckoutSteps/Steps.styled";
 import { MdOutlineEditNote } from "react-icons/md";
 import { Button } from "../../../Form/Form.styled";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { updateProduct } from "../../../../redux/products/products-operation";
+import { selectRole } from "../../../../redux/auth/auth-selectors";
+import { BlockTitle, BlockTitleWrapper, Text } from "../../../Text/Text.styled";
 
 const Textarea = styled.textarea`
+  font-family: "Montserrat";
   width: 100%;
   border-radius: 6px;
   margin-bottom: 20px;
@@ -18,7 +19,8 @@ const Textarea = styled.textarea`
   height: 100px;
 `;
 
-export default function DescriptionChange({ description, product_id }) {
+const DescriptionChange = memo(({ description, product_id }) => {
+  const isAdmin = useSelector(selectRole) === "admin";
   const [editDescription, setEditDescription] = useState(false);
   const [descriptionInput, setDescriptionInput] = useState(description || "");
   const dispatch = useDispatch();
@@ -30,14 +32,20 @@ export default function DescriptionChange({ description, product_id }) {
   };
 
   return (
-    <Block style={{display: "block"}}>
-      <div style={{ position: "absolute", right: "10px", cursor: "pointer" }}>
+    <>
+      <Block style={{display: "block"}}>
+      {isAdmin &&
+        <div style={{ position: "absolute", right: "10px", cursor: "pointer" }}>
         <MdOutlineEditNote
           onClick={() => setEditDescription((prev) => !prev)}
           style={{ fontSize: "28px" }}
         />
       </div>
-      <BlockTitle style={{ textAlign: "left" }}>Опис товару</BlockTitle>
+      }
+      <BlockTitleWrapper>
+      <BlockTitle $accent style={{ textAlign: "left" }}>Опис товару</BlockTitle>
+      </BlockTitleWrapper>
+      
       {editDescription ? (
         <form onSubmit={handleSubmit}>
           <Textarea
@@ -49,8 +57,11 @@ export default function DescriptionChange({ description, product_id }) {
           <Button type="submit">Зберегти</Button>
         </form>
       ) : (
-        <BlockText>{description}</BlockText>
+        <Text>{description}</Text>
       )}
     </Block>
+    </>
   );
-}
+});
+
+export default DescriptionChange;

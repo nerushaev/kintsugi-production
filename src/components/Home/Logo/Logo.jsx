@@ -1,18 +1,18 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import "./Logo.css";
 import logoUrl from '../../../assets/kintsugi-logo.jpg';
 
-const Logo = (className) => {
+const Logo = memo(() => {
   return (
     <Link to="/" href="../../../public/index.html">
       <img
-        className={`${className.className}`}
+        className={"nav-logo"}
         src={logoUrl}
         alt="logo"
       />
     </Link>
   );
-};
+});
 
 export default Logo;

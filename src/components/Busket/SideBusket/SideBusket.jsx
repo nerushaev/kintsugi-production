@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { theme } from "../../styles/theme";
+import { theme } from "../../../styles/theme";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiShoppingBasket } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { getBusket, totalBusketPrice } from "../../redux/products/products-selectors";
-import CountButton from "../Home/Products/ProductsItem/CountButton";
+import { getBusket, totalBusketPrice } from "../../../redux/products/products-selectors";
+import CountButton from "../../Home/Products/ProductsItem/CountButton";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
-import { removeFromBusket } from "../../redux/products/products-slice";
+import { removeFromBusket } from "../../../redux/products/products-slice";
 
 const SideBlockAnimated = styled(motion.div)`
   position: fixed;
@@ -203,7 +203,7 @@ export default function SideBusket({ closeModal }) {
                 />
               </ProductImageBlock>
               <ProductDetailsBlock>
-                <a href={`/products/${item.product_id}`}>{item.product_name}</a>
+                <a href={`/products/${item.product_id}`}>{item.product_name} {item.size}</a>
                 <AmountCountBlock>
                   <span>X{item.amount}</span>
                   <div style={{backgroundColor: `${theme.colors.formButton}`, padding: "4px", borderRadius: "6px"}}>

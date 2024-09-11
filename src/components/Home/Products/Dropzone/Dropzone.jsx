@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { updatePhotoProduct } from "../../../../../redux/products/products-operation";
-import { theme } from "../../../../../styles/theme";
-import { Button, ButtonWrapper } from "../../../../Buttons/Buttons";
+import { updatePhotoProduct } from "../../../../redux/products/products-operation";
+import { theme } from "../../../../styles/theme";
+import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const DropzoneContainer = styled.div`

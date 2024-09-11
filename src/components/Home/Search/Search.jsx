@@ -5,32 +5,14 @@ import {
   IconWrapper,
 } from "./Search.styled.jsx";
 import svg from "../../../assets/filterIcons.svg";
-import React, { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import React from "react";
+import useSearch from "../../../hooks/useSearch.js";
 
 export default function Search() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const searchRef = useRef();
-  const searchParam = searchParams.get("search");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { value } = e.target.elements[0];
-    searchParams.set("page", 1);
-    searchParams.set("search", value);
-    setSearchParams(searchParams);
-  };
-
-  useEffect(() => {
-    if (!searchParam) {
-      searchRef.current.value = '';
-    } else {
-      searchRef.current.value = searchParam;
-    }
-  }, [searchParam, searchRef]);
+  const { searchRef, handleSearchSubmit } = useSearch();
 
   return (
-    <SearchForm onSubmit={handleSubmit}>
+    <SearchForm onSubmit={handleSearchSubmit}>
       <SearchInput
         ref={searchRef}
         type="text"

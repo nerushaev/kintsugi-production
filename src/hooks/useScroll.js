@@ -1,5 +1,5 @@
 const useScroll = () => {
-  const blockScroll = () => (document.body.style.overflow = 'hidden');
+  const blockScroll = () => (document.body.style.overflow = '');
   const unBlockScroll = () => (document.body.style.overflow = '');
 
   return { blockScroll, unBlockScroll };

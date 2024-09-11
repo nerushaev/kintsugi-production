@@ -63,11 +63,11 @@ export const Title = styled.p`
   font-weight: 500;
   font-size: ${theme.fontSizes.small};
   margin-bottom: 10px;
-  overflow: scroll;
-  height: 60px;
+  overflow: hidden;
+  height: 70px;
   @media (min-width: 767px) {
     font-size: ${theme.fontSizes.medium};
-    height: 80px;
+    height: 90px;
   }
 `;
 

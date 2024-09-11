@@ -160,7 +160,7 @@ const productsSlice = createSlice({
     builder.addCase(updateProduct.fulfilled, (state, {payload}) => {
       state.isLoading = false;
       state.error = null;
-      state.details = payload;
+      state.details.description = payload.description;
     });
 
     builder.addCase(updateProduct.rejected, handleRejected);

@@ -10,6 +10,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const Button = styled.button`
+  font-family: "Montserrat";
   display: flex;
   align-items: center;
   color: black;
@@ -24,6 +25,7 @@ export const Button = styled.button`
 `;
 
 export const AddButton = styled.button`
+  font-family: "Montserrat";
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -31,9 +33,8 @@ export const AddButton = styled.button`
   gap: 6px;
   width: 100%;
   border-radius: 6px;
-  min-height: 55px;
   font-weight: 500;
-  padding: 10px 10px;
+  padding: 5px;
   background-color: ${(props) =>
     props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
   color: #000;
@@ -46,17 +47,19 @@ export const AddButton = styled.button`
 export const ProductItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  gap: 6px;
+  width: 100%;
 `;
 
 export const ProductItemButton = styled.button`
+  font-family: "Montserrat";
 bottom: 0;
 display: flex;
 justify-content: center;
 align-items: center;
 gap: 6px;
-height: 36px;
-padding: 10px;
+height: 32px;
+width: 32px;
 border-radius: 6px;
 font-size: ${theme.fontSizes.small};
 background-color: ${(props) =>
