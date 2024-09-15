@@ -8,7 +8,7 @@ export const CategoryWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-radius: 6px;
 `;
 export const CategoryItem = styled.p`
@@ -18,7 +18,9 @@ export const CategoryItem = styled.p`
   padding: 4px 10px;
   border-radius: 6px;
   background-color: ${(props) =>
-    props.$active ? `${theme.colors.formButtonAccent}` : `${theme.colors.formButton}`};
+    props.$active
+      ? `${theme.colors.formButtonAccent}`
+      : `${theme.colors.formButton}`};
   color: ${(props) => (props.$accent ? `${theme.colors.redAccent}` : "none")};
   cursor: pointer;
   font-size: ${theme.fontSizes.small};
@@ -28,13 +30,12 @@ export const CategoryItem = styled.p`
 `;
 
 export const StyledSelectWrapper = styled.div`
-  padding: 0 10px;
+  width: 100%;
 `;
 
 export const StyledSelect = styled(Select)`
   height: 40px;
   padding: 0 10px;
-  margin-bottom: 10px;
   background-color: white;
   color: gray;
 `;

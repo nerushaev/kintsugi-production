@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = "https://api.kintsugi.org.ua/";
-// export const BASE_URL = "http://localhost:3001/";
+// export const BASE_URL = "https://api.kintsugi.org.ua/";
+export const BASE_URL = "http://localhost:3001/";
 
 export const LIQPAY_URL = "https://www.liqpay.ua/api/request";
 
@@ -29,7 +29,6 @@ export const AuthInstance = axios.create({
 export const novaInstance = axios.create({
   headers: { "Content-Type": "application/json" },
   baseURL: BASE_URL,
-  // url: BASE_URL,
 
   withCredentials: false,
 });

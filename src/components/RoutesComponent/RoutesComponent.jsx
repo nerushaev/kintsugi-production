@@ -1,26 +1,28 @@
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from "react-router-dom";
 import AddProductsPage from "../../pages/Admin/AddProductsPage";
-import Product from "../../pages/Product";
-import UserPage from "../../pages/UserPage";
-import RegisterPage from "../../pages/RegisterPage";
-import LoginPage from "../../pages/LoginPage";
-import InfoPage from "../../pages/InfoPage";
-import RestorePasswordPage from "../../pages/RestorePasswordPage";
-import BanersPage from "../../pages/Admin/BanersPage";
-import AdminPage from "../../pages/Admin/AdminPage";
-import OrdersPage from "../../pages/Admin/OrdersPage";
-import PublicOfferPage from "../../pages/PublicOfferPage";
-import Politic from "../../pages/Politic";
-import RedirectPage from "../RedirectPage/RedirectPage";
 import PrivateRoute from "../PrivateRoutes/PrivateRoutes";
 import RestrictedRoute from "../RestrictedRoutes/RestrictedRoutes";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import Checkout from "../../pages/Checkout";
-import React from "react";
-import Home from "../../pages/Home";
+import Loader from '../Loader/Loader';
+const Product = lazy(() => import('../../pages/Product'));
+const UserPage = lazy(() => import('../../pages/UserPage'));
+const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
+const LoginPage = lazy(() => import('../../pages/LoginPage'));
+const InfoPage = lazy(() => import('../../pages/InfoPage'));
+const RestorePasswordPage = lazy(() => import('../../pages/RestorePasswordPage'));
+const BanersPage = lazy(() => import('../../pages/Admin/BanersPage'));
+const AdminPage = lazy(() => import('../../pages/Admin/AdminPage'));
+const OrdersPage = lazy(() => import('../../pages/Admin/OrdersPage'));
+const PublicOfferPage = lazy(() => import('../../pages/PublicOfferPage'));
+const Politic = lazy(() => import('../../pages/Politic'));
+const RedirectPage = lazy(() => import('../RedirectPage/RedirectPage'));
+const Home = lazy(() => import('../../pages/Home'));
 
 function RoutesComponent() {
   return (
+    <Suspense fallback={<Loader />}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/products/:product_id" element={<Product />} />
@@ -52,6 +54,7 @@ function RoutesComponent() {
       />
       <Route path="/restore" element={<RestorePasswordPage />} />
     </Routes>
+    </Suspense>
   );
 }
 

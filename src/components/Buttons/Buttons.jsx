@@ -36,7 +36,7 @@ export const AddButton = styled.button`
   font-weight: 500;
   padding: 5px;
   background-color: ${(props) =>
-    props.disabled ? "#D6B2D9" : `${theme.colors.formButton}`};
+    props.disabled ? `${theme.colors.red}` : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   @media (min-width: 767px) {

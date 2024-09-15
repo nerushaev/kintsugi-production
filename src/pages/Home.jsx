@@ -8,14 +8,15 @@ import {
 } from "../redux/products/products-selectors";
 import useModal from "../hooks/modal";
 import Modal from "../components/Modal";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import { clearOrderInfo } from "../redux/products/products-slice";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSearchParams } from "react-router-dom";
 import { Element, scroller } from "react-scroll";
 import Catalog from "../components/Home/Catalog/Catalog";
-
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 const StyledImg = styled.img`
   cursor: pointer;
 `;
@@ -36,21 +37,16 @@ const OrderNotificationWrapper = styled.div`
   padding-left: 20px;
 `;
 
-const homePageSlider = [
-  {
-    image:
-      "https://res.cloudinary.com/dzjmswzgp/image/upload/v1722696632/Group_39_ntkhve.jpg",
-    category: "Перуки",
-  },
-];
+
 
 export default function Home() {
-  const [searchParams, setSearchParams] = useSearchParams();
+
   const {
     openModal: openOrderModal,
     isModalOpen: isOrderModalOpen,
     closeModal,
   } = useModal();
+
   const dispatch = useDispatch();
   const orderAccepted = useSelector(selectIsOrderAccepted);
   const orderId = useSelector(selectOrderId);
@@ -65,10 +61,7 @@ export default function Home() {
     dispatch(clearOrderInfo());
   };
 
-  const handleClickBanner = (category) => {
-    searchParams.set("category", category);
-    searchParams.set("page", 1);
-    setSearchParams(searchParams);
+  const handleClickBanner = () => {
     scroller.scrollTo("scroll", {
       smooth: true,
       duration: 500,
@@ -76,16 +69,27 @@ export default function Home() {
     });
   };
 
+  const homePageSlider = useMemo(() => [
+    {
+      image: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1726313574/Group_48_ctoz5n.jpg"
+    }
+  ], []);
+  
   return (
     <>
       <HeroWrapper>
         <MainTitle />
-        <Swiper>
+        <Swiper
+
+        navigation={true}
+        className="home-swiper"
+        modules={[Navigation]}
+        >
           {homePageSlider.map((item) => {
             return (
-              <SwiperSlide key={item}>
+              <SwiperSlide key={item.image}>
                 <StyledImg
-                  onClick={() => handleClickBanner(item.category)}
+                  onClick={() => handleClickBanner()}
                   src={item.image}
                   alt=""
                 />

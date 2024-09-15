@@ -12,8 +12,8 @@ const Catalog = memo(() => {
 
   return(
     <>
-    <Search />
     <Filter />
+    <Search />
     <ProductsList products={products} />
     <Pagination />
     </>

@@ -32,7 +32,7 @@ const ProductButtons = memo(({ product, activeSize, openModalSize }) => {
   return(
     <ProductItemWrapper>
       <WishButton product_id={product.product_id} />
-    <AddButton onClick={!busketProduct ? handleAddToBusket : undefined}>
+    <AddButton disabled={product.amount <= 0} onClick={!busketProduct ? handleAddToBusket : undefined}>
       {busketProduct ? (
         <CountButton amount={busketProduct.amount} product_id={product.product_id} />
       ) : (

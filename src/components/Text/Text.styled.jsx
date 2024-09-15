@@ -21,15 +21,15 @@ export const TitleWrapper = styled.div`
   margin-bottom: 20px;
   @media (min-width: 479px) {
     padding: 0 40px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   @media (min-width: 767px) {
     padding: 0 60px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   @media (min-width: 1199px) {
     padding: 0 80px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
   }
 `;
 

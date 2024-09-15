@@ -61,6 +61,7 @@ const DontHaveMessage = styled.p`
 `;
 
 export const ProductsItem = ({ product }) => {
+  console.log(product)
   const {
     product_name,
     product_id,

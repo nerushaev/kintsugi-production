@@ -13,7 +13,7 @@ import {
   Button,
   ErrorMessage,
 } from "../../Form/Form.styled";
-import { Block } from "../../Busket/CheckoutPage/CheckoutSteps/Steps.styled";
+import styled from "styled-components";
 
 export default function RegisterForm() {
   const methods = useForm({ resolver: yupResolver(registerSchema) });
@@ -65,26 +65,34 @@ export default function RegisterForm() {
     placeholder: "Введіть ваш пароль ще раз...",
   };
 
+  const BlockReg = styled.div`
+    position: relative;
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  `;
+
   return (
-    <Block>
-    <FormProvider {...methods}>
-      <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
-        <InputsWrapper>
-          <Input {...email_input} />
-          <Input {...phone_input} />
-          <Input {...name_input} />
-          <Input {...password_input} />
-          <Input {...confirmPassword_input} />
-        </InputsWrapper>
-        <ButtonWrapper>
-          {error && <ErrorMessage>{error.message}</ErrorMessage>}
-          <Button onClick={onSubmit}>
-            <GrMail />
-            Зареєструватися
-          </Button>
-        </ButtonWrapper>
-      </CustomForm>
-    </FormProvider>
-    </Block>
+    <BlockReg>
+      <FormProvider {...methods}>
+        <CustomForm onSubmit={(e) => e.preventDefault()} noValidate>
+          <InputsWrapper>
+            <Input {...email_input} />
+            <Input {...phone_input} />
+            <Input {...name_input} />
+            <Input {...password_input} />
+            <Input {...confirmPassword_input} />
+          </InputsWrapper>
+          <ButtonWrapper>
+            {error && <ErrorMessage>{error.message}</ErrorMessage>}
+            <Button onClick={onSubmit}>
+              <GrMail />
+              Зареєструватися
+            </Button>
+          </ButtonWrapper>
+        </CustomForm>
+      </FormProvider>
+    </BlockReg>
   );
 }

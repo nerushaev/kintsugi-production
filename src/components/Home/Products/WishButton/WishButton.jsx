@@ -1,7 +1,4 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import {
-  ProductItemButton,
-} from "../../../Buttons/Buttons";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
