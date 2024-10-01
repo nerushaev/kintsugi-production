@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { updatePhotoProduct } from "../../../../redux/products/products-operation";
 import { theme } from "../../../../styles/theme";
 import { Button, ButtonWrapper } from "../../../Buttons/Buttons";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { selectRole } from "../../../../redux/auth/auth-selectors";
 
 const DropzoneContainer = styled.div`
   padding: 30px 20px;
@@ -88,6 +89,7 @@ const IconWrapper = styled.div`
 `;
 
 export default function Dropzone(props) {
+  const isAdmin = useSelector(selectRole) === "admin" ? true : false;
   const dispatch = useDispatch();
   const [file, setFile] = useState([]);
 
@@ -109,7 +111,6 @@ export default function Dropzone(props) {
     }
     for (const file of files) {
       setFile((prev) => {
-        
         newData.push(URL.createObjectURL(file));
         return newData;
       });
@@ -125,44 +126,50 @@ export default function Dropzone(props) {
   }
 
   return (
-    <AdminContainer>
-      <form
-        name="form"
-        method="put"
-        encType="multipart/form-data"
-        onSubmit={handleClick}
-      >
-        <DropzoneContainer>
-          <CustomInput htmlFor="photo_extra">
-            Drop images here
-            <Input
-              onChange={handleChange}
-              type="file"
-              id="photo_extra"
-              name="photo_extra"
-              multiple
-            />
-          </CustomInput>
-        </DropzoneContainer>
-        <ImageList>
-          {file.map((item) => {
-            return (
-              <>
+  <>
+  {isAdmin ?
+  <AdminContainer>
+  <form
+    name="form"
+    method="put"
+    encType="multipart/form-data"
+    onSubmit={handleClick}
+  >
+    <DropzoneContainer>
+      <CustomInput htmlFor="photo_extra">
+        Drop images here
+        <Input
+          onChange={handleChange}
+          type="file"
+          id="photo_extra"
+          name="photo_extra"
+          multiple
+        />
+      </CustomInput>
+    </DropzoneContainer>
+    <ImageList>
+      {file.map((item) => {
+        return (
+          <>
 
-              <ImageItem key={item}>
-              <IconWrapper onClick={() => handleRemove(item)}><IoMdCloseCircleOutline style={{fontSize: "24px"}} /></IconWrapper>
-                <ImageWrapper>
-                  <Image id="blah" src={item} alt="" />
-                </ImageWrapper>
-              </ImageItem>
-              </>
-            );
-          })}
-        </ImageList>
-        <ButtonWrapper style={{marginBottom: "0"}}>
-          <Button type="submit">Додати</Button>
-        </ButtonWrapper>
-      </form>
-    </AdminContainer>
+          <ImageItem key={item}>
+          <IconWrapper onClick={() => handleRemove(item)}><IoMdCloseCircleOutline style={{fontSize: "24px"}} /></IconWrapper>
+            <ImageWrapper>
+              <Image id="blah" src={item} alt="" />
+            </ImageWrapper>
+          </ImageItem>
+          </>
+        );
+      })}
+    </ImageList>
+    <ButtonWrapper style={{marginBottom: "0"}}>
+      <Button type="submit">Додати</Button>
+    </ButtonWrapper>
+  </form>
+</AdminContainer>
+: ""
+}
+  </>
+    
   );
 }

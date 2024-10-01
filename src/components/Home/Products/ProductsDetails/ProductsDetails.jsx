@@ -23,7 +23,6 @@ import {
   ScoreWrapper,
 } from "./ProductsDetails.styled";
 import Dropzone from "../Dropzone/Dropzone";
-import ProductsDetailsController from "./ProductDetailsController";
 import {
   BlockTitle,
   BlockTitleWrapper,
@@ -31,6 +30,7 @@ import {
   Text,
   TextWrapper,
 } from "../../../Text/Text.styled";
+import ProductsItemController from "../ProductsItem/ProductsItemController";
 
 const ProductsDetails = memo(({ data, setFeedback }) => {
 
@@ -46,7 +46,7 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
   } = data;
 
   const photos = [photo_origin, ...(photo_extra || [])];
-
+  console.log(data)
   const navigate = useNavigate();
   const isAdmin = true;
 
@@ -97,7 +97,7 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
                   Залишити відгук
                 </LinkToFeedback>
               </ScoreWrapper>
-              <ProductsDetailsController data={data} />
+              <ProductsItemController product={data} />
             </div>
           </Block>
           <Block style={{ width: "100%" }}>

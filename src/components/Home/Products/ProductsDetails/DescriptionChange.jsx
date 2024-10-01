@@ -19,6 +19,12 @@ const Textarea = styled.textarea`
   height: 100px;
 `;
 
+const TextWithParagraphs = ({ text }) => {
+  return text.split('\n').map((paragraph, index) => (
+    <p key={index} style={{ marginBottom: '10px' }}>{paragraph}</p>
+  ));
+};
+
 const DescriptionChange = memo(({ description, product_id }) => {
   const isAdmin = useSelector(selectRole) === "admin";
   const [editDescription, setEditDescription] = useState(false);
@@ -57,7 +63,9 @@ const DescriptionChange = memo(({ description, product_id }) => {
           <Button type="submit">Зберегти</Button>
         </form>
       ) : (
-        <Text>{description}</Text>
+        <>
+        {description ? <TextWithParagraphs text={description}/> : ""}
+        </>
       )}
     </Block>
     </>

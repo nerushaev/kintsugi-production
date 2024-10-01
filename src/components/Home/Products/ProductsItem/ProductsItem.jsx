@@ -10,9 +10,7 @@ import {
   ImageWrapper,
 } from "../ListItem.styled";
 import { useDispatch, useSelector } from "react-redux";
-import { addToBusket } from "../../../../redux/products/products-slice";
 import {
-  selectBusketItemAmount,
   selectIsLoading,
 } from "../../../../redux/products/products-selectors";
 import styled from "styled-components";
@@ -21,10 +19,8 @@ import Score from "../Feedback/Score";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import { getProductsById } from "../../../../redux/products/products-operation";
-import useModal from "../../../../hooks/modal";
-import { useEffect, useState } from "react";
-import ProductButtons from "../../../Buttons/ProductButton";
-import { SizeModal } from "../../../Modal/Modals";
+import ProductsItemController from "./ProductsItemController";
+import WishButton from "../WishButton/WishButton";
 
 export const Select = styled.select`
   width: 40px;
@@ -39,14 +35,17 @@ export const Select = styled.select`
 `;
 
 const ScoreWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   margin-bottom: 10px;
 `;
 
 const Category = styled.p`
-  color: ${theme.colors.gray};
-  margin-bottom: 5px;
-  font-size: ${theme.fontSizes.small};
-  font-weight: 500;
+  color: gray;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
 `;
 
 const DontHaveMessage = styled.p`
@@ -61,7 +60,6 @@ const DontHaveMessage = styled.p`
 `;
 
 export const ProductsItem = ({ product }) => {
-  console.log(product)
   const {
     product_name,
     product_id,
@@ -75,16 +73,7 @@ export const ProductsItem = ({ product }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const loading = useSelector(selectIsLoading);
-  const [activeSize, setActiveSize] = useState(null);
-  const busketProduct = useSelector((state) =>
-    selectBusketItemAmount(state, product.product_id)
-  );
 
-  const {
-    openModal: openModalSize,
-    closeModal: closeModalSize,
-    isModalOpen: isModalOpenSize,
-  } = useModal();
 
   const itemId = nanoid();
 
@@ -98,20 +87,17 @@ export const ProductsItem = ({ product }) => {
     });
   };
 
-  const handleClick = (data) => {
-    dispatch(addToBusket(data));
-  };
 
-  useEffect(() => {
-    if (activeSize && !isModalOpenSize && !busketProduct) {
-      setActiveSize(null);
-    }
-  }, [activeSize, isModalOpenSize, busketProduct]);
 
   return (
     <>
       <Item key={itemId}>
         <ItemBody>
+        <Category>{category_name}</Category>
+        <Title>{product_name}</Title>
+        <ScoreWrapper>
+            <Score score={score} />
+          </ScoreWrapper>
           <StyledLink
             onClick={
               amount === 0
@@ -135,31 +121,17 @@ export const ProductsItem = ({ product }) => {
               />
             </ImageWrapper>
           </StyledLink>
-          <ScoreWrapper>
-            <Score score={score} />
-          </ScoreWrapper>
-          <Category>{category_name}</Category>
-          <Title>{product_name}</Title>
+
+          
+          
           <CardInfoWrapper>
-            <Price>{price / 100} грн.</Price>
+            <Price>₴{price / 100}</Price>
+            <WishButton product_id={product_id} />
           </CardInfoWrapper>
-          <ProductButtons
-            product={product}
-            activeSize={activeSize}
-            openModalSize={openModalSize}
-          />
+          <ProductsItemController product={product} />
         </ItemBody>
       </Item>
-      {isModalOpenSize && (
-        <SizeModal
-          handleClick={handleClick}
-          closeModalSize={closeModalSize}
-          modalProduct={product}
-          setActiveSize={setActiveSize}
-          activeSize={activeSize}
-          isModalOpenSize={isModalOpenSize}
-        />
-      )}
+
     </>
   );
 };

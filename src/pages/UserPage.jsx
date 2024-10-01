@@ -15,7 +15,7 @@ import { clearErrorAndResponse } from "../redux/auth/auth-slice";
 import { Button } from "../components/Buttons/Buttons";
 import { LuShoppingBasket } from "react-icons/lu";
 import { Container } from "../components/Container/Container.styled";
-import OrderHistory from "../components/Auth/UserPage/UserData/OrderHistory";
+import OrderHistoryList from "../components/Auth/UserPage/UserData/OrderHistory/OrderHistoryList";
 import WishList from "../components/Auth/UserPage/UserData/WishList";
 import { FaRegHeart } from "react-icons/fa";
 
@@ -120,7 +120,7 @@ export default function UserPage() {
       {userData && <UserInfo user={user} />}
       {changePass && <PasswordChangeForm user={user} />}
       {deliveryData && <DeliveryData user={user} />}
-      {orderHistory && <OrderHistory ordersId={user.orders} />}
+      {orderHistory && <OrderHistoryList ordersId={user.orders} />}
       {wishList && <WishList/>}
       </>
       <ButtonWrapper>

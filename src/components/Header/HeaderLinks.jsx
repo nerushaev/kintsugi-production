@@ -3,19 +3,25 @@ import { LinksWrapper } from "./Header.styled";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsLogin } from "../../redux/auth/auth-selectors";
+import styled from "styled-components";
 
+
+const LinkStyled = styled(Link)`
+  width: 100%;
+  white-space: nowrap;
+`;
 const HeaderLinks = memo(() => {
   const isLoggedIn = useSelector(selectIsLogin);
 
   return (
     <LinksWrapper>
-      <Link to="/">Каталог</Link>
-      <Link to="/info">Оплата та доставка</Link>
-      <Link>Про нас</Link>
+      <LinkStyled to="/">Каталог</LinkStyled>
+      <LinkStyled to="/info">Доставка</LinkStyled>
+      <LinkStyled>Про нас</LinkStyled>
       {!isLoggedIn && (
         <>
-          <Link to="/register">Реєстрація</Link>
-          <Link to="/login">Вхід</Link>
+          <LinkStyled to="/register">Реєстрація</LinkStyled>
+          <LinkStyled to="/login">Вхід</LinkStyled>
         </>
       )}
     </LinksWrapper>

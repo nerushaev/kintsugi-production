@@ -7,29 +7,32 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: ${props => props.$details ? "flex-start" : "center"};
+  align-items: flex-start;
+
 `;
 
 const SizeButtonWrapper = styled.div`
+box-sizing: border-box;
   display: flex;
   margin-bottom: 10px;
-  gap: 6px;
-  @media(min-width: 767px) {
-    margin-bottom: 20px;
-  }
+  gap: 5px;
 `;
 
 const SizeButton = styled.button`
-  padding: 6px 6px;
+  font-family: "Montserrat Alternates";
+  min-width: 30px;
+  height: 30px;
+  font-weight: 600;
+  font-size: 16px;
   border: ${(props) =>
-    props.$active ? `1px solid ${theme.colors.red}` : "1px solid white"};
+    props.$active ? `1px solid ${theme.colors.black}` : "1px solid white"};
   background-color: ${theme.colors.ligthGray};
 `;
 
 // const sizes = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
-const SizeButtons = memo(({ modifications, activeSize, setActiveSize, details }) => {
-
+const SizeButtons = memo(({modificatorUknow, modifications, activeSize, setActiveSize }) => {
+  console.log(modifications)
   // Меморизируем элементы кнопок для предотвращения лишних рендеров
   const elements = useMemo(() => {
     return modifications
@@ -49,11 +52,19 @@ const SizeButtons = memo(({ modifications, activeSize, setActiveSize, details })
   }, [modifications, activeSize, setActiveSize]);
 
   return (
-    <Wrapper $details={details}>
+    <Wrapper >
       <BlockText>
-              Розмір: {activeSize ? activeSize : "One size"}
+              Розмір:
             </BlockText>
-      <SizeButtonWrapper>{elements}</SizeButtonWrapper>
+            {modifications?.length === 0 &&
+              <SizeButton
+              $active={true}
+              key={"One Size"}
+            >
+              Один Розмір
+            </SizeButton>
+            }
+      <SizeButtonWrapper modificatorUknow={modificatorUknow}>{elements}</SizeButtonWrapper>
     </Wrapper>
   );
 });

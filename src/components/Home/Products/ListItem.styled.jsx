@@ -6,11 +6,16 @@ export const CardInfoWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
+  margin-bottom: 10px;
 `;
 
 export const Item = styled.li`
+  box-sizing: border-box;
+  margin-left: 5px;
+	margin-right: 5px;
+  flex-basis: calc((100% - 20px) / 2);
   background-color: white;
-
+  margin-bottom: 10px;
   padding: 10px;
   
   border-radius: 6px;
@@ -18,11 +23,13 @@ export const Item = styled.li`
   transition: scale 300ms cubic-bezier(0.4, 0, 0.2, 1),
   background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:hover,
-  &:focus {
-    transform: scale(1.01);
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-      1px 4px 6px rgba(0, 0, 0, 0.16);
+  @media (min-width: 479px) {
+  flex-basis: calc((100% - 30px) / 3);
+
+  }
+    @media (min-width: 767px) {
+  flex-basis: calc((100% - 40px) / 4);
+
   }
 `;
 
@@ -60,22 +67,23 @@ export const Image = styled.img`
 `;
 
 export const Title = styled.p`
-  font-weight: 500;
-  font-size: ${theme.fontSizes.small};
+  display: flex;
+  font-family: "Montserrat Alternates";
+  font-weight: 600;
+  font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
   overflow: hidden;
   height: 70px;
-  @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.medium};
-    height: 90px;
-  }
+  // align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 export const Price = styled.p`
+  font-family: "Montserrat Alternates";
   font-weight: 600;
-  color: ${theme.colors.rose};
-  font-size: ${theme.fontSizes.medium};
-  margin-bottom: 15px;
+  color: ${theme.colors.black};
+  font-size: ${theme.fontSizes.big};
   overflow: hidden;
 `;
 

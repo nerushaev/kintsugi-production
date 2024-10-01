@@ -101,8 +101,10 @@ const ProductDetailsBlock = styled.div`
 
 const AmountCountBlock = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+  // align-items: center;
+  // justify-content: space-between;
 `;
 
 const Price = styled.span`
@@ -204,12 +206,7 @@ export default function SideBusket({ closeModal }) {
               </ProductImageBlock>
               <ProductDetailsBlock>
                 <a href={`/products/${item.product_id}`}>{item.product_name} {item.size}</a>
-                <AmountCountBlock>
-                  <span>X{item.amount}</span>
-                  <div style={{backgroundColor: `${theme.colors.formButton}`, padding: "4px", borderRadius: "6px"}}>
                   <CountButton amount={item.amount} product_id={item.product_id} />
-                  </div>
-                </AmountCountBlock>
                 <Price>{(item.price * item.amount) / 100}грн</Price>
               </ProductDetailsBlock>
             </ProductBody>

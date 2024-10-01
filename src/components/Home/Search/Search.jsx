@@ -37,7 +37,7 @@ export default function Search() {
         <SearchInput
           ref={searchRef}
           type="text"
-          placeholder="Введіть назву товару"
+          placeholder="Введіть назву"
           id="search"
           name="search"
         />

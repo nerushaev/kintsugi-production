@@ -25,29 +25,24 @@ export const Button = styled.button`
 `;
 
 export const AddButton = styled.button`
-  font-family: "Montserrat";
-  bottom: 0;
+  font-family: "Montserrat Alternates";
+  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  padding: 10px 20px;
+  height: 40px;
   width: 100%;
   border-radius: 6px;
   font-weight: 500;
-  padding: 5px;
   background-color: ${(props) =>
     props.disabled ? `${theme.colors.red}` : `${theme.colors.formButton}`};
   color: #000;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.small};
-  }
 `;
 
 export const ProductItemWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
   width: 100%;
 `;
 

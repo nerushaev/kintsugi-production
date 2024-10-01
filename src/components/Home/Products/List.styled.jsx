@@ -1,24 +1,11 @@
 import styled from "styled-components";
 
 export const List = styled.ul`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-    @media (min-width: 479px) {
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
-
-    }
-    @media (min-width: 767px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 10px;
-
-    }
-    @media (min-width: 1199px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 15px;
-
-    }
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -5px;
+	margin-right: -5px;
 `;
 
 export const ListWrapper = styled.div`

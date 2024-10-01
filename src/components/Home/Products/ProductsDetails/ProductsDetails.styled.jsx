@@ -82,10 +82,7 @@ export const BlockPrice = styled.p`
 export const BlockText = styled.p`
   font-size: ${theme.fontSizes.small};
   font-weight: ${(props) => (props.$accent ? 600 : 500)};
-  margin-bottom: 14px;
-  @media (min-width: 479px) {
-    margin-bottom: 16px;
-  }
+  margin-bottom: 10px;
 `;
 
 export const BlockTextFlex = styled.div`
