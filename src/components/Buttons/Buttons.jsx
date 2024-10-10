@@ -44,6 +44,7 @@ export const AddButton = styled.button`
 
 export const ProductItemWrapper = styled.div`
   width: 100%;
+  margin-top: auto;
 `;
 
 export const ProductItemButton = styled.button`

@@ -182,6 +182,9 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
     addresses,
     addressLoading,
   } = nova;
+
+  console.log(nova)
+
   const [showCities, setShowCities] = useState(
     delivery && delivery.city ? false : true
   );
@@ -232,7 +235,7 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
       return;
     }
 
-    if(cityInputNow === delivery.city) {
+    if(cityInputNow === delivery?.city) {
       dispatch(removeCitiesList());
       setShowCities(false);
       return;
@@ -242,7 +245,8 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
       setShowCities(true);
       dispatch(getCities(cityInput));
     }
-  }, [cityInput, cityInputNow, city, dispatch, delivery.city]);
+
+  }, [cityInput, cityInputNow, city, dispatch, delivery?.city]);
 
   useEffect(() => {
     if (warehouseInputNow?.length === 0) {
@@ -251,7 +255,7 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
       return;
     }
 
-    if(warehouseInputNow === delivery.warehouse) {
+    if(warehouseInputNow === delivery?.warehouse) {
       dispatch(removeWarehousesList());
       setShowWarehouses(false);
       return;
@@ -263,7 +267,7 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
         getWarehouses({ city: cityWarehouse, warehouse: warehouseInput })
       );
     }
-  }, [warehouseInput, warehouseInputNow, warehouse, dispatch, cityWarehouse, delivery.warehouse]);
+  }, [warehouseInput, warehouseInputNow, warehouse, dispatch, cityWarehouse, delivery?.warehouse]);
 
   useEffect(() => {
     if (postboxInputNow?.length === 0 || postboxInput === postbox) {
@@ -513,7 +517,7 @@ export default function ThirdStep({ userData, delivery, setStep3, setStep2 }) {
               </BlockContent>
             </InputsFlexBlock>
             <Button style={{width: "140px", height: "50px", display: "flex", justifyContent: "center", alignItems: "center"}} onClick={onSubmit}>
-              {loading ? <SmallLoader /> : "Перейти далі"}
+              {loading ? <SmallLoader /> : "Замовити"}
             </Button>
           </CustomForm>
         </FormProvider>

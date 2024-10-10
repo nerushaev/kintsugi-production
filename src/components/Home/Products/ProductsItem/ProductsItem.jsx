@@ -121,14 +121,16 @@ export const ProductsItem = ({ product }) => {
               />
             </ImageWrapper>
           </StyledLink>
-
-          
-          
-          <CardInfoWrapper>
+                <div style={{marginTop: ""}}>
+                <CardInfoWrapper>
             <Price>₴{price / 100}</Price>
             <WishButton product_id={product_id} />
           </CardInfoWrapper>
+
           <ProductsItemController product={product} />
+                </div>
+          
+          
         </ItemBody>
       </Item>
 

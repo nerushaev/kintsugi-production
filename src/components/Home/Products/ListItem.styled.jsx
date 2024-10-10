@@ -4,9 +4,9 @@ import { theme } from "../../../styles/theme";
 export const CardInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-  margin-bottom: 10px;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: auto;
 `;
 
 export const Item = styled.li`
@@ -38,7 +38,6 @@ export const ItemBody = styled.div`
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
-  justify-content: space-between
 `;
 
 export const StyledLink = styled.div`

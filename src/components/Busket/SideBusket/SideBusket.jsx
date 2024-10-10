@@ -99,14 +99,6 @@ const ProductDetailsBlock = styled.div`
   width: 100%;
 `;
 
-const AmountCountBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  // align-items: center;
-  // justify-content: space-between;
-`;
-
 const Price = styled.span`
   font-size: ${theme.fontSizes.large};
   font-weight: 600;
