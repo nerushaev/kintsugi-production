@@ -7,14 +7,11 @@ const ScrollManager = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Слушаем изменения в location, но так как `history.listen` больше нет, 
-    // мы будем просто использовать навигацию и изменения pathname
+
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   useEffect(() => {
-    // Сохраняем текущую позицию прокрутки перед переходом
-    // Замена history.replace на navigate с параметрами state и replace
     const saveScrollPosition = () => {
       navigate(location.pathname + location.search, {
         replace: true,

@@ -59,7 +59,27 @@ const DontHaveMessage = styled.p`
   z-index: 1000;
 `;
 
-export const ProductsItem = ({ product }) => {
+const WrapperBuy = styled.div`
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+`;
+
+const categories = {
+  "cosplay": "Косплей",
+  "wigs": "Перуки",
+  "accessories": "Аксесуари",
+  "merch": "Мерч",
+  "lolita-fashion": "Lolita fashion",
+  "katanas-swords-weapons": "Катани, мечі, зброя",
+  "k-pop": "K-pop",
+  "figures": "Фігурки",
+  "acrylic-stands": "Акрилові стенди",
+  "backpacks-bags": "Рюкзаки, сумки",
+  "lenses": "Лінзи"
+};
+
+export const ProductsItem = ({ product, favorite }) => {
   const {
     product_name,
     product_id,
@@ -74,24 +94,26 @@ export const ProductsItem = ({ product }) => {
   const location = useLocation();
   const loading = useSelector(selectIsLoading);
 
-
   const itemId = nanoid();
 
   const handleClickImage = async (product_id) => {
-    localStorage.setItem("previousUrl", location.search);
+    localStorage.setItem("previousUrl", `${location.pathname}${location.search}`);
     localStorage.setItem("scrollPosition", window.scrollY);
     await dispatch(getProductsById(product_id)).then(() => {
       if (!loading) {
-        navigate(`/products/${product_id}`);
+        Object.entries(categories).filter(item => {
+          if(item[1] === category_name) {
+            return navigate(`/${item[0]}/${product_id}`);
+          }
+          return item;
+        });
       }
     });
   };
 
-
-
   return (
     <>
-      <Item key={itemId}>
+      <Item $favorite={favorite} key={itemId}>
         <ItemBody>
         <Category>{category_name}</Category>
         <Title>{product_name}</Title>
@@ -121,14 +143,14 @@ export const ProductsItem = ({ product }) => {
               />
             </ImageWrapper>
           </StyledLink>
-                <div style={{marginTop: ""}}>
+                <WrapperBuy style={{height: "100%"}}>
                 <CardInfoWrapper>
             <Price>₴{price / 100}</Price>
             <WishButton product_id={product_id} />
           </CardInfoWrapper>
 
           <ProductsItemController product={product} />
-                </div>
+                </WrapperBuy>
           
           
         </ItemBody>

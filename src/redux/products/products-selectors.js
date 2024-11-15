@@ -30,6 +30,8 @@ export const getLiqpay = (state) => state.products.liqpay;
 
 export const selectOrderId = (state) => state.products.orderId;
 
+export const selectFavoriteProducts = (state) => state.products.favorites;
+
 export const selectBusketItemAmount = ({products}, product_id) => {
   if(products.busket === 0) {
     return;

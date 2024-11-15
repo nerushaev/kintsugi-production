@@ -31,6 +31,8 @@ import {
   TextWrapper,
 } from "../../../Text/Text.styled";
 import ProductsItemController from "../ProductsItem/ProductsItemController";
+import { FavoriteInput } from "../FavoriteInput/FavoriteInput";
+import BreadScrumbsNav from "../../../BreadScrumbsNav/BreadScrumbsNav";
 
 const ProductsDetails = memo(({ data, setFeedback }) => {
 
@@ -43,10 +45,10 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
     category_name,
     score,
     photo_extra,
+    favorite
   } = data;
 
   const photos = [photo_origin, ...(photo_extra || [])];
-  console.log(data)
   const navigate = useNavigate();
   const isAdmin = true;
 
@@ -54,7 +56,7 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
     const previousUrl = localStorage.getItem("previousUrl");
     const scrollPosition = localStorage.getItem("scrollPosition");
     if (previousUrl) {
-      navigate(`/${previousUrl}` || "/");
+      navigate(`${previousUrl}` || "/");
       setTimeout(() => {
         window.scrollTo(0, scrollPosition || 0);
       }, 0);
@@ -67,9 +69,11 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
     setFeedback(true);
     animateScroll.scrollToBottom({ delay: 0 });
   }, [setFeedback]);
-
+  
   return (
+
     <>
+    <BreadScrumbsNav category_name={category_name} product_name={product_name} />
       <GoBackWrapper>
         <Button onClick={handleBackClick}>
           <SlArrowLeftCircle size="22" />
@@ -121,6 +125,7 @@ const ProductsDetails = memo(({ data, setFeedback }) => {
             description={description}
             product_id={product_id}
           />
+          <FavoriteInput product_id={product_id} favorite={favorite} />
         </BlockWrapper>
       </ProductWrapper>
       {isAdmin && <Dropzone _id={product_id} />}

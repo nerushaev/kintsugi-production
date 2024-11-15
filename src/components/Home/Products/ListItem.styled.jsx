@@ -14,9 +14,11 @@ export const Item = styled.li`
   margin-left: 5px;
 	margin-right: 5px;
   flex-basis: calc((100% - 20px) / 2);
+  max-width: calc((100% - 20px) / 2);
   background-color: white;
   margin-bottom: 10px;
   padding: 10px;
+  min-width: ${props => props.$favorite ? "180px" : ""};
   
   border-radius: 6px;
   transform: scale(1);
@@ -25,11 +27,15 @@ export const Item = styled.li`
 
   @media (min-width: 479px) {
   flex-basis: calc((100% - 30px) / 3);
-
+  max-width: calc((100% - 30px) / 3)
   }
     @media (min-width: 767px) {
   flex-basis: calc((100% - 40px) / 4);
-
+  max-width: calc((100% - 40px) / 4)  
+  }
+      @media (min-width: 1199px) {
+  flex-basis: calc((100% - 50px) / 5);
+  max-width: calc((100% - 50px) / 5)  
   }
 `;
 
@@ -72,7 +78,8 @@ export const Title = styled.p`
   font-size: ${theme.fontSizes.medium};
   margin-bottom: 10px;
   overflow: hidden;
-  height: 70px;
+  min-height: 70px;
+  max-height: 70px;
   // align-items: center;
   justify-content: center;
   text-align: center;

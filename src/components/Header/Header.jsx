@@ -11,6 +11,7 @@ import svg from "../../assets/filterIcons.svg";
 import { SideMenu } from "../Home/SideMenu/SideMenu";
 import HeaderBusket from "./HeaderBusket";
 import HeaderLinks from "./HeaderLinks";
+import { Element } from "react-scroll";
 
 const Navbar = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ const Header = memo(() => {
 
   return (
     <NavState>
-
+      <Element name="scroll" />
       <HeaderStyle id="header">
 
         <Navbar>

@@ -61,12 +61,13 @@ const ProductButtons = memo(({ product, activeSize, setActiveSize }) => {
 
   return (
     <ProductItemWrapper style={{ overflow: "hidden" }}>
-        <SizeButtons
-          modificatorUknow={modificatorUknow}
-          modifications={product.modifications}
-          activeSize={activeSize}
-          setActiveSize={setActiveSize}
-        />
+
+      <SizeButtons
+      modificatorUknow={modificatorUknow}
+      modifications={product.modifications}
+      activeSize={activeSize}
+      setActiveSize={setActiveSize}
+    />
       <AnimatePresence mode="wait" initial={false}>
         {busketProduct ? (
           <motion.div

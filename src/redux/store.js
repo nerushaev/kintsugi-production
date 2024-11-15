@@ -17,6 +17,7 @@ import { searchReducer } from "./search/search-slice";
 import { novaReducer } from "./nova/nova-slice";
 import { ordersReducer } from "./orders/orders-slice";
 import { feedbackReducer } from "./feedback/feedback-slice";
+import { navigationReducer } from "./navigation/navigation-slice";
 
 const persistAuthConfig = {
   key: ["token"],
@@ -45,6 +46,7 @@ export const store = configureStore({
     nova: novaReducer,
     orders: ordersReducer,
     feedback: feedbackReducer,
+    navigation: navigationReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

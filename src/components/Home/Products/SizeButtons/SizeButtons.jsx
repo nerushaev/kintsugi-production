@@ -5,31 +5,44 @@ import { BlockText } from "../ProductsDetails/ProductsDetails.styled";
 import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
-  max-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  height: 65px;
 `;
 
 const SizeButtonWrapper = styled(motion.div)`
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  height: 40px;
-  max-width: 100%;
-  overflow: auto;
-  box-sizing: border-box;
+  overflow-x: scroll;
+  overflow-y: hidden; /* можно оставить */
+  white-space: nowrap;
+  height: 100%;
   border: 1px solid rgba(255, 0, 0, 0);
-  gap: 5px;
-`;
+  gap: 10px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  &::-webkit-scrollbar {=
+    background-color: white;
+    height: 5px;
+    width: 8px;
 
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.colors.gray}; /* Цвет ползунка */
+    border-radius: 10px; /* Скругление */
+  }
+`;
 
 const SizeButton = styled.button`
   font-family: "Montserrat Alternates";
-  min-width: 30px;
-  // height: 30px;
+  width: 100%;
+  height: 100%;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   border: ${(props) =>
     props.$active ? `1px solid ${theme.colors.black}` : "1px solid white"};
   background-color: ${theme.colors.ligthGray};
@@ -37,7 +50,6 @@ const SizeButton = styled.button`
 
 const SizeButtons = memo(
   ({ modificatorUknow, modifications, activeSize, setActiveSize }) => {
-    console.log(modifications);
     // Меморизируем элементы кнопок для предотвращения лишних рендеров
     const elements = useMemo(() => {
       return modifications
@@ -58,22 +70,22 @@ const SizeButtons = memo(
     return (
       <Wrapper>
         <BlockText>Розмір:</BlockText>
-        
+
         <SizeButtonWrapper
           $isError={modificatorUknow}
           initial={{ borderColor: "rgba(255, 0, 0, 0)" }} /* Прозрачный */
           animate={{
             borderColor: modificatorUknow
               ? "rgba(255, 0, 0, 1)" /* Непрозрачный бордер */
-              : "rgba(255, 0, 0, 0)", /* Снова прозрачный */
+              : "rgba(255, 0, 0, 0)" /* Снова прозрачный */,
           }}
           transition={{ duration: 1 }}
         >
           {modifications?.length === 0 && (
-          <SizeButton $active={true} key={"One Size"}>
-            Один Розмір
-          </SizeButton>
-        )}
+            <SizeButton $active={true} key={"One Size"}>
+              Один Розмір
+            </SizeButton>
+          )}
           {elements}
         </SizeButtonWrapper>
       </Wrapper>

@@ -14,15 +14,17 @@ const ProductsList = ({products}) => {
 
   useEffect(() => {
     if (!loading && shouldScroll) {
-      const scrollPosition = localStorage.getItem("scrollPosition");
-      if (Number(scrollPosition) !== 0) {
-        console.log(window.scrollY)
-        window.scrollTo(0, Number(scrollPosition));
-        localStorage.setItem("scrollPosition", 0);
+      const scrollPosition = Number(localStorage.getItem("scrollPosition"));
+      if (scrollPosition !== 0) {
+        setTimeout(() => {
+          window.scrollTo(0, scrollPosition);
+          localStorage.setItem("scrollPosition", 0);
+        }, 100); // Можно отрегулировать задержку
       }
       setShouldScroll(false);
     }
   }, [loading, shouldScroll]);
+  
 
   return (
     <>

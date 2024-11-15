@@ -13,6 +13,8 @@ import {
   getWishProducts,
   updatePhotoProduct,
   updateProduct,
+  getFavoriteProducts,
+  toggleFavoriteProducts,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -32,7 +34,8 @@ const productsInitialState = {
   response: null,
   productsName: [],
   wishList: [],
-  monoPayUrl: ''
+  monoPayUrl: '',
+  favorites: [],
 };
 
 const handlePending = (state) => {
@@ -224,6 +227,39 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(getWishProducts.rejected, (state, {payload}) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getFavoriteProducts.pending, (state) =>  {
+      state.isLoading = true;
+    });
+
+    builder.addCase(getFavoriteProducts.fulfilled, (state, {payload}) => {
+      state.isLoading = false;
+      state.favorites = payload.data;
+    });
+
+    builder.addCase(getFavoriteProducts.rejected, (state, {payload}) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(toggleFavoriteProducts.pending, (state) =>  {
+      state.isLoading = true;
+    });
+
+    builder.addCase(toggleFavoriteProducts.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      const updatedProductId = payload.product_id; // Получаем id обновленного продукта
+      const updatedFavoriteStatus = payload.favorite; // Получаем новое значение favorite
+      
+      // Находим нужный объект по id и изменяем его поле favorite
+      const productIndex = state.favorites.findIndex(product => product.id === updatedProductId);
+      if (productIndex !== -1) {
+        state.favorites[productIndex].favorite = updatedFavoriteStatus;
+      }
+    });    
+
+    builder.addCase(toggleFavoriteProducts.rejected, (state, {payload}) => {
       state.isLoading = false;
       state.error = payload;
     });

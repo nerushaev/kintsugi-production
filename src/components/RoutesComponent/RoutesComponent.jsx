@@ -6,6 +6,7 @@ import RestrictedRoute from "../RestrictedRoutes/RestrictedRoutes";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import Checkout from "../../pages/Checkout";
 import Loader from '../Loader/Loader';
+import Catalog from '../Home/Catalog/Catalog';
 const Product = lazy(() => import('../../pages/Product'));
 const UserPage = lazy(() => import('../../pages/UserPage'));
 const RegisterPage = lazy(() => import('../../pages/RegisterPage'));
@@ -25,7 +26,8 @@ function RoutesComponent() {
     <Suspense fallback={<Loader />}>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/products/:product_id" element={<Product />} />
+      <Route path="/:category" element={<Catalog />} />
+      <Route path="/:category/:product_id" element={<Product />} />
       <Route path="/info" element={<InfoPage />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/restore" element={<RestorePasswordPage />} />

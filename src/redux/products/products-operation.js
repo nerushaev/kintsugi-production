@@ -224,3 +224,28 @@ export const orderProducts = createAsyncThunk(
     }
   }
 );
+
+export const getFavoriteProducts = createAsyncThunk(
+  "/products/getFavorite",
+  async (_, ThunkAPI) => {
+    try {
+      const { data } = await instance.get(`/api/products/favorite`);
+      console.log(data);
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.statusText);
+    }
+  }
+);
+
+export const toggleFavoriteProducts = createAsyncThunk(
+  "/products/updateFavorite",
+  async ({product_id, favorite}, ThunkAPI) => {
+    try {
+      const { data } = await AuthInstance.patch(`/api/products/favoriteUpdate`, {product_id, favorite});
+      return data;
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error.statusText);
+    }
+  }
+);

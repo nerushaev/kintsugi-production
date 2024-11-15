@@ -24,6 +24,21 @@ export const Button = styled.button`
   }
 `;
 
+export const FilterButton = styled.button`
+  font-family: "Montserrat";
+  display: flex;
+  align-items: center;
+  color: black;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  background-color: ${props => props.$active ? `${theme.colors.formButtonAccent}` : `${theme.colors.formButton}`};
+  &:hover {
+  background-color: ${theme.colors.formButtonAccent};
+  }
+`;
+
 export const AddButton = styled.button`
   font-family: "Montserrat Alternates";
   font-size: 16px;
@@ -44,7 +59,6 @@ export const AddButton = styled.button`
 
 export const ProductItemWrapper = styled.div`
   width: 100%;
-  margin-top: auto;
 `;
 
 export const ProductItemButton = styled.button`

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { updateProduct } from "../../../../redux/products/products-operation";
 import { selectRole } from "../../../../redux/auth/auth-selectors";
-import { BlockTitle, BlockTitleWrapper, Text } from "../../../Text/Text.styled";
+import { BlockTitle, BlockTitleWrapper } from "../../../Text/Text.styled";
 
 const Textarea = styled.textarea`
   font-family: "Montserrat";

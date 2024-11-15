@@ -1,7 +1,8 @@
 import React from 'react';
 import { FaPlusCircle } from "react-icons/fa";
 import useFilters from '../../../../hooks/useFilter';
-import { CategoryItem, CategoryWrapper } from './Filter.styled';
+import { CategoryWrapper } from './Filter.styled';
+import { FilterButton } from '../../../Buttons/Buttons';
 
 const categories = [
   "Косплей",
@@ -24,18 +25,18 @@ export default function Filter() {
     <>
       <CategoryWrapper>
         {categories.map((item) => (
-          <CategoryItem
+          <FilterButton
             onClick={() => handleFilterChange('category', item)}
             $active={item === category}
             key={item}
           >
             {item}
-          </CategoryItem>
+          </FilterButton>
         ))}
-        <CategoryItem $accent onClick={resetFilters}>
+        <FilterButton $accent onClick={resetFilters}>
           Скинути фільтри
           <FaPlusCircle style={{ rotate: '45deg', fontSize: '14px' }} />
-        </CategoryItem>
+        </FilterButton>
       </CategoryWrapper>
     </>
   );

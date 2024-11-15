@@ -2,17 +2,9 @@ import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
 export const Title = styled.h1`
-  font-size: ${theme.fontSizes.large};
-  font-weight: 500;
-  @media (min-width: 479px) {
-    font-size: ${theme.fontSizes.extraLarge};
-  }
-  @media (min-width: 767px) {
-    font-size: ${theme.fontSizes.big};
-  }
-  @media (min-width: 1199px) {
-    font-size: ${theme.fontSizes.title};
-  }
+  font-size: ${theme.fontSizes.extraLarge};
+  font-weight: 600;
+  font-family: "Montserrat Alternates";
 `;
 
 export const TitleWrapper = styled.div`
