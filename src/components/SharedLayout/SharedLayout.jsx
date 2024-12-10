@@ -1,9 +1,9 @@
-import Footer from "../Footer/Footer";
-import Loader from "../../Loader/Loader";
+import Footer from "../Home/Footer/Footer";
+import Loader from "../Loader/Loader";
 import React, { Suspense } from "react";
-import ScrollButton from "../../Buttons/ScrollButton";
+import ScrollButton from "../Buttons/ScrollButton";
 import styled from 'styled-components';
-import Header from "../../Header/Header";
+import Header from "../Header/Header";
 
 const Main = styled.main`
 

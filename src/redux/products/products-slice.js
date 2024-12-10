@@ -15,6 +15,7 @@ import {
   updateProduct,
   getFavoriteProducts,
   toggleFavoriteProducts,
+  getSearchProducts,
 } from "./products-operation";
 
 const productsInitialState = {
@@ -36,6 +37,7 @@ const productsInitialState = {
   wishList: [],
   monoPayUrl: '',
   favorites: [],
+  searchItems: []
 };
 
 const handlePending = (state) => {
@@ -91,6 +93,9 @@ const productsSlice = createSlice({
       state.orderId = "";
       state.orderAccepted = false;
     },
+    clearSearchItems: (state, _) => {
+      state.searchItems = [];
+    }
   },
 
   extraReducers: (builder) => {
@@ -106,6 +111,15 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(getProducts.rejected, handleRejected);
+    builder.addCase(getSearchProducts.pending, handlePending);
+
+    builder.addCase(getSearchProducts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.searchItems = action.payload.products;
+    });
+
+    builder.addCase(getSearchProducts.rejected, handleRejected);
     builder.addCase(getSimilarProducts.pending, handlePending);
 
     builder.addCase(getSimilarProducts.fulfilled, (state, action) => {
@@ -266,6 +280,6 @@ const productsSlice = createSlice({
   }
 });
 
-export const { addToBusket, incrementAmount, decrementAmount, clearBusket, clearOrderInfo, removeFromBusket } =
+export const { clearSearchItems, addToBusket, incrementAmount, decrementAmount, clearBusket, clearOrderInfo, removeFromBusket } =
   productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

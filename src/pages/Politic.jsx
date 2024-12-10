@@ -1,12 +1,14 @@
 import React from "react";
 import { Container } from "../components/Container/Container.styled";
-import Title from "../components/Home/Title/Title";
+import {Title, TitleWrapper} from "../components/Text/Text.styled";
 import { Link, Text } from "./PublicOfferPage";
 
 export default function Politic() {
   return (
     <Container>
-      <Title text={"Політика приватності"} />
+      <TitleWrapper>
+      <Title>Політика приватності</Title>
+      </TitleWrapper>
       <Text $accent>
         1. Персональні дані Покупця, що використовуються на Сайті{" "}
         <Link>https://kintsugi.org.ua</Link>, можуть включати:

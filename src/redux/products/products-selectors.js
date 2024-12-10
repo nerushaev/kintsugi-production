@@ -110,3 +110,4 @@ export const selectFilteredProducts = (state) => {
 
 export const selectIsOrderAccepted = ({products}) => products.orderAccepted;
 
+export const selectSearchProducts = ({products}) => products.searchItems;

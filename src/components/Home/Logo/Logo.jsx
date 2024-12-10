@@ -7,6 +7,7 @@ const Logo = memo(() => {
   return (
     <Link to="/" href="../../../public/index.html">
       <img
+      style={{width: "140px", height: "100%"}}
         className={"nav-logo"}
         src={logoUrl}
         alt="logo"

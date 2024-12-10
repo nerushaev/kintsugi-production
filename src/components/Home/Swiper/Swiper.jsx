@@ -19,6 +19,7 @@ const Image = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   padding-top: 100%;
+  cursor: pointer;
 `;
 const CloseModal = styled.p`
   position: absolute;

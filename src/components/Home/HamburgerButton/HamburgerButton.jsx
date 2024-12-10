@@ -4,9 +4,10 @@ import { MenuContext } from "../../../context/navState";
 
 const MenuButton = styled.button`
   display: block;
-  transform-origin: 16px 11px;
-  padding: 5px;
-  float: left;
+  width: 30px; /* Размер кнопки */
+  height: 30px;
+  transform-origin: 15px 15px; /* Центр кнопки */
+  padding: 0;
   outline: 0;
   border: 0;
   background: none;
@@ -17,29 +18,28 @@ const MenuButton = styled.button`
   }
 
   :focus {
-    // border: medium none rgb(255, 182, 193);
-    // box-shadow: rgb(255, 105, 180) 0 0 2px 2px;
     outline: 0;
   }
 
   :hover {
     span:nth-of-type(1) {
-      width: 33px;
+      width: 20px;
     }
 
     span:nth-of-type(2) {
-      width: 40px;
+      width: 24px;
     }
 
     span:nth-of-type(3) {
-      width: 30px;
+      width: 18px;
     }
   }
 
   &.active {
+    padding-bottom: 5px;
     span:nth-of-type(1) {
-      transform: rotate(45deg) translate(9px, 9px);
-      width: 40px;
+      transform: rotate(45deg) translate(7px, 7px); /* Анимация для уменьшенных размеров */
+      width: 26px;
     }
 
     span:nth-of-type(2) {
@@ -48,18 +48,22 @@ const MenuButton = styled.button`
     }
 
     span:nth-of-type(3) {
-      transform: rotate(-45deg) translate(4px, -4px);
-      width: 40px;
+      transform: rotate(-45deg) translate(3px, -3px);
+      width: 26px;
     }
   }
 `;
 
 const Bar = styled.span`
   display: block;
-  width: 40px;
-  height: 2px;
-  margin-bottom: 7px;
+  width: 30px; /* Ширина полоски */
+  height: 3px; /* Толщина полоски */
+  margin-bottom: 4px; /* Отступ между полосками */
   background-color: #000;
+
+  &:last-child {
+    margin-bottom: 0; /* Убираем отступ у последней полоски */
+  }
 `;
 
 const HamburgerButton = () => {
@@ -83,3 +87,6 @@ const HamburgerButton = () => {
 };
 
 export default HamburgerButton;
+
+
+

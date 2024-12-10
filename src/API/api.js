@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = "https://api.kintsugi.org.ua/";
-// export const BASE_URL = "http://localhost:3001/";
+// export const BASE_URL = "https://api.kintsugi.org.ua/";
+export const BASE_URL = "http://localhost:3001/";
 
 export const LIQPAY_URL = "https://www.liqpay.ua/api/request";
 
@@ -60,14 +60,3 @@ export const login = async (userData) => {
   setToken(data.token);
   return data;
 };
-
-// export const getCurrent = async (token) => {
-//   try {
-//     setToken(token);
-//     const { data } = await AuthInstance.get("/api/auth/current");
-//     return data;
-//   } catch (error) {
-//     setToken();
-//     throw error;
-//   }
-// };

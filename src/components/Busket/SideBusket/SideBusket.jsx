@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { theme } from "../../../styles/theme";
 import { IoCloseOutline } from "react-icons/io5";
-import { CiShoppingBasket } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { getBusket, totalBusketPrice } from "../../../redux/products/products-selectors";
 import CountButton from "../../Home/Products/ProductsItem/CountButton";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
 import { removeFromBusket } from "../../../redux/products/products-slice";
+import { LuShoppingBasket } from "react-icons/lu";
 
 const SideBlockAnimated = styled(motion.div)`
   position: fixed;
@@ -161,7 +161,7 @@ export default function SideBusket({ closeModal }) {
       >
   <BlockFlexHeader>
     <ContentBlockFlex>
-      <CiShoppingBasket style={{ fontSize: "32px" }} />
+      <LuShoppingBasket style={{ fontSize: "32px" }} />
       <Title>Корзина</Title>
     </ContentBlockFlex>
     <div>

@@ -1,4 +1,3 @@
-import MainTitle from "../components/Home/Title/Title";
 import styled from "styled-components";
 import { Container } from "../components/Container/Container.styled";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,7 @@ import {
 } from "../redux/products/products-selectors";
 import useModal from "../hooks/modal";
 import Modal from "../components/Modal";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Button, ButtonWrapper } from "../components/Buttons/Buttons";
 import { clearOrderInfo } from "../redux/products/products-slice";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -161,11 +160,12 @@ export default function Home() {
     dispatch(clearOrderInfo());
   };
 
-  const mainPageSlider = useMemo(() => [
-    {
-      image: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1731083008/Group_60-min_pzwqoq.jpg"
-    }
-  ], []);
+  const mainPageSlider = {
+
+      imageLow: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1731083008/Group_60-min_pzwqoq.jpg",
+      imageHigh: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1731940401/home_banner_high_q_xxj1zd.jpg"
+
+  }
 
   // const secondPageSlider = useMemo(() => [
   //   {
@@ -186,23 +186,29 @@ export default function Home() {
     <>
     
       <HeroWrapper>
-        <MainTitle />
         <Swiper
-
         navigation={true}
         className="home-swiper"
         modules={[Navigation]}
         >
-          {mainPageSlider.map((item) => {
-            return (
-              <SwiperSlide key={item.image}>
-                <StyledImg
-                  src={item.image}
-                  alt=""
-                />
-              </SwiperSlide>
-            );
-          })}
+          {!isTablet && <>
+            <SwiperSlide key={mainPageSlider.imageLow}>
+                  <StyledImg
+                    src={mainPageSlider.imageLow}
+                    alt=""
+                  />
+                </SwiperSlide>
+          </>}
+
+          {isTablet && <>
+            <SwiperSlide key={mainPageSlider.imageHigh}>
+                  <StyledImg
+                    src={mainPageSlider.imageHigh}
+                    alt=""
+                  />
+                </SwiperSlide>
+          </>}
+            
         </Swiper>
       </HeroWrapper>
       <Container>
@@ -226,29 +232,6 @@ export default function Home() {
 <Container>
 <PopularProductSlider />
 </Container>
-
-{/* <HeroWrapper>
-        <MainTitle />
-        <Swiper
-
-        navigation={true}
-        className="home-swiper"
-        modules={[Navigation]}
-        >
-          {secondPageSlider.map((item) => {
-            return (
-              <SwiperSlide key={item.image}>
-                <StyledImg
-                  src={item.image}
-                  alt=""
-                />
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-      </HeroWrapper> */}
-        
-      
       <>
         {isOrderModalOpen && orderAccepted && (
           <Modal onCloseModal={closeModal}>

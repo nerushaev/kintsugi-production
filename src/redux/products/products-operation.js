@@ -21,6 +21,20 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const getSearchProducts = createAsyncThunk(
+  "/products/getSearch",
+  async (search, ThunkAPI) => {
+      try {
+        const { data } = await instance.get(
+          `/api/products?&search=${search}`
+        );
+        return data;
+      } catch (error) {
+        return ThunkAPI.rejectWithValue(error.message);
+      }
+  }
+);
+
 export const getAllProductsName = createAsyncThunk(
   "/products/getNames",
   async (_, ThunkAPI) => {

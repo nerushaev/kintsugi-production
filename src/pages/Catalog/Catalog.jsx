@@ -1,14 +1,14 @@
 import { memo, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectStateProducts } from "../../../redux/products/products-selectors";
-import Search from "../Search/Search";
-import ProductsList from "../Products/ProductsList/ProductsList";
-import Pagination from "../Pagination/Pagination";
+import Search from "../../components/Home/Search/Search";
+import ProductsList from "../../components/Home/Products/ProductsList/ProductsList";
+import Pagination from "../../components/Home/Pagination/Pagination";
 import { useParams } from "react-router-dom";
-import { Title, TitleWrapper } from "../../Text/Text.styled";
-import useFilters from "../../../hooks/useFilter";
-import { Container } from "../../Container/Container.styled";
-import BreadScrumbsNav from "../../BreadScrumbsNav/BreadScrumbsNav";
+import { Title, TitleWrapper } from "../../components/Text/Text.styled";
+import useFilters from "../../hooks/useFilter";
+import { Container } from "../../components/Container/Container.styled";
+import BreadScrumbsNav from "../../components/BreadScrumbsNav/BreadScrumbsNav";
+import { selectStateProducts } from "../../redux/products/products-selectors";
 
 const categories = {
   "cosplay": "Косплей",

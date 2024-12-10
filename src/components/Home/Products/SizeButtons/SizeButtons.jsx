@@ -44,7 +44,7 @@ const SizeButton = styled.button`
   font-weight: 600;
   font-size: 14px;
   border: ${(props) =>
-    props.$active ? `1px solid ${theme.colors.black}` : "1px solid white"};
+    props.$active ? `2px solid ${theme.colors.formButtonAccent}` : "2px solid white"};
   background-color: ${theme.colors.ligthGray};
 `;
 

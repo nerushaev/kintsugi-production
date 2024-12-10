@@ -1,17 +1,32 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import useScreenSize from "../../hooks/useScreenSize";
 import NavState from "../../context/navState";
 import { selectIsLogin } from "../../redux/auth/auth-selectors";
 import Logo from "../Home/Logo/Logo";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HamburgerButton from "../Home/HamburgerButton/HamburgerButton";
-import svg from "../../assets/filterIcons.svg";
 import { SideMenu } from "../Home/SideMenu/SideMenu";
 import HeaderBusket from "./HeaderBusket";
 import HeaderLinks from "./HeaderLinks";
 import { Element } from "react-scroll";
+import { IoSearch } from "react-icons/io5";
+import { LuUserCircle } from "react-icons/lu";
+import SearchBar from "./SearchBar";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { theme } from "../../styles/theme";
+import useModal from "../../hooks/modal";
+
+const AnimationP = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 4000;
+  background-color: rgba(255, 255, 255, 0.95);
+`;
 
 const Navbar = styled.div`
   display: flex;
@@ -32,24 +47,20 @@ const Navbar = styled.div`
   justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
   z-index: 500;
-  height: 70px;
-  padding: 0px 15px;
+  height: 60px;
+  padding: 0px 8px;
 
   @media (min-width: 767px) {
-    height: 80px;
+    height: 70px;
     padding: 0 30px;
   }
 `;
 
-const IconWrapper = styled.div`
-  display: flex;
-`;
-
 const NavLogoWrapper = styled.div`
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
 `;
 
 const HeaderStyle = styled.header`
@@ -60,55 +71,102 @@ const HeaderStyle = styled.header`
   }
 `;
 
+const SearchIcon = styled(IoSearch)`
+  font-size: 26px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+    color: ${theme.colors.formButton}; /* Синий цвет при ховере */
+  }
+`;
+
+const UserIcon = styled(LuUserCircle)`
+  font-size: 26px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+    color: ${theme.colors.formButton}; /* Синий цвет при ховере */
+  }
+`;
+
+
 const Header = memo(() => {
+  const [searchActive, setSearchActive] = useState();
   const isLoggedIn = useSelector(selectIsLogin);
   const screenSize = useScreenSize();
+  const navigate = useNavigate();
+
+  const {
+    isModalOpen: isSideModalOpen,
+    closeModal,
+    openModal: openSideModal,
+  } = useModal();
+
+  const handleClickUserIcon = () => {
+    navigate('/user')
+  }
+
+  const handleSearchClick = () => {
+    setSearchActive(!searchActive);
+  }
+
+  useEffect(() => {
+    if(isSideModalOpen) {
+      setSearchActive(false)
+    }
+  }, [isSideModalOpen, setSearchActive])
 
   return (
+    <>
     <NavState>
       <Element name="scroll" />
       <HeaderStyle id="header">
-
         <Navbar>
-
           <Logo />
 
           <NavLogoWrapper>
+            {screenSize.width > 767 && <HeaderLinks />}
 
-            {screenSize.width > 767 && (
-              <HeaderLinks />
+            
+            <SearchIcon onClick={handleSearchClick} />
+            <HeaderBusket closeModal={closeModal} isSideModalOpen={isSideModalOpen} openSideModal={openSideModal}  />
+            {isLoggedIn && (
+              <UserIcon onClick={handleClickUserIcon} />
             )}
-
-            <IconWrapper>
-
-              {isLoggedIn && (
-
-                <Link to="/user">
-                  <svg width="42" height="50">
-                    <use xlinkHref={`${svg}#icon-profile`} />
-                  </svg>
-                </Link>
-
-              )}
-
-              <HeaderBusket />
-
-              {screenSize.width < 767 && <HamburgerButton />}
-
-            </IconWrapper>
-
+            {screenSize.width < 767 && <HamburgerButton />}
           </NavLogoWrapper>
-
         </Navbar>
 
         <SideMenu />
-
       </HeaderStyle>
-      
     </NavState>
+
+    <AnimatePresence mode="sync">
+        {searchActive && (
+          <AnimationP
+            variants={variants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            <SearchBar setSearchActive={setSearchActive} />
+          </AnimationP>
+        )}
+      </AnimatePresence>
+    </>
   );
 });
 
-export default Header;
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
 
+export default Header;
 

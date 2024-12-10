@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import RegisterForm from "../components/Auth/RegisterForm/RegisterForm";
 import { Container } from "../components/Container/Container.styled";
-import Title from "../components/Home/Title/Title";
+import {Title, TitleWrapper} from "../components/Text/Text.styled";
 import Loader from "../components/Loader/Loader";
 import { selectIsUserLoading } from "../redux/auth/auth-selectors";
 
@@ -11,7 +11,10 @@ export default function RegisterPage() {
 
   return (
     <Container>
-      <Title text="Реєстрація"/>
+      <TitleWrapper>
+      <Title>Реєстрація</Title>
+
+      </TitleWrapper>
       {loading && <Loader />}
       <RegisterForm />
     </Container>

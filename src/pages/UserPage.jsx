@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/auth-operations";
 import { selectUser } from "../redux/auth/auth-selectors";
 import React, { useState } from "react";
-import Title from "../components/Home/Title/Title";
+import {Title, TitleWrapper} from "../components/Text/Text.styled";
 import UserInfo from "../components/Auth/UserPage/UserData/UserInfo";
 import PasswordChangeForm from "../components/Auth/UserPage/UserData/PasswordChangeForm";
 import DeliveryData from "../components/Auth/UserPage/UserData/DeliveryData";
@@ -98,7 +98,10 @@ export default function UserPage() {
 
   return (
     <Container>
+      <TitleWrapper>
       <Title text="Особистий кабінет" />
+      </TitleWrapper>
+      
       <ButtonWrapper>
         <Button $active={userData} id="userData" onClick={handleClickBtn}>
         <FaRegAddressBook />

@@ -1,4 +1,4 @@
-import SharedLayout from "./components/Home/SharedLayout/SharedLayout";
+import SharedLayout from "./components/SharedLayout/SharedLayout";
 import React from "react";
 import Loader from "./components/Loader/Loader";
 import ScrollManager from './hooks/scrollManager';

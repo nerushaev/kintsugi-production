@@ -1,6 +1,6 @@
 import React from "react";
 import Subtitle from "../components/Home/Subtitle/Subtitle";
-import Title from "../components/Home/Title/Title";
+import {Title, TitleWrapper} from "../components/Text/Text.styled";
 import styled from "styled-components";
 import { theme } from "../styles/theme";
 import { Container } from "../components/Container/Container.styled";
@@ -21,7 +21,10 @@ export const Link = styled.a`
 export default function PublicOfferPage() {
   return (
     <Container>
-      <Title text={"Публічна оферта"} />
+      <TitleWrapper>
+      <Title>Публічна оферта</Title>
+      </TitleWrapper>
+      
       <Subtitle accent center>
         ПУБЛІЧНИЙ ДОГОВІР КУПІВЛІ-ПРОДАЖУ ТОВАРУ
       </Subtitle>
