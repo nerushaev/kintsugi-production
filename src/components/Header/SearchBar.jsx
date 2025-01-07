@@ -76,19 +76,19 @@ const ProductName = styled.p`
   font-size: ${theme.fontSizes.small};
 `;
 
-// const categories = {
-//   cosplay: 'Косплей',
-//   wigs: 'Перуки',
-//   accessories: 'Аксесуари',
-//   merch: 'Мерч',
-//   'lolita-fashion': 'Lolita fashion',
-//   'katanas-swords-weapons': 'Катани, мечі, зброя',
-//   'k-pop': 'K-pop',
-//   figures: 'Фігурки',
-//   'acrylic-stands': 'Акрилові стенди',
-//   'backpacks-bags': 'Рюкзаки, сумки',
-//   lenses: 'Лінзи',
-// };
+const categories = {
+  cosplay: 'Косплей',
+  wigs: 'Перуки',
+  accessories: 'Аксесуари',
+  merch: 'Мерч',
+  'lolita-fashion': 'Lolita fashion',
+  'katanas-swords-weapons': 'Катани, мечі, зброя',
+  'k-pop': 'K-pop',
+  figures: 'Фігурки',
+  'acrylic-stands': 'Акрилові стенди',
+  'backpacks-bags': 'Рюкзаки, сумки',
+  lenses: 'Лінзи',
+};
 
 
 
@@ -139,8 +139,17 @@ export default function SearchBar({ setSearchActive }) {
   }, []);
 
   const handleClick = ({ product_id, category_name }) => {
-    navigate(`/${category_name}/${product_id}`);
-    setSearchActive(false);
+    // Находим ключ (название категории) по значению (на украинском языке)
+    const categoryKey = Object.entries(categories).find(
+      ([, value]) => value === category_name
+    )?.[0];
+  
+    if (categoryKey) {
+      navigate(`/${categoryKey}/${product_id}`);
+      setSearchActive(false);
+    } else {
+      console.error(`Категория с названием "${category_name}" не найдена в объекте categories`);
+    }
   };
 
   return (

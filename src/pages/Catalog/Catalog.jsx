@@ -24,18 +24,6 @@ const categories = {
   "lenses": "Лінзи"
 };
 
-  // "Косплей",
-  // "Перуки",
-  // "Аксесуари",
-  // "Мерч",
-  // "Lolita fashion",
-  // "Катани, мечі, зброя",
-  // "K-pop",
-  // "Фігурки",
-  // "Акрилові стенди",
-  // "Рюкзаки, сумки",
-  // "Лінзи"
-
 const Catalog = memo(() => {
   const { handleFilterChange } = useFilters();
   const products = useSelector(selectStateProducts);
@@ -54,8 +42,6 @@ const Catalog = memo(() => {
       <TitleWrapper>
       <Title>{matchedCategory}</Title>
       </TitleWrapper>
-      
-    {/* <Filter /> */}
     <Search />
     <ProductsList products={products} />
     <Pagination />

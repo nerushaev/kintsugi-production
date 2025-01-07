@@ -17,6 +17,7 @@ export const theme = Object.freeze({
     filterActive: "#90C8FF"
   },
   fontSizes: {
+    extraSmall: "12px",
     small: "14px",
     medium: "16px",
     large: "18px",

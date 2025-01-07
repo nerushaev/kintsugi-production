@@ -22,16 +22,19 @@ const categories = {
 };
 
 const BreadScrumbsNav = ({ product_name, category, category_name }) => {
-
+  console.log(category_name)
   const navigate = useNavigate(); 
   
   const handleNavigate = () => {
     if(!product_name) {
       return;
     }
-    const previousUrl = localStorage.getItem("previousUrl")
-    console.log(previousUrl)
-    navigate(`${previousUrl}`);
+    const categoryKey = Object.entries(categories).find(
+      ([, value]) => value === category_name
+    )?.[0];
+    // const previousUrl = localStorage.getItem("previousUrl")
+    // console.log(previousUrl)
+    navigate(`/${categoryKey}`);
   }
 
   return (
