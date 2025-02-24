@@ -102,6 +102,10 @@ const CategoryButton = styled.button`
     position: relative;
     z-index: 2;
   }
+
+  &:hover {
+  scale: 102%;
+  }
 `;
 
 const categoriesImages = {
@@ -161,10 +165,8 @@ export default function Home() {
   };
 
   const mainPageSlider = {
-
       imageLow: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1731083008/Group_60-min_pzwqoq.jpg",
       imageHigh: "https://res.cloudinary.com/dzjmswzgp/image/upload/v1731940401/home_banner_high_q_xxj1zd.jpg"
-
   }
 
   // const secondPageSlider = useMemo(() => [

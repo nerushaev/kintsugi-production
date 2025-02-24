@@ -52,9 +52,9 @@ export default function Search() {
           value={!price ? "none" : price}
           onChange={handlePriceFilter}
         >
-          <option value="none">Сортувати</option>
-          <option value="low">По-зростанню</option>
-          <option value="high">По-зменьшенню</option>
+          <option value="none">Спочатку нові товари</option>
+          <option value="low">За зростанням ціни</option>
+          <option value="high">За зменшенням ціни</option>
         </StyledSelect>
       </StyledSelectWrapper>
     </Wrapper>
